@@ -120,7 +120,7 @@ The most recommended IDE at the moment is Android Studio, because it is develope
 
 You can use Eclipse if you wish, but you need to configure it, since it expects the old project structure and Ant for building. You can even use a plain text editor like Vim, Sublime Text, or Emacs. In that case, you will need to use Gradle and `adb` on the command line. If Eclipse's integration with Gradle is not working for you, your options are using the command line or migrating to Android Studio.
 
-Whatever you use, just make sure Gradle and the new project structure remain as the default way of building the application, and avoid adding your editor-specific configuration files to the version control system. For instance, avoid adding an Ant build.xml file. Especially don't forget to keep `build.gradle` up-to-date and functioning if you are changing build configurations in Ant.
+Whatever you use, just make sure Gradle and the new project structure remain as the official way of building the application, and avoid adding your editor-specific configuration files to the version control system. For instance, avoid adding an Ant build.xml file. Especially don't forget to keep `build.gradle` up-to-date and functioning if you are changing build configurations in Ant.
 
 ### Libraries
 

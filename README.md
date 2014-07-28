@@ -10,7 +10,7 @@ Feedback and criticism are welcomed, feel free to open an issue or send a pull r
 #### Put passwords and sensitive data in gradle.properties
 #### Don't write your own HTTP client, use a library
 #### Use Gson unless you have a reason not to
-#### Use Volley or Retrofit+Picasso for networking and images
+#### Use Volley or Retrofit+OkHttp+Picasso for networking and images
 #### Use Fragments to represent a UI "screen"
 #### Use Activities just to manage Fragments and Action Bar
 #### Keep your colors.xml short and DRY, just define the palette
@@ -134,7 +134,7 @@ Whatever you use, just make sure Gradle and the new project structure remain as 
 
 **Gson** is a Java library for converting Objects into JSON and vice-versa. It should be your default choice unless you have performance problems with it. Try to avoid reinventing the wheel, writing your own JSON serializer library.
 
-**Networking, caching, and images.** There are a couple of battle-proven solutions for performing requests to backend servers. Use [Volley](https://android.googlesource.com/platform/frameworks/volley) or [Retrofit](http://square.github.io/retrofit/). Volley also provides helpers to load and cache images. If you choose Retrofit, consider [Picasso](http://square.github.io/picasso/) for loading and caching images. Both Picasso and Retrofit are made by the same company, so they complement each other nicely.
+**Networking, caching, and images.** There are a couple of battle-proven solutions for performing requests to backend servers, which you should use perform considering implementing your own client. Use [Volley](https://android.googlesource.com/platform/frameworks/volley) or [Retrofit](http://square.github.io/retrofit/). Volley also provides helpers to load and cache images. If you choose Retrofit, consider [Picasso](http://square.github.io/picasso/) for loading and caching images, and [OkHttp](http://square.github.io/okhttp/) for efficient HTTP requests. All three Retrofit, Picasso and OkHttp are created by the same company, so they complement each other nicely.
 
 **RxJava** is a library for Reactive Programming, in other words, handling asynchronous events. It is a powerful and promising paradigm, which can also be confusing since it's so different. We recommend to take some caution before using this library to architect the entire application. There are some projects done by us using RxJava, if you need help talk to one of these people: Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, (any one else?). We have written some blog posts on it: [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
 

@@ -146,7 +146,7 @@ If you have no previous experience with Rx, start by applying it only for respon
 
 - **Proper screen-to-screen communication.** Android's API does not provide a proper way of sending complex data (e.g., some Java Object) from one activity to another activity. With fragments, however, you can use the instance of an activity as a channel of communication between its child fragments.
 
-- **Many Android classes expect fragments.** The API for tabs on the ActionBar expects the tab contents to be fragments. Also, if using Google Maps API v2, the [recommended solution](https://developers.google.com/maps/documentation/android/) is [MapFragment](http://developer.android.com/reference/com/google/android/gms/maps/MapFragment.html), even though [MapView](http://developer.android.com/reference/com/google/android/gms/maps/MapView.html) exists.
+- **Many Android classes expect fragments.** The [API for tabs on the ActionBar](http://developer.android.com/reference/android/app/ActionBar.html#newTab()) expects the tab contents to be fragments. Also, if using Google Maps API v2, the [recommended solution](https://developers.google.com/maps/documentation/android/) is [MapFragment](http://developer.android.com/reference/com/google/android/gms/maps/MapFragment.html), even though [MapView](http://developer.android.com/reference/com/google/android/gms/maps/MapView.html) exists.
 
 - **Easy to implement swiping transitions between screens.** If a UI screen is a fragment in your application, you can use `FragmentPagerAdapter` to contain a collection of fragments and implement smooth and interactive transitioning between them. For instance, horizontal swiping of screens.
 

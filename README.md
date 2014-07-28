@@ -33,7 +33,7 @@ Your default option should be Gradle. Ant is much more limited and also more ver
 
 ### Project structure
 
-There are two primary options: the old Ant & Eclipse ADT project structure, and the new Gradle & Android Studio project structure. You can make the decision whether to use one or the other, although we recommend the new project structure. If using the old, try to provide also a Gradle configuration `build.gradle`.
+There are two popular options: the old Ant & Eclipse ADT project structure, and the new Gradle & Android Studio project structure. You can make the decision whether to use one or the other, although we recommend the new project structure. If using the old, try to provide also a Gradle configuration `build.gradle`.
 
 Old structure:
 
@@ -99,16 +99,14 @@ That file is automatically imported by gradle, so you can use it in `build.gradl
     signingConfigs {
         release {
             try {
-                KEY_PASSWORD
-                KEYSTORE_PASSWORD
+                storeFile file("myapp.keystore")
+                storePassword KEYSTORE_PASSWORD
+                keyAlias "thekey"
+                keyPassword KEY_PASSWORD
             }
             catch (ex) {
-                println "ERROR: You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties."
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
             }
-            storeFile file("myapp.keystore")
-            storePassword KEYSTORE_PASSWORD
-            keyAlias "thekey"
-            keyPassword KEY_PASSWORD
         }
     }
 
@@ -124,11 +122,13 @@ Whatever you use, just make sure Gradle and the new project structure remain as 
 
 ### Libraries
 
-**Gson for JSON** TODO
+**Gson** is a Java library for converting Objects into JSON and vice-versa. It should be your default choice unless you have performance problems with it. Try to avoid reinventing the wheel, writing your own JSON serializer library.
 
-**Networking (and images) libraries** TODO
+**Networking, caching, and images.** There are a couple of battle-proven solutions for performing requests to backend servers. Use [Volley](https://android.googlesource.com/platform/frameworks/volley) or [Retrofit](http://square.github.io/retrofit/). Volley also provides helpers to load and cache images. If you choose Retrofit, consider [Picasso](http://square.github.io/picasso/) for loading and caching images. Both Picasso and Retrofit are made by the same company, so they complement each other nicely.
 
-TODO
+**RxJava** is a library for Reactive Programming, in other words, handling asynchronous events. It is a powerful and promising paradigm, which can also be confusing since it's so different. We recommend to take some caution before using this library to architect the entire application. There are some projects done by us using RxJava, if you need help talk to one of these people: Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, (any one else?). We have some written some blog posts on it: [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
+
+If you have no previous experience with Rx, start by applying it only for responses from the API. Alternatively, start by applying it for simple UI event handling, like click events or typing events on a search field. If you are confident in your Rx skills and want to apply it to the whole architecture, then write Javadocs on all the tricky parts. Keep in mind that another programmer unfamiliar to RxJava might have a very hard time maintaining the project. Do your best to help him understand your code and also Rx.
 
 ### Activities and Fragments
 
@@ -141,3 +141,7 @@ TODO
 ### Resources
 
 TODO
+
+### Thanks to
+
+Antti Lammi, Joni Karppinen, Vera Izrailit, Vihtori Mäntylä, for sharing their knowledge on Android development.

@@ -123,7 +123,7 @@ That file is automatically imported by gradle, so you can use it in `build.gradl
 
 ### IDEs and text editors
 
-**Use whatever editor, but it must play nicely with the project structure.*** Editors are a personal choice, and it's your responsibility to get your editor functioning according to the project structure and build system.
+**Use whatever editor, but it must play nicely with the project structure.** Editors are a personal choice, and it's your responsibility to get your editor functioning according to the project structure and build system.
 
 The most recommended IDE at the moment is [Android Studio](https://developer.android.com/sdk/installing/studio.html), because it is developed by Google, is closest to Gradle, uses the new project structure by default, is finally in beta stage, and is tailored for Android development.
 

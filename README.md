@@ -45,34 +45,36 @@ There are two popular options: the old Ant & Eclipse ADT project structure, and 
 
 Old structure:
 
-    assets
-    libs
-    res
-    src
-        com/example/myapp
-    AndroidManifest.xml
-    build.gradle
-    project.properties
-    proguard-rules.pro
+    old-structure
+    ├─ assets
+    ├─ libs
+    ├─ res
+    ├─ src
+    │  └─ com/futurice/project
+    ├─ AndroidManifest.xml
+    ├─ build.gradle
+    ├─ project.properties
+    └─ proguard-rules.pro
 
 New structure:
 
-    library-foobar
-    app
-        libs
-        src
-            androidTest
-                java
-                    com/example/myapp
-            main
-                java
-                    com/example/myapp
-                res
-                AndroidManifest.xml
-        build.gradle
-        proguard-rules.pro
-    build.gradle
-    settings.gradle
+    new-structure
+    ├─ library-foobar
+    ├─ app
+    │  ├─ libs
+    │  ├─ src
+    │  │  ├─ androidTest
+    │  │  │  └─ java
+    │  │  │     └─ com/futurice/project
+    │  │  └─ main
+    │  │     ├─ java
+    │  │     │  └─ com/futurice/project
+    │  │     ├─ res
+    │  │     └─ AndroidManifest.xml
+    │  ├─ build.gradle
+    │  └─ proguard-rules.pro
+    ├─ build.gradle
+    └─ settings.gradle
 
 The main difference is that the new structure explicitly separates 'source sets' (`main`, `androidTest`), a concept from Gradle. You could, for instance, add source sets 'paid' and 'free' into `src` which will have source code for the paid and free flavours of your app.
 

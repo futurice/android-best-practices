@@ -188,7 +188,7 @@ All in all, ordered from the closest-to-backend to the closest-to-the-user:
 
 ### Resources
 
-**Naming.** Follow the convention of prefix the type, as in `type_foo_bar.xml`. Examples: `fragment_contact_details.xml`, `view_primary_button.xml`, `activity_main.xml`.
+**Naming.** Follow the convention of prefixing the type, as in `type_foo_bar.xml`. Examples: `fragment_contact_details.xml`, `view_primary_button.xml`, `activity_main.xml`.
 
 **Organizing layout XMLs.** If you're unsure how to format a layout XML, the following convention may help.
 

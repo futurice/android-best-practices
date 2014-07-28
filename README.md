@@ -184,6 +184,7 @@ All in all, ordered from the closest-to-backend to the closest-to-the-user:
        ├─ widgets
        └─ notifications
 
+This can serve as a skeleton, since your specific application may require a few more packages.
 
 ### Resources
 

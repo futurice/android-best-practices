@@ -13,10 +13,11 @@ Feedback and criticism are welcomed, feel free to open an issue or send a pull r
 #### Use Volley or Retrofit+OkHttp+Picasso for networking and images
 #### Use Fragments to represent a UI screen
 #### Use Activities just to manage Fragments and Action Bar
-#### Keep your colors.xml short and DRY, just define the palette
-#### Also keep dimens.xml DRY, define generic constants
+#### Layout XMLs are code, organize them well
 #### Use styles to avoid duplicate attributes in layout XMLs
 #### Use multiple style files to avoid a single huge one
+#### Keep your colors.xml short and DRY, just define the palette
+#### Also keep dimens.xml DRY, define generic constants
 #### Do not make a deep hierarchy of ViewGroups
 #### Avoid using WebViews as much as you can
 
@@ -184,11 +185,49 @@ All in all, ordered from the closest-to-backend to the closest-to-the-user:
        ├─ widgets
        └─ notifications
 
-This can serve as a skeleton, since your specific application may require a few more packages.
 
 ### Resources
 
-TODO
+**Naming.** Follow the convention of prefix the type, as in `type_foo_bar.xml`. Examples: `fragment_contact_details.xml`, `view_primary_button.xml`, `activity_main.xml`.
+
+**Organizing layout XMLs.** If you're unsure how to format a layout XML, the following convention may help.
+
+- One attribute per line, indented by 4 spaces
+- `android:id` as the first attribute always
+- `android:layout_****` attributes at the top
+- `style` attribute at the bottom
+- Tag closer `/>` on its own line, to facilitate ordering and adding attributes.
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+        
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="@string/name"
+                style="@style/FancyText"
+                />
+        
+            <include layout="@layout/reusable_part" />
+        
+        </LinearLayout>
+
+As a rule of thumb, attributes `android:layout_****` should be defined in the layout XML, while other attributes `android:****` should stay in a style XML. This rule has exceptions, but in general works fine. The idea is to keep only layout (positioning, margin, sizing) and content attributes in the layout files, while keeping all appearance details (colors, padding, font) in styles files.
+
+The exceptions are:
+
+- `android:id` should obviously be in the layout files
+- `android:orientation` for a `LinearLayout` normally makes more sense in layout files
+- `android:text` should be in layout files because it defines content
+- Sometimes it will make sense to make a generic style defining `android:layout_width` and `android:layout_height` but by default these should appear in the layout files
 
 ### Thanks to
 

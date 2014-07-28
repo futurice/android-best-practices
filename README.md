@@ -11,7 +11,7 @@ Feedback and criticism are welcomed, feel free to open an issue or send a pull r
 #### Don't write your own HTTP client, use a library
 #### Use Gson unless you have a reason not to
 #### Use Volley or Retrofit+OkHttp+Picasso for networking and images
-#### Use Fragments to represent a UI "screen"
+#### Use Fragments to represent a UI screen
 #### Use Activities just to manage Fragments and Action Bar
 #### Keep your colors.xml short and DRY, just define the palette
 #### Also keep dimens.xml DRY, define generic constants
@@ -29,13 +29,13 @@ Place your [Android SDK](https://developer.android.com/sdk/installing/index.html
 
 ### Build system
 
-Your default option should be [Gradle](http://tools.android.com/tech-docs/new-build-system). Ant is much more limited and also more verbose. With Gradle, it's simple to: 
+Your default option should be [Gradle](http://tools.android.com/tech-docs/new-build-system). Ant is much more limited and also more verbose. With Gradle, it's simple to:
 
 - Build different flavours or variants of your app
 - Make simple script-like tasks
 - Manage and download dependencies
 - Customize keystores
-- And more 
+- And more
 
 Android's Gradle plugin is also being actively developed by Google while as the new standard build system.
 

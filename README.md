@@ -9,7 +9,7 @@ Feedback and criticism are welcomed, feel free to open an issue or send a pull r
 #### Use Gradle and its recommended project structure
 #### Put passwords and sensitive data in gradle.properties
 #### Don't write your own HTTP client, use a library
-#### Use Gson unless you have a reason not to
+#### Use the Jackson library to parse JSON data
 #### Use Volley or Retrofit+OkHttp+Picasso for networking and images
 #### Use Fragments to represent a UI screen
 #### Use Activities just to manage Fragments
@@ -143,7 +143,7 @@ Whatever you use, just make sure Gradle and the new project structure remain as 
 
 ### Libraries
 
-**Gson** is a Java library for converting Objects into JSON and vice-versa. It should be your default choice unless you have performance problems with it. Try to avoid reinventing the wheel, writing your own JSON serializer library.
+**[Jackson](http://wiki.fasterxml.com/JacksonHome)** is a Java library for converting Objects into JSON and vice-versa. [Gson](https://code.google.com/p/google-gson/) is a popular choice for solving this problem, however we find Jackson to be more performant since it supports alternative ways of processing JSON: streaming, in-memory tree model, and traditional JSON-POJO data binding. Other alternatives: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
 
 **Networking, caching, and images.** There are a couple of battle-proven solutions for performing requests to backend servers, which you should use perform considering implementing your own client. Use [Volley](https://android.googlesource.com/platform/frameworks/volley) or [Retrofit](http://square.github.io/retrofit/). Volley also provides helpers to load and cache images. If you choose Retrofit, consider [Picasso](http://square.github.io/picasso/) for loading and caching images, and [OkHttp](http://square.github.io/okhttp/) for efficient HTTP requests. All three Retrofit, Picasso and OkHttp are created by the same company, so they complement each other nicely.
 

@@ -367,6 +367,13 @@ Therefore, try to keep your views hierarchy as flat as possible: learn how to us
 
 **WebViews are hard to layout and style.** Avoid using a WebView whenever you can, because it is hard or impossible (due to difference among devices) to style content inside it consistently with the native views in the application. You can use CSS in the WebView, but it is not a robust solution.
 
+### Proguard configuration
+
+TODO *Can someone please contribute hints and tips on Proguard configs?*
+
+- Always save proguard's mapping.txt with the builds
+- etc
+
 ### Thanks to
 
 Antti Lammi, Joni Karppinen, Peter Tackage, Timo Tuominen, Vera Izrailit, Vihtori Mäntylä, and other Futurice developers for sharing their knowledge on Android development.

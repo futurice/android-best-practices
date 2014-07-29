@@ -229,6 +229,142 @@ The exceptions are:
 - `android:text` should be in layout files because it defines content
 - Sometimes it will make sense to make a generic style defining `android:layout_width` and `android:layout_height` but by default these should appear in the layout files
 
+**Use styles.** Almost every project needs to properly use styles, because it is very common to have a repeated appearance for a view. At least you should have a common style for most text content in the application, for example:
+
+```
+<style name="ContentText">
+    <item name="android:textSize">@dimen/font_normal</item>
+    <item name="android:textColor">@color/basic_black</item>
+</style>
+```
+
+Applied to TextViews:
+
+```
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/price"
+    style="@style/ContentText"
+    />
+```
+
+You probably will need to do the same for buttons, but don't stop there yet. Go beyond and move a group of related and repeated `android:****` attributes to a common style.
+
+**Split a large style file into other files.** You don't need to have a single `styles.xml` file. Android SDK supports other files out of the box, there is nothing magical about the name `styles`, what matters are the XML tags `<style>` inside the file. Hence you can have files `styles.xml`, `styles_home.xml`, `styles_item_details.xml`, `styles_forms.xml`. Unlike resource directory names which carry some meaning for the build system, filenames in `res/values` can be arbitrary.
+
+**`colors.xml` is a color palette.** There should be nothing else in your `colors.xml` than just a mapping from a color name to an RGBA value. Do not use it to define RGBA values for different types of buttons. 
+
+*Don't do this:*
+
+```
+<resources>
+    <color name="button_foreground">#FFFFFF</color>
+    <color name="button_background">#2A91BD</color>
+    <color name="comment_background_inactive">#5F5F5F</color>
+    <color name="comment_background_active">#939393</color>
+    <color name="comment_foreground">#FFFFFF</color>
+    <color name="comment_foreground_important">#FF9D2F</color>
+    ...
+    <color name="comment_shadow">#323232</color>
+```
+
+You can easily start repeating RGBA values in this format, and that makes it complicated to change a basic color if needed. Also, those definitions are related to some context, like "button" or "comment", and should live in a button style, not in `colors.xml`.
+
+Instead, do this:
+
+```
+<resources>
+
+    <!-- grayscale -->
+    <color name="white"     >#FFFFFF</color>
+    <color name="gray_light">#DBDBDB</color>
+    <color name="gray"      >#939393</color>
+    <color name="gray_dark" >#5F5F5F</color>
+    <color name="black"     >#323232</color>
+
+    <!-- basic colors -->
+    <color name="green" >#27D34D</color>
+    <color name="blue"  >#2A91BD</color>
+    <color name="orange">#FF9D2F</color>
+    <color name="red"   >#FF432F</color>
+
+</resources>
+```
+
+Ask for this palette from the designer of the application. Formatting colors as such will make it easy to change or refactor colors, and also will make it explicit how many different colors are being used. Normally for a aesthetic UI, it is important to reduce the variety of colors being used.
+
+**Treat dimens.xml like colors.xml.** You should also define a "palette" of typical spacing and font sizes, for basically the same purposes as for colors. A good example of a dimens file:
+
+```
+<resources>
+
+    <!-- font sizes -->
+    <dimen name="font_larger">22dp</dimen>
+    <dimen name="font_large">18dp</dimen>
+    <dimen name="font_normal">15dp</dimen>
+    <dimen name="font_small">12dp</dimen>
+
+    <!-- typical spacing between two views -->
+    <dimen name="spacing_huge">40dp</dimen>
+    <dimen name="spacing_large">24dp</dimen>
+    <dimen name="spacing_normal">14dp</dimen>
+    <dimen name="spacing_small">10dp</dimen>
+    <dimen name="spacing_tiny">4dp</dimen>
+
+    <!-- typical sizes of views -->
+    <dimen name="button_height_tall">60dp</dimen>
+    <dimen name="button_height_normal">40dp</dimen>
+    <dimen name="button_height_short">32dp</dimen>
+
+</resources>
+```
+
+You should use the `spacing_****` dimensions for layouting, in margins and paddings, instead of hard-coded values, much like strings are normally treated. This will give a consistent look-and-feel, while making it easier to organize and change styles and layouts.
+
+**Avoid a deep hierarchy of views.** Sometimes you might be tempted to just add yet another LinearLayout, to be able to accomplish an arrangement of views. This kind of situation may occur:
+
+```
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        ...
+        >
+
+        <LinearLayout
+            ...
+            >
+
+            <LinearLayout
+                ...
+                >
+
+                <LinearLayout
+                    ...
+                    >
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
+```
+
+Even if you don't witness this explicitly in a layout file, it might end up happening if you are inflating in Java views into other views.
+
+A couple of problems may occur. You might experience performance problems, because there are is a complex UI tree that the processor needs to handle. Another more serious issue is a possibility of [StackOverflowError](http://stackoverflow.com/questions/2762924/java-lang-stackoverflow-error-suspected-too-many-views).
+
+Therefore, try to keep your views hierarchy as flat as possible: learn how to use [RelativeLayout](https://developer.android.com/guide/topics/ui/layout/relative.html), how to [optimize your layouts](http://developer.android.com/training/improving-layouts/optimizing-layout.html) and to use the [`<merge>` tag](http://stackoverflow.com/questions/8834898/what-is-the-purpose-of-androids-merge-tag-in-xml-layouts).
+
+**WebViews are hard to layout and style.** Avoid using a WebView whenever you can, because it is hard or impossible (due to difference among devices) to style content inside it consistently with the native views in the application. You can use CSS in the WebView, but it is not a robust solution.
+
 ### Thanks to
 
 Antti Lammi, Joni Karppinen, Peter Tackage, Timo Tuominen, Vera Izrailit, Vihtori Mäntylä, and other Futurice developers for sharing their knowledge on Android development.

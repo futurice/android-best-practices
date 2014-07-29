@@ -380,6 +380,10 @@ Therefore, try to keep your views hierarchy as flat as possible: learn how to us
 
 **WebViews are hard to layout and style.** Avoid using a WebView whenever you can, because it is hard or impossible (due to difference among devices) to style content inside it consistently with the native views in the application. You can use CSS in the WebView, but it is not a robust solution.
 
+### Test frameworks
+
+TODO Robotium, Mockito, Roboeletric, etc.
+
 ### Proguard configuration
 
 TODO *Can someone please contribute hints and tips on Proguard configs?*

@@ -46,36 +46,40 @@ There are two popular options: the old Ant & Eclipse ADT project structure, and 
 
 Old structure:
 
-    old-structure
-    ├─ assets
-    ├─ libs
-    ├─ res
-    ├─ src
-    │  └─ com/futurice/project
-    ├─ AndroidManifest.xml
-    ├─ build.gradle
-    ├─ project.properties
-    └─ proguard-rules.pro
+```
+old-structure
+├─ assets
+├─ libs
+├─ res
+├─ src
+│  └─ com/futurice/project
+├─ AndroidManifest.xml
+├─ build.gradle
+├─ project.properties
+└─ proguard-rules.pro
+```
 
 New structure:
 
-    new-structure
-    ├─ library-foobar
-    ├─ app
-    │  ├─ libs
-    │  ├─ src
-    │  │  ├─ androidTest
-    │  │  │  └─ java
-    │  │  │     └─ com/futurice/project
-    │  │  └─ main
-    │  │     ├─ java
-    │  │     │  └─ com/futurice/project
-    │  │     ├─ res
-    │  │     └─ AndroidManifest.xml
-    │  ├─ build.gradle
-    │  └─ proguard-rules.pro
-    ├─ build.gradle
-    └─ settings.gradle
+```
+new-structure
+├─ library-foobar
+├─ app
+│  ├─ libs
+│  ├─ src
+│  │  ├─ androidTest
+│  │  │  └─ java
+│  │  │     └─ com/futurice/project
+│  │  └─ main
+│  │     ├─ java
+│  │     │  └─ com/futurice/project
+│  │     ├─ res
+│  │     └─ AndroidManifest.xml
+│  ├─ build.gradle
+│  └─ proguard-rules.pro
+├─ build.gradle
+└─ settings.gradle
+```
 
 The main difference is that the new structure explicitly separates 'source sets' (`main`, `androidTest`), a concept from Gradle. You could, for instance, add source sets 'paid' and 'free' into `src` which will have source code for the paid and free flavours of your app.
 
@@ -91,35 +95,41 @@ Having a top-level `app` is useful to distinguish your app from other library pr
 
 _Don't do this_. This would appear in the version control system.
 
-    signingConfigs {
-        release {
-            storeFile file("myapp.keystore")
-            storePassword "password123"
-            keyAlias "thekey"
-            keyPassword "password789"
-        }
+```groovy
+signingConfigs {
+    release {
+        storeFile file("myapp.keystore")
+        storePassword "password123"
+        keyAlias "thekey"
+        keyPassword "password789"
     }
+}
+```
 
 Instead, make a `gradle.properties` file which should _not_ be added to the version control system:
 
-    KEYSTORE_PASSWORD=password123
-    KEY_PASSWORD=password789
+```
+KEYSTORE_PASSWORD=password123
+KEY_PASSWORD=password789
+```
 
 That file is automatically imported by gradle, so you can use it in `build.gradle` as such:
 
-    signingConfigs {
-        release {
-            try {
-                storeFile file("myapp.keystore")
-                storePassword KEYSTORE_PASSWORD
-                keyAlias "thekey"
-                keyPassword KEY_PASSWORD
-            }
-            catch (ex) {
-                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
-            }
+```groovy
+signingConfigs {
+    release {
+        try {
+            storeFile file("myapp.keystore")
+            storePassword KEYSTORE_PASSWORD
+            keyAlias "thekey"
+            keyPassword KEY_PASSWORD
+        }
+        catch (ex) {
+            throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
         }
     }
+}
+```
 
 ### IDEs and text editors
 
@@ -175,18 +185,19 @@ Some controller classes are application-wide and close to the Android system. Th
 
 All in all, ordered from the closest-to-backend to the closest-to-the-user:
 
-    com.futurice.project
-    ├─ network
-    ├─ models
-    ├─ services
-    ├─ utils
-    ├─ fragments
-    └─ views
-       ├─ adapters
-       ├─ actionbar
-       ├─ widgets
-       └─ notifications
-
+```
+com.futurice.project
+├─ network
+├─ models
+├─ services
+├─ utils
+├─ fragments
+└─ views
+   ├─ adapters
+   ├─ actionbar
+   ├─ widgets
+   └─ notifications
+```
 
 ### Resources
 
@@ -200,7 +211,7 @@ All in all, ordered from the closest-to-backend to the closest-to-the-user:
 - `style` attribute at the bottom
 - Tag closer `/>` on its own line, to facilitate ordering and adding attributes.
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -235,7 +246,7 @@ The exceptions are:
 
 **Use styles.** Almost every project needs to properly use styles, because it is very common to have a repeated appearance for a view. At least you should have a common style for most text content in the application, for example:
 
-```
+```xml
 <style name="ContentText">
     <item name="android:textSize">@dimen/font_normal</item>
     <item name="android:textColor">@color/basic_black</item>
@@ -244,7 +255,7 @@ The exceptions are:
 
 Applied to TextViews:
 
-```
+```xml
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -261,7 +272,7 @@ You probably will need to do the same for buttons, but don't stop there yet. Go 
 
 *Don't do this:*
 
-```
+```xml
 <resources>
     <color name="button_foreground">#FFFFFF</color>
     <color name="button_background">#2A91BD</color>
@@ -277,7 +288,7 @@ You can easily start repeating RGBA values in this format, and that makes it com
 
 Instead, do this:
 
-```
+```xml
 <resources>
 
     <!-- grayscale -->
@@ -300,7 +311,7 @@ Ask for this palette from the designer of the application. Formatting colors as 
 
 **Treat dimens.xml like colors.xml.** You should also define a "palette" of typical spacing and font sizes, for basically the same purposes as for colors. A good example of a dimens file:
 
-```
+```xml
 <resources>
 
     <!-- font sizes -->
@@ -328,7 +339,7 @@ You should use the `spacing_****` dimensions for layouting, in margins and paddi
 
 **Avoid a deep hierarchy of views.** Sometimes you might be tempted to just add yet another LinearLayout, to be able to accomplish an arrangement of views. This kind of situation may occur:
 
-```
+```xml
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"

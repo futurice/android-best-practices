@@ -12,7 +12,7 @@ Feedback and criticism are welcomed, feel free to open an issue or send a pull r
 #### Use Gson unless you have a reason not to
 #### Use Volley or Retrofit+OkHttp+Picasso for networking and images
 #### Use Fragments to represent a UI screen
-#### Use Activities just to manage Fragments and Action Bar
+#### Use Activities just to manage Fragments
 #### Layout XMLs are code, organize them well
 #### Use styles to avoid duplicate attributes in layout XMLs
 #### Use multiple style files to avoid a single huge one
@@ -156,6 +156,8 @@ If you have no previous experience with Rx, start by applying it only for respon
 - **Intelligent behavior for "back".** The [FragmentManager](http://developer.android.com/reference/android/app/FragmentManager.html) allows you to perform transactions to change the fragments inside an activity. Hence, the FragmentManager manages the "state" of fragments. The back button/action will be handled by the FragmentManager to go back to the previous "fragments state". This is more advanced than the [activity stack](http://developer.android.com/guide/components/tasks-and-back-stack.html).
 
 - **Fragments are generic enough to not be UI-only.** You can have a [fragment without a UI](http://developer.android.com/guide/components/fragments.html#AddingWithoutUI) that works as background workers for the activity. You can take that idea further to create a [fragment to contain the logic for changing fragments](http://stackoverflow.com/questions/12363790/how-many-activities-vs-fragments/12528434#12528434), instead of having that logic in the activity.
+
+- **Even the ActionBar can be managed from within fragments.** You can choose to have one Fragment without a UI with the sole purpose of managing the ActionBar, or you can choose to have each currently visible Fragment add its own action items to the parent Activity's ActionBar. [Read more here](http://www.grokkingandroid.com/adding-action-items-from-within-fragments/).
 
 That being said, we advise not to use [nested fragments](https://developer.android.com/about/versions/android-4.2.html#NestedFragments) extensively, because [matryoshka bugs](http://delyan.me/android-s-matryoshka-problem/) can occur. Use nested fragments only when it makes sense (for instance, fragments in a horizontally-sliding ViewPager inside a screen-like fragment) or if it's a well-informed decision.
 

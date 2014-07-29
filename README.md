@@ -359,7 +359,7 @@ You should use the `spacing_****` dimensions for layouting, in margins and paddi
 </LinearLayout>
 ```
 
-Even if you don't witness this explicitly in a layout file, it might end up happening if you are inflating in Java views into other views.
+Even if you don't witness this explicitly in a layout file, it might end up happening if you are inflating (in Java) views into other views.
 
 A couple of problems may occur. You might experience performance problems, because there are is a complex UI tree that the processor needs to handle. Another more serious issue is a possibility of [StackOverflowError](http://stackoverflow.com/questions/2762924/java-lang-stackoverflow-error-suspected-too-many-views).
 

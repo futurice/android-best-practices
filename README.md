@@ -299,15 +299,15 @@ Instead, do this:
     <color name="black"     >#323232</color>
 
     <!-- basic colors -->
-    <color name="green" >#27D34D</color>
-    <color name="blue"  >#2A91BD</color>
+    <color name="green">#27D34D</color>
+    <color name="blue">#2A91BD</color>
     <color name="orange">#FF9D2F</color>
-    <color name="red"   >#FF432F</color>
+    <color name="red">#FF432F</color>
 
 </resources>
 ```
 
-Ask for this palette from the designer of the application. Formatting colors as such will make it easy to change or refactor colors, and also will make it explicit how many different colors are being used. Normally for a aesthetic UI, it is important to reduce the variety of colors being used.
+Ask for this palette from the designer of the application. The names do not need to be color names as "green", "blue", etc. Names such as "brand_primary", "brand_secondary", "brand_negative" are totally acceptable as well. Formatting colors as such will make it easy to change or refactor colors, and also will make it explicit how many different colors are being used. Normally for a aesthetic UI, it is important to reduce the variety of colors being used.
 
 **Treat dimens.xml like colors.xml.** You should also define a "palette" of typical spacing and font sizes, for basically the same purposes as for colors. A good example of a dimens file:
 

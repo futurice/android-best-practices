@@ -330,10 +330,10 @@ Ask for this palette from the designer of the application. The names do not need
 <resources>
 
     <!-- font sizes -->
-    <dimen name="font_larger">22dp</dimen>
-    <dimen name="font_large">18dp</dimen>
-    <dimen name="font_normal">15dp</dimen>
-    <dimen name="font_small">12dp</dimen>
+    <dimen name="font_larger">22sp</dimen>
+    <dimen name="font_large">18sp</dimen>
+    <dimen name="font_normal">15sp</dimen>
+    <dimen name="font_small">12sp</dimen>
 
     <!-- typical spacing between two views -->
     <dimen name="spacing_huge">40dp</dimen>

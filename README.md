@@ -19,7 +19,7 @@ Feedback and criticism are welcomed, feel free to open an issue or send a pull r
 #### Keep your colors.xml short and DRY, just define the palette
 #### Also keep dimens.xml DRY, define generic constants
 #### Do not make a deep hierarchy of ViewGroups
-#### Avoid using WebViews as much as you can
+#### Avoid client-side processing for WebViews, and beware of leaks
 #### Don't use Robolectric for tests
 
 
@@ -394,7 +394,8 @@ A couple of problems may occur. You might experience performance problems, becau
 
 Therefore, try to keep your views hierarchy as flat as possible: learn how to use [RelativeLayout](https://developer.android.com/guide/topics/ui/layout/relative.html), how to [optimize your layouts](http://developer.android.com/training/improving-layouts/optimizing-layout.html) and to use the [`<merge>` tag](http://stackoverflow.com/questions/8834898/what-is-the-purpose-of-androids-merge-tag-in-xml-layouts).
 
-**WebViews are hard to layout and style.** Avoid using a WebView whenever you can, because it is hard or impossible (due to difference among devices) to style content inside it consistently with the native views in the application. You can use CSS in the WebView, but it is not a robust solution.
+**Beware of problems related to WebViews.** Avoid using a WebView for simple texts, prefer TextViews. When you must display a web page, for instance for a news article, avoid doing client-side processing to clean the HTML, rather ask for a "*pure*" HTML from the backend programmers. [WebViews can also leak memory](http://stackoverflow.com/questions/3130654/memory-leak-in-webview) when they keep a reference to their Activity, instead of being bound to the ApplicationContext.
+
 
 ### Test frameworks
 

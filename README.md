@@ -27,7 +27,7 @@ Feedback and criticism are welcomed, feel free to open an issue or send a pull r
 
 ### Android SDK
 
-Place your [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) in the `/opt` directory or some other application-independent location. Some IDEs include the SDK when installed, and may place it under the same directory as the IDE. This can be bad when you need to upgrade (or reinstall) the IDE, or when changing IDEs. Putting it in `/opt` makes it independent of IDE.
+Place your [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) somewhere in your home directory or some other application-independent location. Some IDEs include the SDK when installed, and may place it under the same directory as the IDE. This can be bad when you need to upgrade (or reinstall) the IDE, or when changing IDEs. Also avoid putting the SDK in another system-level directory that might need sudo permissions, if your IDE is running under your user and not under root.
 
 ### Build system
 

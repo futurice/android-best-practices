@@ -197,7 +197,7 @@ For this reason, it is hard to classify fragments (or activities) as strictly co
 
 Otherwise, the architecture can look like a typical MVC, with a `models` package containing POJOs to be populated through the JSON parser with API responses, and a `views` package containing your custom Views, notifications, action bar views, widgets, etc. Adapters are a gray matter, living between data and views. However, they typically need to export some View via `getView()`, so you can include the `adapters` subpackage inside `views`.
 
-Some controller classes are application-wide and close to the Android system. These can live in the `services` package. Miscellaneous data processing classes, such as "DateUtils", stay in the `utils` package. Classes that are responsible for interacting with the backend stay in the `network` package.
+Some controller classes are application-wide and close to the Android system. These can live in a `managers` package. Miscellaneous data processing classes, such as "DateUtils", stay in the `utils` package. Classes that are responsible for interacting with the backend stay in the `network` package.
 
 All in all, ordered from the closest-to-backend to the closest-to-the-user:
 
@@ -205,7 +205,7 @@ All in all, ordered from the closest-to-backend to the closest-to-the-user:
 com.futurice.project
 ├─ network
 ├─ models
-├─ services
+├─ managers
 ├─ utils
 ├─ fragments
 └─ views

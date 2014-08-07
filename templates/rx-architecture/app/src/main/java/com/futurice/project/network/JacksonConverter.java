@@ -19,7 +19,7 @@ import retrofit.mime.TypedOutput;
 /**
  * A {@link Converter} which uses Jackson for reading and writing entities.
  */
-public class JacksonConverter implements Converter {
+class JacksonConverter implements Converter {
     private static final String MIME_TYPE = "application/json; charset=UTF-8";
 
     private final ObjectMapper objectMapper;

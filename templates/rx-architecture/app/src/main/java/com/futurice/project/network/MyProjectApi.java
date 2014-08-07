@@ -2,7 +2,9 @@ package com.futurice.project.network;
 
 import com.futurice.project.models.pojo.SearchEngineResults;
 import com.squareup.okhttp.OkHttpClient;
+
 import java.util.concurrent.TimeUnit;
+
 import retrofit.RestAdapter;
 import retrofit.client.Client;
 import retrofit.client.OkClient;
@@ -15,23 +17,23 @@ import rx.Observable;
 public class MyProjectApi {
 
     private static MyProjectApi instance;
-    private RestAdapter restAdapter;
     private SearchEngineService searchService;
 
     /**
      * Returns the instance of this singleton.
      */
     public static MyProjectApi getInstance() {
-        if (instance != null) {
-            return instance;
+        if (instance == null) {
+            instance = new MyProjectApi();
         }
-        else {
-            return (instance = new MyProjectApi());
-        }
+        return instance;
     }
 
+    /**
+     * Private singleton constructor.
+     */
     private MyProjectApi() {
-        this.restAdapter = buildRestAdapter();
+        RestAdapter restAdapter = buildRestAdapter();
         this.searchService = restAdapter.create(SearchEngineService.class);
     }
 
@@ -41,8 +43,8 @@ public class MyProjectApi {
     private RestAdapter buildRestAdapter() {
         return new RestAdapter.Builder()
             .setEndpoint(ApiConstants.BASE_URL)
-            // Default converter is Gson. If you want Jackson, use:
-            //.setConverter(new JacksonConverter())
+            // Out-comment the following line if you want to use the default converter Gson.
+            .setConverter(new JacksonConverter())
             .setClient(getHttpClient())
             .build();
     }
@@ -59,7 +61,8 @@ public class MyProjectApi {
 
     /**
      * Does a text search for a given query, and returns an Observable of the results.
-     * @param query
+     *
+     * @param query the query string
      * @return an Observable with the results
      */
     public Observable<SearchEngineResults> getSearchEngineResults(String query) {

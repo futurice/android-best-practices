@@ -7,7 +7,7 @@ buildscript {
     }
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 
 dependencies {
@@ -48,8 +48,12 @@ android {
         }
     }
     buildTypes {
-        release {
+        debug {
             runProguard false
+        }
+        release {
+            signingConfig signingConfigs.release
+            runProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -59,10 +63,25 @@ android {
     }
 }
 
+// get location of adb
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def adb = properties.getProperty('sdk.dir') + "/platform-tools/adb"
+
 task checkstyle(type: Checkstyle) {
+    description 'Checks if the code is somewhwat acceptable'
     configFile file('./spaghetti-checkstyle.xml')
     source 'src/main/java'
     include '**/*.java'
     exclude '**/gen/**'
     classpath = files(project.configurations.compile.asPath)
+}
+
+task runAppRelease(dependsOn: 'assembleRelease') {
+    description 'Runs the release-flavour of the app on the connected device'
+    doLast {
+        exec{commandLine "$adb", "uninstall", "com.futurice.project"}
+        exec{commandLine "$adb", "install", "build/outputs/apk/app-release.apk"}
+        exec{commandLine "$adb", "shell", "am", "start", "-n", "com.futurice.project/.MainActivity"}
+    }
 }

@@ -22,7 +22,7 @@ public class BiographiesModel {
         return instance;
     }
 
-    public BiographiesModel() { }
+    private BiographiesModel() { }
 
     public Observable<List<Book>> getBiographyBooks(String query) {
         return MyProjectApi.getInstance().getSearchEngineResults(query)

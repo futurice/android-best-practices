@@ -69,7 +69,7 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 def adb = properties.getProperty('sdk.dir') + "/platform-tools/adb"
 
 task checkstyle(type: Checkstyle) {
-    description 'Checks if the code is somewhwat acceptable'
+    description 'Checks if the code is somewhat acceptable'
     configFile file('./spaghetti-checkstyle.xml')
     source 'src/main/java'
     include '**/*.java'

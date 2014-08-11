@@ -19,7 +19,7 @@ Feedback and criticism are welcomed, feel free to open an issue or send a pull r
 #### Keep your colors.xml short and DRY, just define the palette
 #### Also keep dimens.xml DRY, define generic constants
 #### Do not make a deep hierarchy of ViewGroups
-#### Avoid using WebViews as much as you can
+#### Avoid client-side processing for WebViews, and beware of leaks
 #### Don't use Robolectric for tests
 
 
@@ -27,7 +27,7 @@ Feedback and criticism are welcomed, feel free to open an issue or send a pull r
 
 ### Android SDK
 
-Place your [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) in the `/opt` directory or some other application-independent location. Some IDEs include the SDK when installed, and may place it under the same directory as the IDE. This can be bad when you need to upgrade (or reinstall) the IDE, or when changing IDEs. Putting it in `/opt` makes it independent of IDE.
+Place your [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) somewhere in your home directory or some other application-independent location. Some IDEs include the SDK when installed, and may place it under the same directory as the IDE. This can be bad when you need to upgrade (or reinstall) the IDE, or when changing IDEs. Also avoid putting the SDK in another system-level directory that might need sudo permissions, if your IDE is running under your user and not under root.
 
 ### Build system
 
@@ -197,7 +197,7 @@ For this reason, it is hard to classify fragments (or activities) as strictly co
 
 Otherwise, the architecture can look like a typical MVC, with a `models` package containing POJOs to be populated through the JSON parser with API responses, and a `views` package containing your custom Views, notifications, action bar views, widgets, etc. Adapters are a gray matter, living between data and views. However, they typically need to export some View via `getView()`, so you can include the `adapters` subpackage inside `views`.
 
-Some controller classes are application-wide and close to the Android system. These can live in the `services` package. Miscellaneous data processing classes, such as "DateUtils", stay in the `utils` package. Classes that are responsible for interacting with the backend stay in the `network` package.
+Some controller classes are application-wide and close to the Android system. These can live in a `managers` package. Miscellaneous data processing classes, such as "DateUtils", stay in the `utils` package. Classes that are responsible for interacting with the backend stay in the `network` package.
 
 All in all, ordered from the closest-to-backend to the closest-to-the-user:
 
@@ -205,7 +205,7 @@ All in all, ordered from the closest-to-backend to the closest-to-the-user:
 com.futurice.project
 ├─ network
 ├─ models
-├─ services
+├─ managers
 ├─ utils
 ├─ fragments
 └─ views
@@ -394,7 +394,8 @@ A couple of problems may occur. You might experience performance problems, becau
 
 Therefore, try to keep your views hierarchy as flat as possible: learn how to use [RelativeLayout](https://developer.android.com/guide/topics/ui/layout/relative.html), how to [optimize your layouts](http://developer.android.com/training/improving-layouts/optimizing-layout.html) and to use the [`<merge>` tag](http://stackoverflow.com/questions/8834898/what-is-the-purpose-of-androids-merge-tag-in-xml-layouts).
 
-**WebViews are hard to layout and style.** Avoid using a WebView whenever you can, because it is hard or impossible (due to difference among devices) to style content inside it consistently with the native views in the application. You can use CSS in the WebView, but it is not a robust solution.
+**Beware of problems related to WebViews.** When you must display a web page, for instance for a news article, avoid doing client-side processing to clean the HTML, rather ask for a "*pure*" HTML from the backend programmers. [WebViews can also leak memory](http://stackoverflow.com/questions/3130654/memory-leak-in-webview) when they keep a reference to their Activity, instead of being bound to the ApplicationContext. Avoid using a WebView for simple texts or buttons, prefer TextViews or Buttons.
+
 
 ### Test frameworks
 

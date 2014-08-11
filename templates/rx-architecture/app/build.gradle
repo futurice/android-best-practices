@@ -11,7 +11,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.netflix.rxjava:rxjava-core:0.19.1'
     compile 'com.netflix.rxjava:rxjava-android:0.19.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.4.+'
@@ -70,11 +69,11 @@ def adb = properties.getProperty('sdk.dir') + "/platform-tools/adb"
 
 task checkstyle(type: Checkstyle) {
     description 'Checks if the code is somewhat acceptable'
-    configFile file('./spaghetti-checkstyle.xml')
+    configFile file('./checkstyle.xml')
     source 'src/main/java'
     include '**/*.java'
     exclude '**/gen/**'
-    classpath = files(project.configurations.compile.asPath)
+    classpath = files() // empty because unnecessary for checkstyle
 }
 
 task runDebug(dependsOn: 'installDebug') {

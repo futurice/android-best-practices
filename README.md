@@ -137,7 +137,6 @@ signingConfigs {
 
 ```groovy
 dependencies {
-    compile 'com.google.guava:guava:17.+'
     compile 'com.netflix.rxjava:rxjava-core:0.19.+'
     compile 'com.netflix.rxjava:rxjava-android:0.19.+'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.4.+'

@@ -82,8 +82,9 @@ Get these passwords from passwords.futurice.com.
 
 1. `gradle assembleDebug`
 2. `gradle assembleRelease`
-3. `gradle runAppRelease`
-4. `gradle checkstyle`
+3. `gradle runDebug`
+4. `gradle runRelease`
+5. `gradle checkstyle`
 
 ## Release builds
 

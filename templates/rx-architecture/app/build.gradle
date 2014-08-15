@@ -11,7 +11,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.netflix.rxjava:rxjava-core:0.19.1'
     compile 'com.netflix.rxjava:rxjava-android:0.19.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.4.+'
@@ -43,7 +42,9 @@ android {
                 keyPassword KEY_PASSWORD
             }
             catch (ex) {
-                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and " +
+                    "KEY_PASSWORD in gradle.properties."
+                )
             }
         }
     }
@@ -54,7 +55,7 @@ android {
         release {
             signingConfig signingConfigs.release
             runProguard true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-rules.pro'
         }
     }
     packagingOptions {
@@ -62,26 +63,37 @@ android {
         exclude 'META-INF/NOTICE'
     }
 }
-
-// get location of adb
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def adb = properties.getProperty('sdk.dir') + "/platform-tools/adb"
-
 task checkstyle(type: Checkstyle) {
-    description 'Checks if the code is somewhwat acceptable'
-    configFile file('./spaghetti-checkstyle.xml')
+    description 'Checks if the code is somewhat acceptable'
+    configFile file('./checkstyle.xml')
     source 'src/main/java'
     include '**/*.java'
     exclude '**/gen/**'
-    classpath = files(project.configurations.compile.asPath)
+    classpath = files() // empty because unnecessary for checkstyle
 }
 
-task runAppRelease(dependsOn: 'assembleRelease') {
+// Get location of adb
+Properties localProperties = new Properties()
+try {
+    localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+}
+catch (ex) {
+    throw new InvalidUserDataException("You should define the path to your Android SDK as a " +
+        "property `sdk.dir` in local.properties on the project root."
+    )
+}
+def adb = localProperties.getProperty('sdk.dir') + '/platform-tools/adb'
+
+task runDebug(dependsOn: 'installDebug') {
+    description 'Runs the debug-flavour of the app on the connected device'
+    doLast {
+        exec{commandLine "$adb", "shell", "am", "start", "-n", "com.futurice.project/.MainActivity"}
+    }
+}
+
+task runRelease(dependsOn: 'installRelease') {
     description 'Runs the release-flavour of the app on the connected device'
     doLast {
-        exec{commandLine "$adb", "uninstall", "com.futurice.project"}
-        exec{commandLine "$adb", "install", "build/outputs/apk/app-release.apk"}
         exec{commandLine "$adb", "shell", "am", "start", "-n", "com.futurice.project/.MainActivity"}
     }
 }

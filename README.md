@@ -417,12 +417,52 @@ Assert.assertTrue(solo.searchText("rtf"));
 
 ### Proguard configuration
 
-TODO *Can someone please contribute hints and tips on Proguard configs?*
+ProGuard is a Java class file shrinker, optimizer, obfuscator, and preverifier. It detects and removes unused classes, fields, methods, and attributes. It optimizes bytecode and removes unused instructions. It renames the remaining classes, fields, and methods using short meaningless names.
 
-- Basic Proguard caveats
-- Always save proguard's mapping.txt with the builds
-- etc
+If you are using proguard or not depends on your project configuration. Usually you would configure gradle to use proguard when building a release apk.
+
+```xml
+buildTypes {
+    debug {
+        runProguard false
+    }
+    release {
+        signingConfig signingConfigs.release
+        runProguard true
+        proguardFiles 'proguard-rules.pro'
+    }
+}
+```
+
+In order to determine which code has to be preserved and which code can be discarded or obfuscated, you have to specify one or more entry points to your code. These entry points are typically classes with main methods, applets, midlets, activities, etc.
+Android framework uses a default configuration which can be found from SDK_HOME/tools/proguard/proguard-android.txt. Custom project-specific proguard rules, as defined in my-project/app/proguard-rules.pro, will be appended to the default configuration.
+
+##### Basic Proguard caveats
+What usually happens when using proguard is that the build command (i.e. assembleRelease) works fine, but when you run your application it crashes on ClassNotFoundException or NoSuchFieldException or similar.
+This means one out of two things:
+
+a) Proguard has removed the class, enum, method, field or annotation, thinking it's not required.
+b) Proguard has obfuscated (renamed) the class, enum or field name, but it's being uses indirectly by it's original name, i.e. through Java reflection.
+
+Check app/build/outputs/proguard/release/usage.txt to see if the object in question has been removed.
+Check app/build/outputs/proguard/release/mapping.txt to see if the object in question has been obfuscated.
+
+In order to prevent Proguard from stripping away needed classes or class members, add one of the many keep options to your proguard config. Example:
+```xml
+-keep class com.futurice.project.MyClass { *; }
+```
+
+In order to prevent Proguard from obfuscating classes or class members, add one of the many keepnames options to your proguard config. Example:
+```xml
+-keepnames class com.futurice.project.MyClass { *; }
+```
+
+Check this template's proguard config for some examples.
+Read more at [Proguard](http://proguard.sourceforge.net/#manual/examples.html) for examples.
+
+##### Tip
+Save the mapping.txt file for every release that you publish to your users. By retaining a copy of the mapping.txt file for each release build, you ensure that you can debug a problem if a user encounters a bug and submits an obfuscated stack trace. 
 
 ### Thanks to
 
-Antti Lammi, Joni Karppinen, Peter Tackage, Timo Tuominen, Vera Izrailit, Vihtori Mäntylä, and other Futurice developers for sharing their knowledge on Android development.
+Antti Lammi, Joni Karppinen, Peter Tackage, Timo Tuominen, Vera Izrailit, Vihtori Mäntylä, Mark Voit and other Futurice developers for sharing their knowledge on Android development.

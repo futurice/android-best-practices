@@ -23,16 +23,19 @@
 -allowaccessmodification
 
 # Ignore warnings:
--dontwarn rx.**
--dontwarn org.mockito.**
--dontwarn org.junit.**
--dontwarn org.joda.convert.**
--dontwarn okio.**
--dontwarn com.robotium.**
--dontwarn com.squareup.okhttp.**
--dontwarn com.google.appengine.api.urlfetch.**
--dontwarn com.fasterxml.jackson.databind.**
+#-dontwarn org.mockito.**
+#-dontwarn org.junit.**
+#-dontwarn com.robotium.**
+#-dontwarn org.joda.convert.**
 
+# Ignore warnings: We are not using DOM model
+-dontwarn com.fasterxml.jackson.databind.ext.DOMSerializer
+# Ignore warnings: https://github.com/square/okhttp/wiki/FAQs
+-dontwarn com.squareup.okhttp.internal.huc.**
+# Ignore warnings: https://github.com/square/okio/issues/60
+-dontwarn okio.**
+# Ignore warnings: https://github.com/square/retrofit/issues/435
+-dontwarn com.google.appengine.api.urlfetch.**
 
 # Keep the pojos used by GSON or Jackson
 -keep class com.futurice.project.models.pojo.** { *; }

@@ -417,11 +417,11 @@ Assert.assertTrue(solo.searchText("rtf"));
 
 ### Proguard configuration
 
-ProGuard is a Java class file shrinker, optimizer, obfuscator, and preverifier. It detects and removes unused classes, fields, methods, and attributes. It optimizes bytecode and removes unused instructions. It renames the remaining classes, fields, and methods using short meaningless names.
+[ProGuard](http://proguard.sourceforge.net/) is normally used on Android projects to shrink and obfuscate the packaged code.
 
-If you are using proguard or not depends on your project configuration. Usually you would configure gradle to use proguard when building a release apk.
+Whether you are using ProGuard or not depends on your project configuration. Usually you would configure gradle to use ProGuard when building a release apk.
 
-```xml
+```groovy
 buildTypes {
     debug {
         runProguard false
@@ -435,33 +435,31 @@ buildTypes {
 ```
 
 In order to determine which code has to be preserved and which code can be discarded or obfuscated, you have to specify one or more entry points to your code. These entry points are typically classes with main methods, applets, midlets, activities, etc.
-Android framework uses a default configuration which can be found from SDK_HOME/tools/proguard/proguard-android.txt. Custom project-specific proguard rules, as defined in my-project/app/proguard-rules.pro, will be appended to the default configuration.
+Android framework uses a default configuration which can be found from `SDK_HOME/tools/proguard/proguard-android.txt`. Custom project-specific proguard rules, as defined in `my-project/app/proguard-rules.pro`, will be appended to the default configuration.
 
-##### Basic Proguard caveats
-What usually happens when using proguard is that the build command (i.e. assembleRelease) works fine, but when you run your application it crashes on ClassNotFoundException or NoSuchFieldException or similar.
+A common problem related to ProGuard is to see the application crashing on startup with `ClassNotFoundException` or `NoSuchFieldException` or similar, even though the build command (i.e. `assembleRelease`) succeeded without warnings.
 This means one out of two things:
 
-a) Proguard has removed the class, enum, method, field or annotation, thinking it's not required.
-b) Proguard has obfuscated (renamed) the class, enum or field name, but it's being uses indirectly by it's original name, i.e. through Java reflection.
+1. ProGuard has removed the class, enum, method, field or annotation, considering it's not required.
+2. ProGuard has obfuscated (renamed) the class, enum or field name, but it's being used indirectly by its original name, i.e. through Java reflection.
 
-Check app/build/outputs/proguard/release/usage.txt to see if the object in question has been removed.
-Check app/build/outputs/proguard/release/mapping.txt to see if the object in question has been obfuscated.
+Check `app/build/outputs/proguard/release/usage.txt` to see if the object in question has been removed.
+Check `app/build/outputs/proguard/release/mapping.txt` to see if the object in question has been obfuscated.
 
-In order to prevent Proguard from stripping away needed classes or class members, add one of the many keep options to your proguard config. Example:
-```xml
+In order to prevent ProGuard from *stripping away* needed classes or class members, add a `keep` options to your proguard config:
+```
 -keep class com.futurice.project.MyClass { *; }
 ```
 
-In order to prevent Proguard from obfuscating classes or class members, add one of the many keepnames options to your proguard config. Example:
-```xml
+To prevent ProGuard from *obfuscating* classes or class members, add a `keepnames`:
+```
 -keepnames class com.futurice.project.MyClass { *; }
 ```
 
-Check this template's proguard config for some examples.
+Check [this template's ProGuard config](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro) for some examples.
 Read more at [Proguard](http://proguard.sourceforge.net/#manual/examples.html) for examples.
 
-##### Tip
-Save the mapping.txt file for every release that you publish to your users. By retaining a copy of the mapping.txt file for each release build, you ensure that you can debug a problem if a user encounters a bug and submits an obfuscated stack trace. 
+**Tip.** Save the `mapping.txt` file for every release that you publish to your users. By retaining a copy of the `mapping.txt` file for each release build, you ensure that you can debug a problem if a user encounters a bug and submits an obfuscated stack trace.
 
 ### Thanks to
 

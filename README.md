@@ -21,7 +21,7 @@ Feedback and criticism are welcomed, feel free to open an issue or send a pull r
 #### Also keep dimens.xml DRY, define generic constants
 #### Do not make a deep hierarchy of ViewGroups
 #### Avoid client-side processing for WebViews, and beware of leaks
-#### Don't use Robolectric for tests
+#### Don't use Robolectric for tests, prefer connected tests
 
 
 ----------

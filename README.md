@@ -167,6 +167,32 @@ Whatever you use, just make sure Gradle and the new project structure remain as 
 
 If you have no previous experience with Rx, start by applying it only for responses from the API. Alternatively, start by applying it for simple UI event handling, like click events or typing events on a search field. If you are confident in your Rx skills and want to apply it to the whole architecture, then write Javadocs on all the tricky parts. Keep in mind that another programmer unfamiliar to RxJava might have a very hard time maintaining the project. Do your best to help him understand your code and also Rx.
 
+**[Retrojava](https://github.com/evant/gradle-retrolambda)** is a Java library for using Lambda expression syntax in Android and other pre-JDK8 platforms. It helps keep your code tight and readable especially if you use a functional style with for example with RxJava. To use it, install JDK8, set that as your SDK Location in the Android Studio Project Structure dialog, and set JAVA8_HOME and JAVA7_HOME environment variables, then in the project root build.gradle:
+```dependencies {
+    classpath 'me.tatarka:gradle-retrolambda:2.4.+'
+```
+and in each module's build.gradle, add
+```
+apply plugin: 'retrolambda'
+
+android {
+    compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+}
+
+retrolambda {
+    jdk System.getenv("JAVA8_HOME")
+    oldJdk System.getenv("JAVA7_HOME")
+    javaVersion JavaVersion.VERSION_1_7
+}
+```
+
+Android Studio offers code assist support for Java8 lambdas. If you are new to lambdas, just use the following to get started:
+
+- Any interface with just one method is "lambda friendly" and can be folded into the more tight syntax
+- If in doubt about parameters and such, write a normal anon inner class and then let Android Studio fold it into a lambda for you.
+
 **Beware of the dex method limitation, and avoid using many libraries.** Android apps, when packaged as a dex file, have a hard limitation of 65536 referenced methods [[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/). You will see a fatal error on compilation if you pass the limit. For that reason, use a minimal amount of libraries, and use the [dex-method-counts](https://github.com/mihaip/dex-method-counts) tool to determine which set of libraries can be used in order to stay under the limit. Especially avoid using the Guava library, since it contains over 13k methods.
 
 ### Activities and Fragments
@@ -463,4 +489,4 @@ Read more at [Proguard](http://proguard.sourceforge.net/#manual/examples.html) f
 
 ### Thanks to
 
-Antti Lammi, Joni Karppinen, Peter Tackage, Timo Tuominen, Vera Izrailit, Vihtori Mäntylä, Mark Voit and other Futurice developers for sharing their knowledge on Android development.
+Antti Lammi, Joni Karppinen, Peter Tackage, Timo Tuominen, Vera Izrailit, Vihtori Mäntylä, Mark Voit, Paul Houghton and other Futurice developers for sharing their knowledge on Android development.

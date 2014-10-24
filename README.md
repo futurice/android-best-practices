@@ -21,7 +21,7 @@ Feedback and criticism are welcomed, feel free to open an issue or send a pull r
 #### Also keep dimens.xml DRY, define generic constants
 #### Do not make a deep hierarchy of ViewGroups
 #### Avoid client-side processing for WebViews, and beware of leaks
-#### Don't use Robolectric for tests, prefer connected tests
+#### Avoid testing with Robolectric on Activities, Fragments, and Views
 
 
 ----------
@@ -434,9 +434,9 @@ Therefore, try to keep your views hierarchy as flat as possible: learn how to us
 
 Android SDK's testing framework is still infant, specially regarding UI tests. Android Gradle currently implements a test task called [`connectedAndroidTest`](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Testing) which runs JUnit tests that you created, using an [extension of JUnit with helpers for Android](http://developer.android.com/reference/android/test/package-summary.html). This means you will need to run tests connected to a device, or an emulator. Follow the official guide [[1]](http://developer.android.com/tools/testing/testing_android.html) [[2]](http://developer.android.com/tools/testing/activity_test.html) for testing.
 
-**Avoid using [Robolectric](http://robolectric.org/).** It is a test framework seeking to provide tests "disconnected from device" for the sake of development speed. Testing under Robolectric is inaccurate and incomplete regarding UI tests. You will have problems testing UI elements related to animations, dialogs, etc, and this will be complicated by the fact that you are "walking in the dark" (testing without seeing the screen being controlled). It might also be hard to integrate it into your project and your build system. The costs and hassles of using Robolectric overcome its benefits. It's not worth using.
+**Use [Robolectric](http://robolectric.org/) only for unit tests, not for views.** It is a test framework seeking to provide tests "disconnected from device" for the sake of development speed, suitable specially for unit tests on models and view models. However, testing under Robolectric is inaccurate and incomplete regarding UI tests. You will have problems testing UI elements related to animations, dialogs, etc, and this will be complicated by the fact that you are "walking in the dark" (testing without seeing the screen being controlled).
 
-**[Robotium](https://code.google.com/p/robotium/) makes writing UI tests easy.** You do not need Robotium for running tests, but it will probably be beneficial to you because of its many helpers to get and analyse views, and control the screen. Test cases will look as simple as:
+**[Robotium](https://code.google.com/p/robotium/) makes writing UI tests easy.** You do not need Robotium for running connected tests for UI cases, but it will probably be beneficial to you because of its many helpers to get and analyse views, and control the screen. Test cases will look as simple as:
 
 ```java
 solo.sendKey(Solo.MENU);

@@ -495,3 +495,8 @@ Read more at [Proguard](http://proguard.sourceforge.net/#manual/examples.html) f
 ### Thanks to
 
 Antti Lammi, Joni Karppinen, Peter Tackage, Timo Tuominen, Vera Izrailit, Vihtori Mäntylä, Mark Voit, Paul Houghton and other Futurice developers for sharing their knowledge on Android development.
+
+### License
+
+[Futurice Oy](www.futurice.com)
+Creative Commons Attribution 4.0 International (CC BY 4.0)

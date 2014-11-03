@@ -259,6 +259,7 @@ com.futurice.project
 - `android:layout_****` attributes at the top
 - `style` attribute at the bottom
 - Tag closer `/>` on its own line, to facilitate ordering and adding attributes.
+- Rather than hard coding `android:text`, consider using [Designtime attributes](http://tools.android.com/tips/layout-designtime-attributes) available for Android Studio.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>

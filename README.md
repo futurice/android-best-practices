@@ -1,4 +1,4 @@
-# Best practices in Android develoment
+# Best practices in Android development
 
 Lessons learned from Android developers in Futurice. Avoid reinventing the wheel by following these guidelines.
 

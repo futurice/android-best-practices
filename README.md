@@ -1,6 +1,6 @@
 # Best practices in Android development
 
-Lessons learned from Android developers in Futurice. Avoid reinventing the wheel by following these guidelines.
+Lessons learned from Android developers in Futurice. Avoid reinventing the wheel by following these guidelines. If you are interested in iOS development, be sure to check also our [**iOS Good Practices**](https://github.com/futurice/ios-good-practices) document.
 
 Feedback is welcomed, but check the [guidelines](https://github.com/futurice/android-best-practices/tree/master/CONTRIBUTING.md) first.
 

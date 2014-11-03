@@ -1,12 +1,12 @@
-package com.futurice.project.test;
+package com.futurice.project.test.device;
+
+import com.futurice.project.MainActivity;
+import com.futurice.project.R;
+import com.robotium.solo.Solo;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.TextView;
-
-import com.robotium.solo.Solo;
-import com.futurice.project.MainActivity;
-import com.futurice.project.R;
 
 public class BookFragmentTest extends ActivityInstrumentationTestCase2<MainActivity> {
     private Solo solo;

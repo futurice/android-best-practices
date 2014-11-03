@@ -2,7 +2,7 @@
 
 Lessons learned from Android developers in Futurice. Avoid reinventing the wheel by following these guidelines.
 
-Feedback and criticism are welcomed, feel free to open an issue or send a pull request.
+Feedback is welcomed, but check the [guidelines](https://github.com/futurice/android-best-practices/tree/master/CONTRIBUTING.md) first.
 
 ## Summary
 

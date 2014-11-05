@@ -4,6 +4,8 @@ Lessons learned from Android developers in Futurice. Avoid reinventing the wheel
 
 Feedback is welcomed, but check the [guidelines](https://github.com/futurice/android-best-practices/tree/master/CONTRIBUTING.md) first.
 
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-android--best--practices-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1091)
+
 ## Summary
 
 #### Use Gradle and its recommended project structure

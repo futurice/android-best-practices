@@ -1,17 +1,17 @@
 package com.futurice.project.fragments;
 
-import android.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
 import com.futurice.project.R;
 import com.futurice.project.models.BiographiesModel;
 import com.futurice.project.models.pojo.Author;
 import com.futurice.project.models.pojo.Book;
 import com.futurice.project.utils.SubscriptionUtils;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 

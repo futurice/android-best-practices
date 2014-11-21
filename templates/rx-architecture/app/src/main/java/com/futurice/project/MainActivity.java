@@ -1,19 +1,19 @@
 package com.futurice.project;
 
-import android.app.Activity;
+import com.futurice.project.fragments.BookFragment;
+
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.futurice.project.fragments.BookFragment;
-
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, new BookFragment())
                 .commit();
         }

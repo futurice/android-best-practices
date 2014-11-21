@@ -22,7 +22,7 @@ Feedback is welcomed, but check the [guidelines](https://github.com/futurice/and
 #### Also keep dimens.xml DRY, define generic constants
 #### Do not make a deep hierarchy of ViewGroups
 #### Avoid client-side processing for WebViews, and beware of leaks
-#### Avoid testing with Robolectric on Activities, Fragments, and Views
+#### Use Robolectric for unit tests, Robotium for connected (UI) tests
 
 
 ----------

@@ -41,11 +41,11 @@ Your default option should be [Gradle](http://tools.android.com/tech-docs/new-bu
 - Customize keystores
 - And more
 
-Android's Gradle plugin is also being actively developed by Google while as the new standard build system.
+Android's Gradle plugin is also being actively developed by Google as the new standard build system.
 
 ### Project structure
 
-There are two popular options: the old Ant & Eclipse ADT project structure, and the new Gradle & Android Studio project structure. You can make the decision whether to use one or the other, although we recommend the new project structure. If using the old, try to provide also a Gradle configuration `build.gradle`.
+There are two popular options: the old Ant & Eclipse ADT project structure, and the new Gradle & Android Studio project structure. You should choose the new project structure. If your project uses the old structure, consider it legacy and start porting it to the new structure.
 
 Old structure:
 

@@ -23,6 +23,7 @@ Feedback is welcomed, but check the [guidelines](https://github.com/futurice/and
 #### Do not make a deep hierarchy of ViewGroups
 #### Avoid client-side processing for WebViews, and beware of leaks
 #### Use Robolectric for unit tests, Robotium for connected (UI) tests
+#### Use Genymotion as your emulator
 #### Always use ProGuard or DexGuard
 
 
@@ -442,6 +443,12 @@ solo.clickOnText("Preferences");
 solo.clickOnText("Edit File Extensions");
 Assert.assertTrue(solo.searchText("rtf"));
 ```
+
+### Emulators
+
+If you are developing Android apps as a profession, buy a license for the [Genymotion emulator](http://www.genymotion.com/). Genymotion emulators run at a faster frames/sec rate than typical AVD emulators. They have tools for demoing your app, emulating network connection quality, GPS positions, etc. They are also ideal for connected tests. You have access to many (not all) different devices, so the cost of a Genymotion license is actually much cheaper than buying multiple real devices.
+
+Caveats are: Genymotion emulators don't ship all Google services such as Google Play Store and Maps. You might also need to test Samsung-specific APIs, so it's necessary to have a real Samsung device. 
 
 ### Proguard configuration
 

@@ -10,9 +10,8 @@ Feedback is welcomed, but check the [guidelines](https://github.com/futurice/and
 
 #### Use Gradle and its recommended project structure
 #### Put passwords and sensitive data in gradle.properties
-#### Don't write your own HTTP client, use Volley or Retrofit libraries
+#### Don't write your own HTTP client, use Volley or OkHttp libraries
 #### Use the Jackson library to parse JSON data
-#### Use Volley or Retrofit+OkHttp+Picasso for networking and images
 #### Avoid Guava and use only a few libraries due to the *65k method limit*
 #### Use Fragments to represent a UI screen
 #### Use Activities just to manage Fragments

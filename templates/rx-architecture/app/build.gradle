@@ -3,8 +3,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
-        classpath 'org.robolectric:robolectric-gradle-plugin:0.12.+'
+        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'org.robolectric:robolectric-gradle-plugin:0.14.+'
     }
 }
 
@@ -13,8 +13,8 @@ apply plugin: 'checkstyle'
 apply plugin: 'robolectric'
 
 dependencies {
-    compile 'com.netflix.rxjava:rxjava-core:0.19.1'
-    compile 'com.netflix.rxjava:rxjava-android:0.19.1'
+    compile 'io.reactivex:rxjava:1.0.+'
+    compile 'io.reactivex:rxandroid:0.23.+'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.4.+'
     compile 'com.fasterxml.jackson.core:jackson-core:2.4.+'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.+'
@@ -45,12 +45,12 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 21
     buildToolsVersion "20.0.0"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 19
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -71,11 +71,11 @@ android {
     }
     buildTypes {
         debug {
-            runProguard false
+            minifyEnabled false
         }
         release {
             signingConfig signingConfigs.release
-            runProguard true
+            minifyEnabled true
             proguardFiles 'proguard-rules.pro'
         }
     }
@@ -83,6 +83,7 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE.txt'
+        exclude 'LICENSE.txt'
     }
 }
 

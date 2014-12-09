@@ -23,8 +23,7 @@ public class BookFragmentTest extends ActivityInstrumentationTestCase2<MainActiv
     public void test_shouldShowBookTitle() throws Exception {
         TextView titleText = (TextView) solo.getView(R.id.title);
         assertEquals(View.VISIBLE, titleText.getVisibility());
-        assertNotSame("How Rx will Change the World", titleText.getText().toString());
         solo.sleep(1000);
-        assertEquals("How Rx will Change the World", titleText.getText().toString());
+        assertEquals(titleText.getText().toString().startsWith("Biography of"), true);
     }
 }

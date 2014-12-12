@@ -446,7 +446,7 @@ Assert.assertTrue(solo.searchText("rtf"));
 
 If you are developing Android apps as a profession, buy a license for the [Genymotion emulator](http://www.genymotion.com/). Genymotion emulators run at a faster frames/sec rate than typical AVD emulators. They have tools for demoing your app, emulating network connection quality, GPS positions, etc. They are also ideal for connected tests. You have access to many (not all) different devices, so the cost of a Genymotion license is actually much cheaper than buying multiple real devices.
 
-Caveats are: Genymotion emulators don't ship all Google services such as Google Play Store and Maps. You might also need to test Samsung-specific APIs, so it's necessary to have a real Samsung device. 
+Caveats are: Genymotion emulators don't ship all Google services such as Google Play Store and Maps. You might also need to test Samsung-specific APIs, so it's necessary to have a real Samsung device.
 
 ### Proguard configuration
 
@@ -457,11 +457,11 @@ Whether you are using ProGuard or not depends on your project configuration. Usu
 ```groovy
 buildTypes {
     debug {
-        runProguard false
+        minifyEnabled false
     }
     release {
         signingConfig signingConfigs.release
-        runProguard true
+        minifyEnabled true
         proguardFiles 'proguard-rules.pro'
     }
 }

@@ -516,7 +516,7 @@ ProGuard関連のよくある問題でビルドが成功したにもかかわら
 サンプルとして[こちら](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro)を確認しよう。また[Proguard](http://proguard.sourceforge.net/#manual/examples.html)も読んでおくと良い。
 
 **Tip** 
-リリースするたびに`mapping.txt`を保存しておこう。ユーザがバグを踏み、難読化されたスタックとレースを送ってきた際にデバッグする事ができる。
+リリースするたびに`mapping.txt`を保存しておこう。ユーザがバグを踏み、難読化されたスタックトレースを送ってきた際にデバッグする事ができる。
 
 **DexGuard**
 さらに最適化され、さらに難読化されたものを考えるならDexGuardの採用を考えよう。DexGuardはProGuardを作った同じチームが開発している商用のものである。さらにDexGuardなら簡単にDexファイルを分割し65k制限を解決する。

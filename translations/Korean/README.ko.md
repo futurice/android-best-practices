@@ -148,15 +148,15 @@ dependencies {
 }
 ```
 
-### IDEs and text editors
+### IDE와 텍스트 에디터
 
-**Use whatever editor, but it must play nicely with the project structure.** Editors are a personal choice, and it's your responsibility to get your editor functioning according to the project structure and build system.
+**프로젝트 구조를 다루는 데에 용이한 에디터라면 무엇이든 사용해도 좋다.** 에디터는 개인적인 선택이고, 그 에디터가 프로젝트 구조와 프로젝트 빌드 시스템에 따라 기능하도록 하는 것은 개발자의 몫이다.
 
-The most recommended IDE at the moment is [Android Studio](https://developer.android.com/sdk/installing/studio.html), because it is developed by Google, is closest to Gradle, uses the new project structure by default, is finally in stable stage, and is tailored for Android development.
+현재 가장 추천하는 IDE는 [Android Studio](https://developer.android.com/sdk/installing/studio.html)이다. Google이 개발했고, Gradle에 가장 밀접하며, 기본적으로 새로운 프로젝트 구조를 사용하는데다가 안정화 단계에 들어가 Android 개발에 잘 맞추어져 있기 때문이다.
 
-You can use [Eclipse ADT](https://developer.android.com/sdk/installing/index.html?pkg=adt) if you wish, but you need to configure it, since it expects the old project structure and Ant for building. You can even use a plain text editor like Vim, Sublime Text, or Emacs. In that case, you will need to use Gradle and `adb` on the command line. If Eclipse's integration with Gradle is not working for you, your options are using the command line just to build, or migrating to Android Studio. This is the best option due to ADT plugin was deprecated recently.
+원한다면 [Eclipse ADT](https://developer.android.com/sdk/installing/index.html?pkg=adt)를 사용해도 좋지만, 빌드하는 데에 낡은 프로젝트 구조와 Ant를 사용하기 때문에 이에 대한 설정이 필요하다. Vim, Sublime Text, Emacs같은 플레인 텍스트 에디터를 사용할 수도 있다. 이 경우에는 Gradle과 `adb`를 커맨드라인에서 사용해야 한다. Eclipse의 Gradle 사용이 제대로 작동하지 않는다면, 커맨드라인으로 빌드하거나 Android Studio로 옮기자. ADT 플러그인이 deprecate되었기 때문에, 이 것이 가장 좋은 옵션일 것이다.
 
-Whatever you use, just make sure Gradle and the new project structure remain as the official way of building the application, and avoid adding your editor-specific configuration files to the version control system. For instance, avoid adding an Ant `build.xml` file. Especially don't forget to keep `build.gradle` up-to-date and functioning if you are changing build configurations in Ant. Also, be kind to other developers, don't force them to change their tool of preference.
+무엇을 사용하든, 애플리케이션 빌드의 공식적인 방법인 Gradle과 새로운 프로젝트 구조를 따르고, 특정 에디터를 따르는 설정 파일을 버전 관리 시스템에 추가하는 것을 피하는 것만 명심하자. 예를 들면, Ant의 `build.xml` 파일들은 추가하지 않도록 한다. 특히 Ant의 빌드 설정을 변경하고 있다면 `build.gradle`을 최신의 상태로 기능하도록 하는 것을 잊지말자. 또한 다른 개발자들에게 친절해지자. 그들의 설정을 바꾸도록 강요하지 않도록 해야한다.
 
 ### Libraries
 

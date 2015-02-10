@@ -426,13 +426,13 @@ TextView에 적용해보면:
 **WebView와 관련된 문제들에 유의하자.** 뉴스 기사와 같은 웹페이지를 보여주어야 할 때, 백엔드 프로그래머들에게 "*순수한*" HTML을 요청하지 않고 HTML을 정리하기 위해 클라이언트단에서 프로세싱하는 것을 피하자. ApplicationContext가 아닌 Activity로의 참조를 유지할 때, [WebViews can also leak memory](http://stackoverflow.com/questions/3130654/memory-leak-in-webview). 간단한 텍스트와 버튼을 사용할 때에는 WebView를 피하고 TextView와 Button을 사용하도록 한다.
 
 
-### Test frameworks
+### 테스트 프레임워크
 
-Android SDK's testing framework is still infant, specially regarding UI tests. Android Gradle currently implements a test task called [`connectedAndroidTest`](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Testing) which runs JUnit tests that you created, using an [extension of JUnit with helpers for Android](http://developer.android.com/reference/android/test/package-summary.html). This means you will need to run tests connected to a device, or an emulator. Follow the official guide [[1]](http://developer.android.com/tools/testing/testing_android.html) [[2]](http://developer.android.com/tools/testing/activity_test.html) for testing.
+Android SDK의 테스팅 프레임워크는 여전히 미흡한데, 특히 UI 테스트에 관해서는 더더욱 그렇다. Android Gradle은 현재 [extension of JUnit with helpers for Android](http://developer.android.com/reference/android/test/package-summary.html)을 사용하여 만들어진 JUnit 테스트들을 실행하는 [`connectedAndroidTest`](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Testing)라는 테스트 Task를 구현하고 있다. 이는 기기 혹은 에뮬레이터에 연결된 테스트를 실행해야 할 것을 의미한다. 공식 가이드인 [[1]](http://developer.android.com/tools/testing/testing_android.html) [[2]](http://developer.android.com/tools/testing/activity_test.html)를 따라 테스트하자.
 
-**Use [Robolectric](http://robolectric.org/) only for unit tests, not for views.** It is a test framework seeking to provide tests "disconnected from device" for the sake of development speed, suitable specially for unit tests on models and view models. However, testing under Robolectric is inaccurate and incomplete regarding UI tests. You will have problems testing UI elements related to animations, dialogs, etc, and this will be complicated by the fact that you are "walking in the dark" (testing without seeing the screen being controlled).
+**View가 아닌 유닛 테스트에는 [Robolectric](http://robolectric.org/)를 사용하자.** 이는 개발 속도의 만족을 위해 "기기에 연결되지 않은" 테스트의 제공을 추구하는 테스트 프레임워크이다. 특히 모델과 View 모델들의 유닛 테스트에 적합하다. 하지만, UI 테스트에서의 Robolectric를 사용한 테스트는 부정확하고 불완전하다. 애니메이션, 대화 상자 등에 관한 UI 요소들의 테스트에서는 문제를 보일 것이고, 이는 "어둠 속에서 걷는 것"(조작할 만한 화면을 보지 않고 테스트)처럼 매우 복잡할 것이다.
 
-**[Robotium](https://code.google.com/p/robotium/) makes writing UI tests easy.** You do not need Robotium for running connected tests for UI cases, but it will probably be beneficial to you because of its many helpers to get and analyse views, and control the screen. Test cases will look as simple as:
+**[Robotium](https://code.google.com/p/robotium/)은 UI 테스트 작성을 쉽게 해준다.** UI의 연결된 테스트를 실행하는 데에 Robotium이 필요하지 않지만, View를 가져와 분석하고, 화면을 조작할 수 있게 해주는 Robotium의 많은 도우미들이 유용하게 작용할 것이다. 테스트 케이스는 이처럼 쉽게 표현된다:
 
 ```java
 solo.sendKey(Solo.MENU);
@@ -442,11 +442,11 @@ solo.clickOnText("Edit File Extensions");
 Assert.assertTrue(solo.searchText("rtf"));
 ```
 
-### Emulators
+### 에뮬레이터
 
-If you are developing Android apps as a profession, buy a license for the [Genymotion emulator](http://www.genymotion.com/). Genymotion emulators run at a faster frames/sec rate than typical AVD emulators. They have tools for demoing your app, emulating network connection quality, GPS positions, etc. They are also ideal for connected tests. You have access to many (not all) different devices, so the cost of a Genymotion license is actually much cheaper than buying multiple real devices.
+전문적으로 Android 앱을 개발하고 있다면, [Genymotion emulator](http://www.genymotion.com/)의 라이센스를 구매하자. Genymotion 에뮬레이터는 일반적인 AVD 에뮬레이터에 비해 빠른 FPS로 실행된다. 앱을 데모하고, 네트워크 연결 품질, GPS 포지션을 시험해보는 툴들을 제공한다. 또한 연결된 테스트에 이상적으로 작동한다. 많은(전부는 아님) 다른 기기들을 접할 때, Genymotion의 라이센스는 실제 여러가지 기기를 구매하는 것 보다 훨씬 저렴하다.
 
-Caveats are: Genymotion emulators don't ship all Google services such as Google Play Store and Maps. You might also need to test Samsung-specific APIs, so it's necessary to have a real Samsung device.
+주의할 점: Genymotion 에뮬레이터는 Google Play Store와 Maps과 같은 모든 Google 서비스들을 포함하고 있지는 않다. 삼성의 특정 API를 테스트해야 한다면, 실제 삼성 기기가 필요하다.
 
 ### Proguard 설정
 

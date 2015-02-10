@@ -448,11 +448,11 @@ If you are developing Android apps as a profession, buy a license for the [Genym
 
 Caveats are: Genymotion emulators don't ship all Google services such as Google Play Store and Maps. You might also need to test Samsung-specific APIs, so it's necessary to have a real Samsung device.
 
-### Proguard configuration
+### Proguard 설정
 
-[ProGuard](http://proguard.sourceforge.net/) is normally used on Android projects to shrink and obfuscate the packaged code.
+[ProGuard](http://proguard.sourceforge.net/)는 일반적으로 Android 프로젝트의 패키징된 코드를 축소하고, 난독화하기 위해 사용된다.
 
-Whether you are using ProGuard or not depends on your project configuration. Usually you would configure gradle to use ProGuard when building a release apk.
+ProGuard를 사용하고 있는지 아닌지는 해당 프로젝트 설정에 달려있다. 보통 릴리즈 apk를 빌드할 때 gradle을 설정하고 ProGuard를 사용할 것이다.
 
 ```groovy
 buildTypes {
@@ -467,36 +467,36 @@ buildTypes {
 }
 ```
 
-In order to determine which code has to be preserved and which code can be discarded or obfuscated, you have to specify one or more entry points to your code. These entry points are typically classes with main methods, applets, midlets, activities, etc.
-Android framework uses a default configuration which can be found from `SDK_HOME/tools/proguard/proguard-android.txt`. Custom project-specific proguard rules, as defined in `my-project/app/proguard-rules.pro`, will be appended to the default configuration.
+어떤 코드가 보존되어야 하고 어떤 코드가 버려지거나 난독화되어야할 지 결정하기 위해, 코드에 한 개 이상의 엔트리 포인트를 설정해야한다. 이 엔트리 포인트는 일반적으로 main 메소드, applets, midlets, Activity와 같은 것들이다.
+Android 프레임워크는 `SDK_HOME/tools/proguard/proguard-android.txt`에서 찾아볼 수 있는 기본 설정을 사용한다. `my-project/app/proguard-rules.pro`의 사용자화된 특정 프로젝트 ProGuard 규칙은 기본 설정에 추가로 설정될 것이다.
 
-A common problem related to ProGuard is to see the application crashing on startup with `ClassNotFoundException` or `NoSuchFieldException` or similar, even though the build command (i.e. `assembleRelease`) succeeded without warnings.
-This means one out of two things:
+ProGuard와 관련된 일반적인 문제는 어떠한 Warning도 없이 빌드 커맨드가 성공했는데도 애플리케이션이 시작시에  `ClassNotFoundException`나 `NoSuchFieldException`와 비슷한 예외로 크래시가 발생하는 것이다.
+이는 두 가지 중 하나를 의미한다:
 
-1. ProGuard has removed the class, enum, method, field or annotation, considering it's not required.
-2. ProGuard has obfuscated (renamed) the class, enum or field name, but it's being used indirectly by its original name, i.e. through Java reflection.
+1. ProGuard가 클래스, Enum, 메소드, 필드 혹은 어노테이션들을 필요하지 않다고 여겨 제거한 것이다.
+2. ProGuard가 클래스, Enum, 필드 이름들이 간접적으로 고유의 이름대로 사용되고 있음에도 불구하고(예를 들면 Java reflection을 통해) 이들을 난독화(이름 변경)한 것이다.
 
-Check `app/build/outputs/proguard/release/usage.txt` to see if the object in question has been removed.
-Check `app/build/outputs/proguard/release/mapping.txt` to see if the object in question has been obfuscated.
+물음의 객체가 제거되었는지 보려면 `app/build/outputs/proguard/release/usage.txt`을 확인하자.
+물음의 객체가 난독화되었는지 보려면 `app/build/outputs/proguard/release/mapping.txt`을 확인하자.
 
-In order to prevent ProGuard from *stripping away* needed classes or class members, add a `keep` options to your proguard config:
+ProGuard가 필요한 클래스 혹은 클래스 멤버들을 *벗겨내는 것*을 막기 위해서는, ProGuard 설정에 `keep` 옵션을 추가하자:
 ```
 -keep class com.futurice.project.MyClass { *; }
 ```
 
-To prevent ProGuard from *obfuscating* classes or class members, add a `keepnames`:
+ProGuard가 클래스 혹은 클래스 멤버들의 *난독화*을 막고싶다면, `keepnames`을 추가하자:
 ```
 -keepnames class com.futurice.project.MyClass { *; }
 ```
 
-Check [this template's ProGuard config](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro) for some examples.
-Read more at [Proguard](http://proguard.sourceforge.net/#manual/examples.html) for examples.
+예시로 [this template's ProGuard config](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro)를 확인하자.
+또 다른 예시로 [Proguard](http://proguard.sourceforge.net/#manual/examples.html)를 읽어보자.
 
-**Early on in your project, make a release build** to check whether ProGuard rules are correctly keeping whatever is important. Also whenever you include new libraries, make a release build and test the apk on a device. Don't wait until your app is finally version "1.0" to make a release build, you might get several unpleasant surprises and a short time to fix them.
+**프로젝트의 초기에, 릴리즈 빌드를 만들자.** 이는 ProGuard 규칙들이 중요한 것들을 정확하게 보관하고 있는지 확인하기 위함이다. 또한 언제든지 새로운 라이브러리를 포함시켰을 때, 릴리즈 빌드를 만들고 기기에서 apk를 테스트해보자. 릴리즈 빌드를 만들기 위해 앱이 "1.0" 버전이 되기까지 기다리지 말고, 수 차례 의외의 문제들을 발견하고 수정하는 짧은 시간을 갖자.
 
-**Tip.** Save the `mapping.txt` file for every release that you publish to your users. By retaining a copy of the `mapping.txt` file for each release build, you ensure that you can debug a problem if a user encounters a bug and submits an obfuscated stack trace.
+**팁.** 배포시에 `mapping.txt` 파일들은 매 릴리즈마다 저장하자. 각 릴리즈 빌드마다 `mapping.txt` 파일을 보관해두면, 사용자가 버그를 만나고 알아보기 힘든 스택 트레이스를 보내왔을 때 문제를 확실하게 디버깅할 수 있다.
 
-**DexGuard**. If you need hard-core tools for optimizing, and specially obfuscating release code, consider [DexGuard](http://www.saikoa.com/dexguard), a commercial software made by the same team that built ProGuard. It can also easily split Dex files to solve the 65k methods limitation.
+**DexGuard**. 릴리즈 코드를 최적화하고, 특히 알기 어렵게 만들기 위해 하드코어한 툴이 필요하다면, ProGuard를 빌드한 같은 팀에서 만든 상업 소프트웨어인 [DexGuard](http://www.saikoa.com/dexguard)를 고려해보자. 이는 65,000 메소드 수 제한을 해결하기 위해 Dex 파일들을 쉽게 나눈다.
 
 ### Thanks to
 

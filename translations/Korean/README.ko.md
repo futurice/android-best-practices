@@ -156,19 +156,19 @@ dependencies {
 
 원한다면 [Eclipse ADT](https://developer.android.com/sdk/installing/index.html?pkg=adt)를 사용해도 좋지만, 빌드하는 데에 낡은 프로젝트 구조와 Ant를 사용하기 때문에 이에 대한 설정이 필요하다. Vim, Sublime Text, Emacs같은 플레인 텍스트 에디터를 사용할 수도 있다. 이 경우에는 Gradle과 `adb`를 커맨드라인에서 사용해야 한다. Eclipse의 Gradle 사용이 제대로 작동하지 않는다면, 커맨드라인으로 빌드하거나 Android Studio로 옮기자. ADT 플러그인이 deprecate되었기 때문에, 이 것이 가장 좋은 옵션일 것이다.
 
-무엇을 사용하든, 애플리케이션 빌드의 공식적인 방법인 Gradle과 새로운 프로젝트 구조를 따르고, 특정 에디터를 따르는 설정 파일을 버전 관리 시스템에 추가하는 것을 피하는 것만 명심하자. 예를 들면, Ant의 `build.xml` 파일들은 추가하지 않도록 한다. 특히 Ant의 빌드 설정을 변경하고 있다면 `build.gradle`을 최신의 상태로 기능하도록 하는 것을 잊지말자. 또한 다른 개발자들에게 친절해지자. 그들의 설정을 바꾸도록 강요하지 않도록 해야한다.
+무엇을 사용하든, 애플리케이션 빌드의 공식적인 방법인 Gradle과 새로운 프로젝트 구조를 따르고, 특정 에디터를 따르는 설정 파일을 버전 관리 시스템에 추가하는 것을 피하는 것만 명심하자. 예를 들면, Ant의 `build.xml` 파일들은 추가하지 않도록 한다. 특히 Ant의 빌드 설정을 변경하고 있다면 `build.gradle`을 최신의 상태로 기능하도록 하는 것을 잊지말자. 또한 다른 개발자들에게 친절해지자. 그들의 설정을 바꾸도록 강요하지 않아야한다.
 
-### Libraries
+### 라이브러리
 
-**[Jackson](http://wiki.fasterxml.com/JacksonHome)** is a Java library for converting Objects into JSON and vice-versa. [Gson](https://code.google.com/p/google-gson/) is a popular choice for solving this problem, however we find Jackson to be more performant since it supports alternative ways of processing JSON: streaming, in-memory tree model, and traditional JSON-POJO data binding. Keep in mind, though, that Jackson is a larger library than GSON, so depending on your case, you might prefer GSON to avoid 65k methods limitation. Other alternatives: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
+**[Jackson](http://wiki.fasterxml.com/JacksonHome)**은 Object를 JSON으로, 혹은 그 반대로 변환해주는 Java 라이브러리이다. [Gson](https://code.google.com/p/google-gson/)이 이 문제를 해결하는 데에 많이 쓰이긴 하지만, 스트리밍, 인메모리 트리 모델, 전통적인 JSON-POJO 데이터 바인딩과 같은 여러 대안들을 지원하는 Jackson이 더 고성능일 것이다. 하지만 명심하자. Jackson이 GSON보다 더 큰 라이브러리이기 때문에, 65,000 메소드 수 제한에 부딪힌 경우라면 GSON을 사용하는 것이 나을 수도 있다. 다른 대안으로는 [Json-smart](https://code.google.com/p/json-smart/)과 [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)이 있다.
 
-**Networking, caching, and images.** There are a couple of battle-proven solutions for performing requests to backend servers, which you should use perform considering implementing your own client. Use [Volley](https://android.googlesource.com/platform/frameworks/volley) or [Retrofit](http://square.github.io/retrofit/). Volley also provides helpers to load and cache images. If you choose Retrofit, consider [Picasso](http://square.github.io/picasso/) for loading and caching images, and [OkHttp](http://square.github.io/okhttp/) for efficient HTTP requests. All three Retrofit, Picasso and OkHttp are created by the same company, so they complement each other nicely. [OkHttp can also be used in connection with Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
+**네트워킹, 캐싱, 이미지.** 백엔드 서버로의 요청 처리에 대해 클라이언트를 구현하고 처리하는 두 가지 검증된 해결책이 있다. [Volley](https://android.googlesource.com/platform/frameworks/volley) 혹은 [Retrofit](http://square.github.io/retrofit/)을 사용하자. Volley는 이미지를 불러오고 캐싱하는 도우미를 제공한다. Retrofit을 선택한다면, 이미지 로딩과 캐싱에는 [Picasso](http://square.github.io/picasso/)를, 효율적인 HTTP 요청에는 [OkHttp](http://square.github.io/okhttp/)를 고려해보자. 이 모든 세가지의 라이브러리들은 같은 회사에서 개발되어 서로 상호보완이 매우 용이하다. [OkHttp can also be used in connection with Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
 
-**RxJava** is a library for Reactive Programming, in other words, handling asynchronous events. It is a powerful and promising paradigm, which can also be confusing since it's so different. We recommend to take some caution before using this library to architect the entire application. There are some projects done by us using RxJava, if you need help talk to one of these people: Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, Juha Ristolainen. We have written some blog posts on it: [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
+**RxJava** 비동기 이벤트를 처리하는 Reactive Programming을 위한 라이브러리이다. 이는 매우 강력하고 유망한 패러다임으로, 너무 다른 점이 많아 혼란스러울 수 있다. 모든 애플리케이션에서 아키텍트들에게 이 라이브러리를 쓰기 전 주의할 것을 추천한다. RxJava를 이용한 몇 가지 프로젝트가 있는데, 필요하다면 이 사람들에게서 도움을 구하자: Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, Juha Ristolainen. 작성된 블로그 포스트도 있다: [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
 
-If you have no previous experience with Rx, start by applying it only for responses from the API. Alternatively, start by applying it for simple UI event handling, like click events or typing events on a search field. If you are confident in your Rx skills and want to apply it to the whole architecture, then write Javadocs on all the tricky parts. Keep in mind that another programmer unfamiliar to RxJava might have a very hard time maintaining the project. Do your best to help them understand your code and also Rx.
+Rx에 대한 경험이 없다면, API 응답 처리에만 적용해보자. 다른 방법으로는 클릭 이벤트나 검색 타이핑 이벤트와 같은 간단한 UI 이벤트 처리에 적용해볼 수도 있다. Rx 기술에 자신감이 생겨 모든 설계에 적용하고 싶다면, 모든 까다로운 부분들에 Javadocs를 작성하자. RxJava에 익숙하지 않은 다른 프로그래머가 프로젝트를 유지, 보수하는 데에 어려움이 있을 수 있다는 것을 명심하자. 그들의 Rx와 코드 이해에 대해 최선을 다해 도움을 주자.
 
-**[Retrolambda](https://github.com/evant/gradle-retrolambda)** is a Java library for using Lambda expression syntax in Android and other pre-JDK8 platforms. It helps keep your code tight and readable especially if you use a functional style with for example with RxJava. To use it, install JDK8, set that as your SDK Location in the Android Studio Project Structure dialog, and set `JAVA8_HOME` and `JAVA7_HOME` environment variables, then in the project root build.gradle:
+**[Retrolambda](https://github.com/evant/gradle-retrolambda)**는 Android 혹은 다른 pre-JDK8 플랫폼에서 Lambda 표현 문법을 사용할 수 있도록 하는 Java 라이브러리이다. 이 라이브러리는 특히 RxJava와 같이 기능 위주 스타일의 코드를 더욱 타이트하고 읽기 좋게 만들어준다. 사용하려면, JDK8을 설치하고 이를 Android Studio 프로젝트 대화상자에서 SDK 경로로 설정한 후, `JAVA8_HOME`과 `JAVA7_HOME` 환경변수를 설정한 뒤 프로젝트 root의 build.gradle을 이렇게 설정한다:
 
 ```groovy
 dependencies {
@@ -194,12 +194,12 @@ retrolambda {
 }
 ```
 
-Android Studio offers code assist support for Java8 lambdas. If you are new to lambdas, just use the following to get started:
+Android Studio는 Java8 lambda의 코드 지원을 제공한다. 만약 lambda가 처음이라면, 다음 항목들을 따라 시작해보자:
 
-- Any interface with just one method is "lambda friendly" and can be folded into the more tight syntax
-- If in doubt about parameters and such, write a normal anon inner class and then let Android Studio fold it into a lambda for you.
+- 하나의 메소드를 갖는 모든 인터페이스들은 "lambda와 밀접"하고, 더욱 타이트한 문법으로 묶일 수 있다.
+- 만약 파라메터들이 의심스럽다면, 일반 익명 내부 클래스를 작성하고 Android Studio가 lambda로 묶어주도록 해보자.
 
-**Beware of the dex method limitation, and avoid using many libraries.** Android apps, when packaged as a dex file, have a hard limitation of 65536 referenced methods [[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/). You will see a fatal error on compilation if you pass the limit. For that reason, use a minimal amount of libraries, and use the [dex-method-counts](https://github.com/mihaip/dex-method-counts) tool to determine which set of libraries can be used in order to stay under the limit. Especially avoid using the Guava library, since it contains over 13k methods.
+**Dex 메소드 제한을 유의하고, 많은 라이브러리 사용을 피하자.** Android 앱들이 dex 파일로 패키징될 때, 65,536개의 참조 메소드 수 제한을 갖는다[[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/). 제한된 메소드 수를 넘어서면 컴파일시 Fatal error를 보게될 것이다. 그렇기 때문에, 최소한의 라이브러리들을 사용하고, [dex-method-counts](https://github.com/mihaip/dex-method-counts) 툴을 사용하여 제한된 수보다 적게 유지하기 위해 어떤 라이브러리들을 사용할지 결정하자. 특히 Guava 라이브러리는 피하자. 이 라이브러리는 13,000개가 넘는 메소드를 가지고 있다.
 
 ### Activities and Fragments
 

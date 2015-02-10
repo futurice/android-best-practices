@@ -243,18 +243,18 @@ com.futurice.project
    └─ notifications
 ```
 
-### Resources
+### 리소스
 
-**Naming.** Follow the convention of prefixing the type, as in `type_foo_bar.xml`. Examples: `fragment_contact_details.xml`, `view_primary_button.xml`, `activity_main.xml`.
+**이름 정하기.** `type_foo_bar.xml`과 같이 타입을 접두어로 두는 컨벤션을 따르자. 예시: `fragment_contact_details.xml`, `view_primary_button.xml`, `activity_main.xml`.
 
-**Organizing layout XMLs.** If you're unsure how to format a layout XML, the following convention may help.
+**레이아웃 XML을 체계화하기.** 레이아웃 XML을 어떤 형태로 만들지 확실치 않다면, 다음 컨벤션이 도움이 될 것이다.
 
-- One attribute per line, indented by 4 spaces
-- `android:id` as the first attribute always
-- `android:layout_****` attributes at the top
-- `style` attribute at the bottom
-- Tag closer `/>` on its own line, to facilitate ordering and adding attributes.
-- Rather than hard coding `android:text`, consider using [Designtime attributes](http://tools.android.com/tips/layout-designtime-attributes) available for Android Studio.
+- 한 속성당 한 줄, 들여쓰기는 4칸의 스페이스
+- `android:id`를 항상 첫 속성으로
+- `android:layout_****` 속성들을 윗쪽에
+- `style` 속성은 맨 아래에
+- 태그를 닫는 `/>`는 정렬과 새 속성 추가를 위해 독립적인 줄에
+- Rather than hard coding `android:text`에 하드코딩하는 것보다, Android Studio에서 사용 가능한 [Designtime attributes](http://tools.android.com/tips/layout-designtime-attributes)를 고려하자.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -280,16 +280,16 @@ com.futurice.project
 </LinearLayout>
 ```
 
-As a rule of thumb, attributes `android:layout_****` should be defined in the layout XML, while other attributes `android:****` should stay in a style XML. This rule has exceptions, but in general works fine. The idea is to keep only layout (positioning, margin, sizing) and content attributes in the layout files, while keeping all appearance details (colors, padding, font) in styles files.
+가장 중요한 것은, `android:layout_****`를 레이아웃 XML에 두고 `android:****`를 스타일 XML에 정의하는 것이다. 이 규칙은 예외가 있지만, 일반적으로 잘 동작한다. 이는 레이아웃(위치, 여백, 크기)과 내용에 관한 속성을 레이아웃 파일에 두고, 상세한 모양(색, 안쪽 여백, 폰트)에 대한 내용은 스타일 파일에 두기 위함이다.
 
-The exceptions are:
+예외는 이런 경우가 있다:
 
-- `android:id` should obviously be in the layout files
-- `android:orientation` for a `LinearLayout` normally makes more sense in layout files
-- `android:text` should be in layout files because it defines content
-- Sometimes it will make sense to make a generic style defining `android:layout_width` and `android:layout_height` but by default these should appear in the layout files
+- `android:id`는 정확히 레이아웃 파일에 두어야 한다. should obviously be in the layout files
+- `LinearLayout`의 `android:orientation` 속성은 일반적으로 레이아웃 파일에 있는 것이 타당하다.
+- `android:text`는 내용을 정의하는 속성이기 때문에 레이아웃 파일에 두어야 한다.
+- 가끔 일반적인 스타일로 `android:layout_width`와 `android:layout_height` 속성들을 두어야 말이 될 것 같지만, 기본적으로 이들은 레이아웃 파일에 보여진다.
 
-**Use styles.** Almost every project needs to properly use styles, because it is very common to have a repeated appearance for a view. At least you should have a common style for most text content in the application, for example:
+**스타일을 사용하자.** View에 중복되는 모양이 사용되는 것은 매우 일반적인 일이기 때문에, 거의 모든 프로젝트들이 스타일을 적절히 사용해야한다. 적어도 애플리케이션에서 대부분의 텍스트 내용들은 일반 스타일을 가져야한다. 예를 들면 이렇다:
 
 ```xml
 <style name="ContentText">
@@ -298,7 +298,7 @@ The exceptions are:
 </style>
 ```
 
-Applied to TextViews:
+TextView에 적용해보면:
 
 ```xml
 <TextView
@@ -309,13 +309,13 @@ Applied to TextViews:
     />
 ```
 
-You probably will need to do the same for buttons, but don't stop there yet. Go beyond and move a group of related and repeated `android:****` attributes to a common style.
+아마 버튼들에도 같은 일을 해주어야 하겠지만, 멈추지 말자. 계속 진행하면서 연관되어있고 중복된 `android:****` 속성들을 일반 스타일로 묶자.
 
-**Split a large style file into other files.** You don't need to have a single `styles.xml` file. Android SDK supports other files out of the box, there is nothing magical about the name `styles`, what matters are the XML tags `<style>` inside the file. Hence you can have files `styles.xml`, `styles_home.xml`, `styles_item_details.xml`, `styles_forms.xml`. Unlike resource directory names which carry some meaning for the build system, filenames in `res/values` can be arbitrary.
+**큰 스타일 파일은 다른 파일들로 나누자.** 단 하나의 `styles.xml` 파일을 가질 필요는 없다. Android SDK는 박스 외부의 파일들도 지원하는데, `styles`라는 이름엔 전혀 마법같은 무언가가 없이 파일 안에 `<style>` XML 태그가 있다면 상관없다. 그렇기 때문에 파일 이름은 `styles.xml`, `styles_home.xml`, `styles_item_details.xml`, `styles_forms.xml` 등과 같이 정할 수 있다. 빌드 시스템에서 의미를 갖는 리소스 디렉토리와는 다르게 `res/values` 안의 파일명은 임의로 설정 가능하다.
 
-**`colors.xml` is a color palette.** There should be nothing else in your `colors.xml` than just a mapping from a color name to an RGBA value. Do not use it to define RGBA values for different types of buttons.
+**`colors.xml`는 색 팔렛트이다.** `colors.xml`에는 색 이름과 RGBA 값을 매핑해놓는 일 외에 더 해야할 일은 없다. 각각 다른 버튼 타입들에 RGBA 값들을 정의하지 않도록 하자.
 
-*Don't do this:*
+*이렇게 해서는 안된다:*
 
 ```xml
 <resources>
@@ -329,9 +329,9 @@ You probably will need to do the same for buttons, but don't stop there yet. Go 
     <color name="comment_shadow">#323232</color>
 ```
 
-You can easily start repeating RGBA values in this format, and that makes it complicated to change a basic color if needed. Also, those definitions are related to some context, like "button" or "comment", and should live in a button style, not in `colors.xml`.
+이러한 형식으로 RGBA 값들을 반복하기 쉬운데, 이는 기본 색깔을 필요에 따라 변경하기 복잡하게 만든다. 또한 이러한 방식의 정의는 "button" 혹은 "comment" 처럼 특정 문맥에 관계되어있어 `colors.xml`이 아닌 스타일에 더 적합하다.
 
-Instead, do this:
+대신, 이렇게 하자:
 
 ```xml
 <resources>
@@ -352,9 +352,9 @@ Instead, do this:
 </resources>
 ```
 
-Ask for this palette from the designer of the application. The names do not need to be color names as "green", "blue", etc. Names such as "brand_primary", "brand_secondary", "brand_negative" are totally acceptable as well. Formatting colors as such will make it easy to change or refactor colors, and also will make it explicit how many different colors are being used. Normally for a aesthetic UI, it is important to reduce the variety of colors being used.
+애플리케이션의 디자이너에게 이 팔렛트를 요청해보자. 이름이 꼭 "green", "blue" 처럼 색의 이름일 필요는 없다. "brand_primary", "brand_secondary", "brand_negative" 같은 이름들이 더욱 받아들이기 쉽다. 이렇게 색의 형식을 지정하게 되면 색 값들을 리팩토링하기 쉬워지고, 얼마나 많은 색들이 사용되고 있는지 명시적으로 알 수 있다. 보통 심미감을 중요시하는 앱에서는, 사용되는 색의 종류를 줄이는 것이 중요하다.
 
-**Treat dimens.xml like colors.xml.** You should also define a "palette" of typical spacing and font sizes, for basically the same purposes as for colors. A good example of a dimens file:
+**dimens.xml을 colors.xml처럼 다루자.** 기본적으로 색과 같은 목적을 위해 일반적인 여백과 폰트 크기 등의 "팔렛트"를 정의하자. 다음은 dimens.xml 파일의 좋은 예시이다:
 
 ```xml
 <resources>
@@ -380,9 +380,9 @@ Ask for this palette from the designer of the application. The names do not need
 </resources>
 ```
 
-You should use the `spacing_****` dimensions for layouting, in margins and paddings, instead of hard-coded values, much like strings are normally treated. This will give a consistent look-and-feel, while making it easier to organize and change styles and layouts.
+문자열들이 일반적으로 다루어지듯이, 레이아웃, 바깥쪽/안쪽 여백에 하드코딩된 값들 대신 `spacing_****`을 사용하자. 이는 스타일과 레이아웃을 체계화하고 변경하는 것을 쉽게 해줌과 동시에 일관된 룩앤필(Look-and-feel)을 제공한다.
 
-**Avoid a deep hierarchy of views.** Sometimes you might be tempted to just add yet another LinearLayout, to be able to accomplish an arrangement of views. This kind of situation may occur:
+**깊은 View 계층을 피하자.** 가끔 View를 편성하기 위해 LinearLayout을 하나 더 추가하려할 것이다. 이 상황은 이러한 문제를 일으킨다:
 
 ```xml
 <LinearLayout
@@ -417,13 +417,13 @@ You should use the `spacing_****` dimensions for layouting, in margins and paddi
 </LinearLayout>
 ```
 
-Even if you don't witness this explicitly in a layout file, it might end up happening if you are inflating (in Java) views into other views.
+레이아웃 파일에서 명시적으로 이런 형태를 보지 못했다 하더라도, 결국 다른 View에 또 다른 View들을 채울 때(Java에서) 이렇게 끝나게 될 것이다.
 
-A couple of problems may occur. You might experience performance problems, because there are is a complex UI tree that the processor needs to handle. Another more serious issue is a possibility of [StackOverflowError](http://stackoverflow.com/questions/2762924/java-lang-stackoverflow-error-suspected-too-many-views).
+두 가지 문제가 발생한다. 프로세서가 다루어야 할 UI 트리가 복잡해지면서 퍼포먼스 문제를 경험하게 될 것이다. 또 하나의 심각한 문제는 [StackOverflowError](http://stackoverflow.com/questions/2762924/java-lang-stackoverflow-error-suspected-too-many-views)의 가능성이다.
 
-Therefore, try to keep your views hierarchy as flat as possible: learn how to use [RelativeLayout](https://developer.android.com/guide/topics/ui/layout/relative.html), how to [optimize your layouts](http://developer.android.com/training/improving-layouts/optimizing-layout.html) and to use the [`<merge>` tag](http://stackoverflow.com/questions/8834898/what-is-the-purpose-of-androids-merge-tag-in-xml-layouts).
+그러므로, 최대한 View 계층을 수평하게 유지하자: [RelativeLayout](https://developer.android.com/guide/topics/ui/layout/relative.html)를 사용하는 방법, [optimize your layouts](http://developer.android.com/training/improving-layouts/optimizing-layout.html) 방법과 [`<merge>` tag](http://stackoverflow.com/questions/8834898/what-is-the-purpose-of-androids-merge-tag-in-xml-layouts)를 사용하는 방법을 확인하자.
 
-**Beware of problems related to WebViews.** When you must display a web page, for instance for a news article, avoid doing client-side processing to clean the HTML, rather ask for a "*pure*" HTML from the backend programmers. [WebViews can also leak memory](http://stackoverflow.com/questions/3130654/memory-leak-in-webview) when they keep a reference to their Activity, instead of being bound to the ApplicationContext. Avoid using a WebView for simple texts or buttons, prefer TextViews or Buttons.
+**WebView와 관련된 문제들에 유의하자.** 뉴스 기사와 같은 웹페이지를 보여주어야 할 때, 백엔드 프로그래머들에게 "*순수한*" HTML을 요청하지 않고 HTML을 정리하기 위해 클라이언트단에서 프로세싱하는 것을 피하자. ApplicationContext가 아닌 Activity로의 참조를 유지할 때, [WebViews can also leak memory](http://stackoverflow.com/questions/3130654/memory-leak-in-webview). 간단한 텍스트와 버튼을 사용할 때에는 WebView를 피하고 TextView와 Button을 사용하도록 한다.
 
 
 ### Test frameworks

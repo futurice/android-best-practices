@@ -84,19 +84,19 @@ new-structure
 └─ settings.gradle
 ```
 
-The main difference is that the new structure explicitly separates 'source sets' (`main`, `androidTest`), a concept from Gradle. You could, for instance, add source sets 'paid' and 'free' into `src` which will have source code for the paid and free flavours of your app.
+주된 차이점은 Gradle에서 온 개념인데, 새로운 구조가 'source sets' (`main`, `androidTest`)를 명시적으로 분리시켜둔다는 것이다. 예를 들어 `src`에 paid와 free라는 각기 다른 Flavor에 해당하는 소스코드를 갖는 'paid'라는 소스 셋과 'free'라는 소스 셋을 추가할 수 있다.
 
-Having a top-level `app` is useful to distinguish your app from other library projects (e.g., `library-foobar`) that will be referenced in your app. The `settings.gradle` then keeps references to these library projects, which `app/build.gradle` can reference to.
+최상위 레벨 `app`을 갖는 것은 앱과 앱에서 참조된 다른 라이브러리 프로젝트들(e.g., `library-foobar`)을 구별하는 데에 유용하다. `settings.gradle`은 `app/build.gradle`에서 참조할 수 있는 이러한 라이브러리 프로젝트들을 보관한다.
 
-### Gradle configuration
+### Gradle 설정
 
-**General structure.** Follow [Google's guide on Gradle for Android](http://tools.android.com/tech-docs/new-build-system/user-guide)
+**일반적인 구조.** [Google's guide on Gradle for Android](http://tools.android.com/tech-docs/new-build-system/user-guide)를 확인하자.
 
-**Small tasks.** Instead of (shell, Python, Perl, etc) scripts, you can make tasks in Gradle. Just follow [Gradle's documentation](http://www.gradle.org/docs/current/userguide/userguide_single.html#N10CBF) for more details.
+**작은 Task들.** 스크립트들(shell, Python, Perl, etc) 대신, Gradle의 Task들을 만들 수 있다. [Gradle's documentation](http://www.gradle.org/docs/current/userguide/userguide_single.html#N10CBF)에서 더 자세한 내용을 확인하자.
 
-**Passwords.** In your app's `build.gradle` you will need to define the `signingConfigs` for the release build. Here is what you should avoid:
+**비밀번호** 앱의 `build.gradle`에 릴리즈 빌드를 위한 `signingConfigs` 정의가 필요할 것이다. 다음은 피해야 할 것이다.
 
-_Don't do this_. This would appear in the version control system.
+_Dont' do this_. 이는 버전 관리 시스템에서 나타날 것이다.
 
 ```groovy
 signingConfigs {
@@ -109,14 +109,14 @@ signingConfigs {
 }
 ```
 
-Instead, make a `gradle.properties` file which should _not_ be added to the version control system:
+대신, `gradle.properties` 파일을 만들자. 이는 버전 관리 시스템에 추가되어선 _안된다_:
 
 ```
 KEYSTORE_PASSWORD=password123
 KEY_PASSWORD=password789
 ```
 
-That file is automatically imported by gradle, so you can use it in `build.gradle` as such:
+위 파일은 gradle에 자동으로 임포트되어, `build.gradle`에 이렇게 사용할 수 있다:
 
 ```groovy
 signingConfigs {
@@ -134,7 +134,7 @@ signingConfigs {
 }
 ```
 
-**Prefer Maven dependency resolution instead of importing jar files.** If you explicitly include jar files in your project, they will be of some specific frozen version, such as `2.1.1`. Downloading jars and handling updates is cumbersome, this is a problem that Maven solves properly, and is also encouraged in Android Gradle builds. You can specify a range of versions, such as `2.1.+` and Maven will handle the automatic update to the most recent version matching that pattern. Example:
+**jar 파일 임포트 대신 Maven을 선호하자.** 프로젝트에 jar 파일을 명시적으로 포함시킬 경우, 이들은 `2.1.1`처럼 특정하게 고정된 버전이 된다. jar를 다운로드하고, 업데이트하는 것은 귀찮은 일이다. 그러나 Maven은 이 문제를 적절하게 해결해줄 것이고, 또한 이는 Android Gradle 빌드에서 장려되는 방식이다. `2.1.+` 버전의 범위를 설정할 수 있고, Maven은 이러한 패턴에 매칭되는 가장 최신 버전으로 업데이트해줄 것이다. 예를 들자면 이렇다:
 
 ```groovy
 dependencies {
@@ -506,3 +506,10 @@ Antti Lammi, Joni Karppinen, Peter Tackage, Timo Tuominen, Vera Izrailit, Vihtor
 
 [Futurice Oy](www.futurice.com)
 Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+Translation
+===========
+
+Translated to Korean (`ko`) by **[Minsoo Park](http://www.github.com/minsoopark)**.
+
+Original content by [Futurice Oy](http://www.futurice.com).

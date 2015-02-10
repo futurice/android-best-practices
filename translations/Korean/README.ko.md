@@ -94,9 +94,9 @@ new-structure
 
 **작은 Task들.** 스크립트들(shell, Python, Perl, etc) 대신, Gradle의 Task들을 만들 수 있다. [Gradle's documentation](http://www.gradle.org/docs/current/userguide/userguide_single.html#N10CBF)에서 더 자세한 내용을 확인하자.
 
-**비밀번호** 앱의 `build.gradle`에 릴리즈 빌드를 위한 `signingConfigs` 정의가 필요할 것이다. 다음은 피해야 할 것이다.
+**비밀번호** 앱의 `build.gradle`에 릴리즈 빌드를 위한 `signingConfigs` 정의가 필요할 것이다. 다음은 피하자.
 
-_Dont' do this_. 이는 버전 관리 시스템에서 나타날 것이다.
+_이렇게 해서는 안된다_. 이는 버전 관리 시스템에서 나타날 것이다.
 
 ```groovy
 signingConfigs {
@@ -166,7 +166,7 @@ dependencies {
 
 **RxJava** 비동기 이벤트를 처리하는 Reactive Programming을 위한 라이브러리이다. 이는 매우 강력하고 유망한 패러다임으로, 너무 다른 점이 많아 혼란스러울 수 있다. 모든 애플리케이션에서 아키텍트들에게 이 라이브러리를 쓰기 전 주의할 것을 추천한다. RxJava를 이용한 몇 가지 프로젝트가 있는데, 필요하다면 이 사람들에게서 도움을 구하자: Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, Juha Ristolainen. 작성된 블로그 포스트도 있다: [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
 
-Rx에 대한 경험이 없다면, API 응답 처리에만 적용해보자. 다른 방법으로는 클릭 이벤트나 검색 타이핑 이벤트와 같은 간단한 UI 이벤트 처리에 적용해볼 수도 있다. Rx 기술에 자신감이 생겨 모든 설계에 적용하고 싶다면, 모든 까다로운 부분들에 Javadocs를 작성하자. RxJava에 익숙하지 않은 다른 프로그래머가 프로젝트를 유지, 보수하는 데에 어려움이 있을 수 있다는 것을 명심하자. 그들의 Rx와 코드 이해에 대해 최선을 다해 도움을 주자.
+Rx에 대한 경험이 없다면, API 응답 처리에만 적용해보자. 다른 방법으로는 클릭 이벤트나 검색 타이핑 이벤트와 같은 간단한 UI 이벤트 처리에 적용해볼 수도 있다. Rx 기술에 자신감이 생겨 모든 설계에 적용하고 싶다면, 모든 까다로운 부분들에 Javadocs를 작성하자. RxJava에 익숙하지 않은 다른 프로그래머가 프로젝트를 유지, 보수하는 데에 어려움이 있을 수 있다는 것을 명심해야 한다. 그들의 Rx와 코드 이해에 대해 최선을 다해 도움을 주자.
 
 **[Retrolambda](https://github.com/evant/gradle-retrolambda)**는 Android 혹은 다른 pre-JDK8 플랫폼에서 Lambda 표현 문법을 사용할 수 있도록 하는 Java 라이브러리이다. 이 라이브러리는 특히 RxJava와 같이 기능 위주 스타일의 코드를 더욱 타이트하고 읽기 좋게 만들어준다. 사용하려면, JDK8을 설치하고 이를 Android Studio 프로젝트 대화상자에서 SDK 경로로 설정한 후, `JAVA8_HOME`과 `JAVA7_HOME` 환경변수를 설정한 뒤 프로젝트 root의 build.gradle을 이렇게 설정한다:
 
@@ -176,7 +176,7 @@ dependencies {
 }
 ```
 
-and in each module's build.gradle, add
+그리고 각각 모듈들의 build.gradle에 아래 내용을 추가하자.
 
 ```groovy
 apply plugin: 'retrolambda'

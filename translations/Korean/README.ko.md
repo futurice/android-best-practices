@@ -1,6 +1,6 @@
 # Android 개발 모범 사례
 
-다음은 [Futurice](http://www.futurice.com)의 Android 개발자들로부터 학습한 내용들이다. 이 가이드를 따라가면서 바퀴를 재개발하는 것(Reinventing the wheel)을 피하도록 하자. iOS나 Windows Phone 개발에도 관심이 있다면, [**iOS Good Practices**](https://github.com/futurice/ios-good-practices) 혹은 [**Windows App Development Best Practices**](https://github.com/futurice/windows-app-development-best-practices) 문서들도 확인해보자.
+다음은 [Futurice](http://www.futurice.com)의 Android 개발자들로부터 학습한 내용들이다. 이 가이드를 따라가면서 이미 했던 작업을 되풀이(Reinventing the wheel)하지 않도록 하자. iOS나 Windows Phone 개발에도 관심이 있다면, [**iOS Good Practices**](https://github.com/futurice/ios-good-practices) 혹은 [**Windows App Development Best Practices**](https://github.com/futurice/windows-app-development-best-practices) 문서들도 확인해보자.
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-android--best--practices-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1091)
 
@@ -96,7 +96,7 @@ new-structure
 
 **비밀번호** 앱의 `build.gradle`에 릴리즈 빌드를 위한 `signingConfigs` 정의가 필요할 것이다. 다음은 피하자.
 
-_이렇게 해서는 안된다_. 이는 버전 관리 시스템에서 나타날 것이다.
+_아래 방법처럼 작업하지 않도록 한다_. 이는 버전 관리 시스템에서 나타날 것이다.
 
 ```groovy
 signingConfigs {
@@ -315,7 +315,7 @@ TextView에 적용해보면:
 
 **`colors.xml`는 색 팔렛트이다.** `colors.xml`에는 색 이름과 RGBA 값을 매핑해놓는 일 외에 더 해야할 일은 없다. 각각 다른 버튼 타입들에 RGBA 값들을 정의하지 않도록 하자.
 
-*이렇게 해서는 안된다:*
+*아래의 방식은 피하자:*
 
 ```xml
 <resources>

@@ -1,51 +1,51 @@
-# Best practices in Android development
+# Android 개발 모범 사례
 
-Lessons learned from Android developers in [Futurice](http://www.futurice.com). Avoid reinventing the wheel by following these guidelines. If you are interested in iOS or Windows Phone development, be sure to check also our [**iOS Good Practices**](https://github.com/futurice/ios-good-practices) and [**Windows App Development Best Practices**](https://github.com/futurice/windows-app-development-best-practices) documents.
+다음은 [Futurice](http://www.futurice.com)의 Android 개발자들로부터 학습한 내용들이다. 이 가이드를 따라가면서 바퀴를 재개발하는 것(Reinventing the wheel)을 피하도록 하자. iOS나 Windows Phone 개발에도 관심이 있다면, [**iOS Good Practices**](https://github.com/futurice/ios-good-practices) 혹은 [**Windows App Development Best Practices**](https://github.com/futurice/windows-app-development-best-practices) 문서들도 확인해보자.
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-android--best--practices-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1091)
 
-## Summary
+## 요약
 
-#### Use Gradle and its recommended project structure
-#### Put passwords and sensitive data in gradle.properties
-#### Don't write your own HTTP client, use Volley or OkHttp libraries
-#### Use the Jackson library to parse JSON data
-#### Avoid Guava and use only a few libraries due to the *65k method limit*
-#### Use Fragments to represent a UI screen
-#### Use Activities just to manage Fragments
-#### Layout XMLs are code, organize them well
-#### Use styles to avoid duplicate attributes in layout XMLs
-#### Use multiple style files to avoid a single huge one
-#### Keep your colors.xml short and DRY, just define the palette
-#### Also keep dimens.xml DRY, define generic constants
-#### Do not make a deep hierarchy of ViewGroups
-#### Avoid client-side processing for WebViews, and beware of leaks
-#### Use Robolectric for unit tests, Robotium for connected (UI) tests
-#### Use Genymotion as your emulator
-#### Always use ProGuard or DexGuard
+#### Gradle을 사용하자. 이는 권장되는 프로젝트 구조이다.
+#### gradle.properties에 비밀번호나 민감한 데이터들을 넣어두자.
+#### HTTP 클라이언트를 직접 작성하지 말고, Volley나 OkHttp 라이브러리들을 사용하자.
+#### JSON 데이터를 파싱하는 데에는 Jackson 라이브러리를 사용하자.
+#### 65,000 메소드 수 제한을 방지하기 위해 Guava는 피하고 몇 가지의 라이브러리들만을 사용하자.
+#### UI 화면을 표현하는 데에 Fragment들을 사용하자.
+#### Fragment들을 관리하는 것은 Activity들이 맡도록 하자.
+#### 레이아웃 XML들 또한 코드이다. 그 것들을 잘 관리하자.
+#### 레이아웃 XML에서 중복된 속성들을 피하기 위해 style을 사용하자.
+#### 하나의 style이 방대해지는 것을 피하기 위해 여러가지 style 파일들을 사용하자.
+#### colors.xml을 짧게, 중복 없이 유지하고, 팔렛트처럼 정의해두자.
+#### dimens.xml 또한 중복 없이, 일반 상수로 정의하자.
+#### ViewGroup에 계층을 깊게 형성하지 않도록 하자.
+#### WebView에 클라이언트 측 프로세싱을 피하고, 여러 누수들에 유의하자.
+#### 유닛 테스트에는 Robolectric를 사용하고, UI 테스트에는 Robotium을 사용하자.
+#### 에뮬레이터로는 Genymotion를 사용하자.
+#### 항상 ProGuard 혹은 DexGuard를 사용하자.
 
 
 ----------
 
 ### Android SDK
 
-Place your [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) somewhere in your home directory or some other application-independent location. Some IDEs include the SDK when installed, and may place it under the same directory as the IDE. This can be bad when you need to upgrade (or reinstall) the IDE, or when changing IDEs. Also avoid putting the SDK in another system-level directory that might need sudo permissions, if your IDE is running under your user and not under root.
+[Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools)를 홈 디렉토리나 다른 애플리케이션에 독립적인 위치에 두자. 몇몇 IDE들은 설치시에 SDK를 해당 IDE와 같은 경로에 포함시키는데, 이는 IDE를 업그레이드(혹은 재설치)하거나 IDE가 변경될 때 불편하다. 또한 IDE가 root 아래에 있지 않고 user 아래에서 동작할 경우, SDK를 sudo 권한을 요구하는 시스템 레벨의 디렉토리에 두지 않도록 하자.
 
-### Build system
+### 빌드 시스템
 
-Your default option should be [Gradle](http://tools.android.com/tech-docs/new-build-system). Ant is much more limited and also more verbose. With Gradle, it's simple to:
+기본 옵션은 [Gradle](http://tools.android.com/tech-docs/new-build-system)이다. Ant는 상당히 제한적이고 내용이 장황하다. Gradle을 사용하면, 다음 항목들이 간단해진다.
 
-- Build different flavours or variants of your app
-- Make simple script-like tasks
-- Manage and download dependencies
-- Customize keystores
-- And more
+- 앱의 각기 다른 Flavor들과 Varient들을 빌드할 수 있다.
+- Task들을 간단한 스크립트처럼 만들 수 있다.
+- 여러 Dependency들을 관리하고 다운로드할 수 있다.
+- Keystore들을 커스터마이즈할 수 있다.
+- 기타 등등
 
-Android's Gradle plugin is also being actively developed by Google as the new standard build system.
+Android의 Gradle 플러그인은 새로운 표준 빌드 시스템으로서 구글에 의해 활발하게 개발되고 있다.
 
-### Project structure
+### 프로젝트 구조
 
-There are two popular options: the old Ant & Eclipse ADT project structure, and the new Gradle & Android Studio project structure. You should choose the new project structure. If your project uses the old structure, consider it legacy and start porting it to the new structure.
+두 가지 많이 쓰이는 옵션들이 있다: 낡은 Ant & Eclipse ADT 프로젝트 구조, 새로운 Gradle & Android Studio 프로젝트 구조가 있는데, 새로운 프로젝트 구조를 선택하자. 만약 낡은 구조를 사용하고 있다면, 레거시로 판단하고 새로운 구조로 포팅하는 작업을 시작하자.
 
 Old structure:
 
@@ -84,19 +84,19 @@ new-structure
 └─ settings.gradle
 ```
 
-The main difference is that the new structure explicitly separates 'source sets' (`main`, `androidTest`), a concept from Gradle. You could, for instance, add source sets 'paid' and 'free' into `src` which will have source code for the paid and free flavours of your app.
+주된 차이점은 Gradle에서 온 개념인데, 새로운 구조가 'source sets' (`main`, `androidTest`)를 명시적으로 분리시켜둔다는 것이다. 예를 들어 `src`에 paid와 free라는 각기 다른 Flavor에 해당하는 소스코드를 갖는 'paid'라는 소스 셋과 'free'라는 소스 셋을 추가할 수 있다.
 
-Having a top-level `app` is useful to distinguish your app from other library projects (e.g., `library-foobar`) that will be referenced in your app. The `settings.gradle` then keeps references to these library projects, which `app/build.gradle` can reference to.
+최상위 레벨 `app`을 갖는 것은 앱과 앱에서 참조된 다른 라이브러리 프로젝트들(e.g., `library-foobar`)을 구별하는 데에 유용하다. `settings.gradle`은 `app/build.gradle`에서 참조할 수 있는 이러한 라이브러리 프로젝트들을 보관한다.
 
-### Gradle configuration
+### Gradle 설정
 
-**General structure.** Follow [Google's guide on Gradle for Android](http://tools.android.com/tech-docs/new-build-system/user-guide)
+**일반적인 구조.** [Google's guide on Gradle for Android](http://tools.android.com/tech-docs/new-build-system/user-guide)를 확인하자.
 
-**Small tasks.** Instead of (shell, Python, Perl, etc) scripts, you can make tasks in Gradle. Just follow [Gradle's documentation](http://www.gradle.org/docs/current/userguide/userguide_single.html#N10CBF) for more details.
+**작은 Task들.** 스크립트들(shell, Python, Perl, etc) 대신, Gradle의 Task들을 만들 수 있다. [Gradle's documentation](http://www.gradle.org/docs/current/userguide/userguide_single.html#N10CBF)에서 더 자세한 내용을 확인하자.
 
-**Passwords.** In your app's `build.gradle` you will need to define the `signingConfigs` for the release build. Here is what you should avoid:
+**비밀번호** 앱의 `build.gradle`에 릴리즈 빌드를 위한 `signingConfigs` 정의가 필요할 것이다. 다음은 피하자.
 
-_Don't do this_. This would appear in the version control system.
+_이렇게 해서는 안된다_. 이는 버전 관리 시스템에서 나타날 것이다.
 
 ```groovy
 signingConfigs {
@@ -109,14 +109,14 @@ signingConfigs {
 }
 ```
 
-Instead, make a `gradle.properties` file which should _not_ be added to the version control system:
+대신, `gradle.properties` 파일을 만들자. 이는 버전 관리 시스템에 추가되어선 _안된다_:
 
 ```
 KEYSTORE_PASSWORD=password123
 KEY_PASSWORD=password789
 ```
 
-That file is automatically imported by gradle, so you can use it in `build.gradle` as such:
+위 파일은 gradle에 자동으로 임포트되어, `build.gradle`에 이렇게 사용할 수 있다:
 
 ```groovy
 signingConfigs {
@@ -134,7 +134,7 @@ signingConfigs {
 }
 ```
 
-**Prefer Maven dependency resolution instead of importing jar files.** If you explicitly include jar files in your project, they will be of some specific frozen version, such as `2.1.1`. Downloading jars and handling updates is cumbersome, this is a problem that Maven solves properly, and is also encouraged in Android Gradle builds. You can specify a range of versions, such as `2.1.+` and Maven will handle the automatic update to the most recent version matching that pattern. Example:
+**jar 파일 임포트 대신 Maven을 선호하자.** 프로젝트에 jar 파일을 명시적으로 포함시킬 경우, 이들은 `2.1.1`처럼 특정하게 고정된 버전이 된다. jar를 다운로드하고, 업데이트하는 것은 귀찮은 일이다. 그러나 Maven은 이 문제를 적절하게 해결해줄 것이고, 또한 이는 Android Gradle 빌드에서 장려되는 방식이다. `2.1.+` 버전의 범위를 설정할 수 있고, Maven은 이러한 패턴에 매칭되는 가장 최신 버전으로 업데이트해줄 것이다. 예를 들자면 이렇다:
 
 ```groovy
 dependencies {
@@ -148,27 +148,27 @@ dependencies {
 }
 ```
 
-### IDEs and text editors
+### IDE와 텍스트 에디터
 
-**Use whatever editor, but it must play nicely with the project structure.** Editors are a personal choice, and it's your responsibility to get your editor functioning according to the project structure and build system.
+**프로젝트 구조를 다루는 데에 용이한 에디터라면 무엇이든 사용해도 좋다.** 에디터는 개인적인 선택이고, 그 에디터가 프로젝트 구조와 프로젝트 빌드 시스템에 따라 기능하도록 하는 것은 개발자의 몫이다.
 
-The most recommended IDE at the moment is [Android Studio](https://developer.android.com/sdk/installing/studio.html), because it is developed by Google, is closest to Gradle, uses the new project structure by default, is finally in stable stage, and is tailored for Android development.
+현재 가장 추천하는 IDE는 [Android Studio](https://developer.android.com/sdk/installing/studio.html)이다. Google이 개발했고, Gradle에 가장 밀접하며, 기본적으로 새로운 프로젝트 구조를 사용하는데다가 안정화 단계에 들어가 Android 개발에 잘 맞추어져 있기 때문이다.
 
-You can use [Eclipse ADT](https://developer.android.com/sdk/installing/index.html?pkg=adt) if you wish, but you need to configure it, since it expects the old project structure and Ant for building. You can even use a plain text editor like Vim, Sublime Text, or Emacs. In that case, you will need to use Gradle and `adb` on the command line. If Eclipse's integration with Gradle is not working for you, your options are using the command line just to build, or migrating to Android Studio. This is the best option due to ADT plugin was deprecated recently.
+원한다면 [Eclipse ADT](https://developer.android.com/sdk/installing/index.html?pkg=adt)를 사용해도 좋지만, 빌드하는 데에 낡은 프로젝트 구조와 Ant를 사용하기 때문에 이에 대한 설정이 필요하다. Vim, Sublime Text, Emacs같은 플레인 텍스트 에디터를 사용할 수도 있다. 이 경우에는 Gradle과 `adb`를 커맨드라인에서 사용해야 한다. Eclipse의 Gradle 사용이 제대로 작동하지 않는다면, 커맨드라인으로 빌드하거나 Android Studio로 옮기자. ADT 플러그인이 deprecate되었기 때문에, 이 것이 가장 좋은 옵션일 것이다.
 
-Whatever you use, just make sure Gradle and the new project structure remain as the official way of building the application, and avoid adding your editor-specific configuration files to the version control system. For instance, avoid adding an Ant `build.xml` file. Especially don't forget to keep `build.gradle` up-to-date and functioning if you are changing build configurations in Ant. Also, be kind to other developers, don't force them to change their tool of preference.
+무엇을 사용하든, 애플리케이션 빌드의 공식적인 방법인 Gradle과 새로운 프로젝트 구조를 따르고, 특정 에디터를 따르는 설정 파일을 버전 관리 시스템에 추가하는 것을 피하는 것만 명심하자. 예를 들면, Ant의 `build.xml` 파일들은 추가하지 않도록 한다. 특히 Ant의 빌드 설정을 변경하고 있다면 `build.gradle`을 최신의 상태로 기능하도록 하는 것을 잊지말자. 또한 다른 개발자들에게 친절해지자. 그들의 설정을 바꾸도록 강요하지 않아야한다.
 
-### Libraries
+### 라이브러리
 
-**[Jackson](http://wiki.fasterxml.com/JacksonHome)** is a Java library for converting Objects into JSON and vice-versa. [Gson](https://code.google.com/p/google-gson/) is a popular choice for solving this problem, however we find Jackson to be more performant since it supports alternative ways of processing JSON: streaming, in-memory tree model, and traditional JSON-POJO data binding. Keep in mind, though, that Jackson is a larger library than GSON, so depending on your case, you might prefer GSON to avoid 65k methods limitation. Other alternatives: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
+**[Jackson](http://wiki.fasterxml.com/JacksonHome)**은 Object를 JSON으로, 혹은 그 반대로 변환해주는 Java 라이브러리이다. [Gson](https://code.google.com/p/google-gson/)이 이 문제를 해결하는 데에 많이 쓰이긴 하지만, 스트리밍, 인메모리 트리 모델, 전통적인 JSON-POJO 데이터 바인딩과 같은 여러 대안들을 지원하는 Jackson이 더 고성능일 것이다. 하지만 명심하자. Jackson이 GSON보다 더 큰 라이브러리이기 때문에, 65,000 메소드 수 제한에 부딪힌 경우라면 GSON을 사용하는 것이 나을 수도 있다. 다른 대안으로는 [Json-smart](https://code.google.com/p/json-smart/)과 [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)이 있다.
 
-**Networking, caching, and images.** There are a couple of battle-proven solutions for performing requests to backend servers, which you should use perform considering implementing your own client. Use [Volley](https://android.googlesource.com/platform/frameworks/volley) or [Retrofit](http://square.github.io/retrofit/). Volley also provides helpers to load and cache images. If you choose Retrofit, consider [Picasso](http://square.github.io/picasso/) for loading and caching images, and [OkHttp](http://square.github.io/okhttp/) for efficient HTTP requests. All three Retrofit, Picasso and OkHttp are created by the same company, so they complement each other nicely. [OkHttp can also be used in connection with Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
+**네트워킹, 캐싱, 이미지.** 백엔드 서버로의 요청 처리에 대해 클라이언트를 구현하고 처리하는 두 가지 검증된 해결책이 있다. [Volley](https://android.googlesource.com/platform/frameworks/volley) 혹은 [Retrofit](http://square.github.io/retrofit/)을 사용하자. Volley는 이미지를 불러오고 캐싱하는 도우미를 제공한다. Retrofit을 선택한다면, 이미지 로딩과 캐싱에는 [Picasso](http://square.github.io/picasso/)를, 효율적인 HTTP 요청에는 [OkHttp](http://square.github.io/okhttp/)를 고려해보자. 이 모든 세가지의 라이브러리들은 같은 회사에서 개발되어 서로 상호보완이 매우 용이하다. [OkHttp can also be used in connection with Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
 
-**RxJava** is a library for Reactive Programming, in other words, handling asynchronous events. It is a powerful and promising paradigm, which can also be confusing since it's so different. We recommend to take some caution before using this library to architect the entire application. There are some projects done by us using RxJava, if you need help talk to one of these people: Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, Juha Ristolainen. We have written some blog posts on it: [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
+**RxJava** 비동기 이벤트를 처리하는 Reactive Programming을 위한 라이브러리이다. 이는 매우 강력하고 유망한 패러다임으로, 너무 다른 점이 많아 혼란스러울 수 있다. 모든 애플리케이션에서 아키텍트들에게 이 라이브러리를 쓰기 전 주의할 것을 추천한다. RxJava를 이용한 몇 가지 프로젝트가 있는데, 필요하다면 이 사람들에게서 도움을 구하자: Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, Juha Ristolainen. 작성된 블로그 포스트도 있다: [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
 
-If you have no previous experience with Rx, start by applying it only for responses from the API. Alternatively, start by applying it for simple UI event handling, like click events or typing events on a search field. If you are confident in your Rx skills and want to apply it to the whole architecture, then write Javadocs on all the tricky parts. Keep in mind that another programmer unfamiliar to RxJava might have a very hard time maintaining the project. Do your best to help them understand your code and also Rx.
+Rx에 대한 경험이 없다면, API 응답 처리에만 적용해보자. 다른 방법으로는 클릭 이벤트나 검색 타이핑 이벤트와 같은 간단한 UI 이벤트 처리에 적용해볼 수도 있다. Rx 기술에 자신감이 생겨 모든 설계에 적용하고 싶다면, 모든 까다로운 부분들에 Javadocs를 작성하자. RxJava에 익숙하지 않은 다른 프로그래머가 프로젝트를 유지, 보수하는 데에 어려움이 있을 수 있다는 것을 명심해야 한다. 그들의 Rx와 코드 이해에 대해 최선을 다해 도움을 주자.
 
-**[Retrolambda](https://github.com/evant/gradle-retrolambda)** is a Java library for using Lambda expression syntax in Android and other pre-JDK8 platforms. It helps keep your code tight and readable especially if you use a functional style with for example with RxJava. To use it, install JDK8, set that as your SDK Location in the Android Studio Project Structure dialog, and set `JAVA8_HOME` and `JAVA7_HOME` environment variables, then in the project root build.gradle:
+**[Retrolambda](https://github.com/evant/gradle-retrolambda)**는 Android 혹은 다른 pre-JDK8 플랫폼에서 Lambda 표현 문법을 사용할 수 있도록 하는 Java 라이브러리이다. 이 라이브러리는 특히 RxJava와 같이 기능 위주 스타일의 코드를 더욱 타이트하고 읽기 좋게 만들어준다. 사용하려면, JDK8을 설치하고 이를 Android Studio 프로젝트 대화상자에서 SDK 경로로 설정한 후, `JAVA8_HOME`과 `JAVA7_HOME` 환경변수를 설정한 뒤 프로젝트 root의 build.gradle을 이렇게 설정한다:
 
 ```groovy
 dependencies {
@@ -176,7 +176,7 @@ dependencies {
 }
 ```
 
-and in each module's build.gradle, add
+그리고 각각 모듈들의 build.gradle에 아래 내용을 추가하자.
 
 ```groovy
 apply plugin: 'retrolambda'
@@ -194,40 +194,40 @@ retrolambda {
 }
 ```
 
-Android Studio offers code assist support for Java8 lambdas. If you are new to lambdas, just use the following to get started:
+Android Studio는 Java8 lambda의 코드 지원을 제공한다. 만약 lambda가 처음이라면, 다음 항목들을 따라 시작해보자:
 
-- Any interface with just one method is "lambda friendly" and can be folded into the more tight syntax
-- If in doubt about parameters and such, write a normal anon inner class and then let Android Studio fold it into a lambda for you.
+- 하나의 메소드를 갖는 모든 인터페이스들은 "lambda와 밀접"하고, 더욱 타이트한 문법으로 묶일 수 있다.
+- 만약 파라메터들이 의심스럽다면, 일반 익명 내부 클래스를 작성하고 Android Studio가 lambda로 묶어주도록 해보자.
 
-**Beware of the dex method limitation, and avoid using many libraries.** Android apps, when packaged as a dex file, have a hard limitation of 65536 referenced methods [[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/). You will see a fatal error on compilation if you pass the limit. For that reason, use a minimal amount of libraries, and use the [dex-method-counts](https://github.com/mihaip/dex-method-counts) tool to determine which set of libraries can be used in order to stay under the limit. Especially avoid using the Guava library, since it contains over 13k methods.
+**Dex 메소드 제한을 유의하고, 많은 라이브러리 사용을 피하자.** Android 앱들이 dex 파일로 패키징될 때, 65,536개의 참조 메소드 수 제한을 갖는다[[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/). 제한된 메소드 수를 넘어서면 컴파일시 Fatal error를 보게될 것이다. 그렇기 때문에, 최소한의 라이브러리들을 사용하고, [dex-method-counts](https://github.com/mihaip/dex-method-counts) 툴을 사용하여 제한된 수보다 적게 유지하기 위해 어떤 라이브러리들을 사용할지 결정하자. 특히 Guava 라이브러리는 피하자. 이 라이브러리는 13,000개가 넘는 메소드를 가지고 있다.
 
-### Activities and Fragments
+### Activity와 Fragment
 
-[Fragments](http://developer.android.com/guide/components/fragments.html) should be your default option for implementing a UI screen in Android. Fragments are reusable user interfaces that can be composed in your application. We recommend using fragments instead of [activities](http://developer.android.com/guide/components/activities.html) to represent a user interface screen, here are some reasons why:
+[Fragment](http://developer.android.com/guide/components/fragments.html)는 Android의 UI 화면을 구현하는 데에 기본 옵션이 된다. Fragment는 애플리케이션을 구성하는 재사용 가능한 사용자 인터페이스이다. 사용자 인터페이스 화면을 표현할 때 [Activity](http://developer.android.com/guide/components/activities.html) 대신 Fragment를 사용하는 것을 추천하는데, 그 이유는 다음과 같다:
 
-- **Solution for multi-pane layouts.** Fragments were primarily introduced for extending phone applications to tablet screens, so that you can have both panes A and B on a tablet screen, while either A or B occupy an entire phone screen. If your application is implemented in fragments from the beginning, you will make it easier later to adapt your application to different form-factors.
+- **다중 화면(Multi-pane) 레이아웃의 해결책.** Fragment는 주로 폰 애플리케이션을 타블렛 화면으로 확장하는 것으로 소개되는데, A와 B가 폰 화면 전체를 차지할 때 A와 B 화면 모두를 타블렛 화면에 표현할 수 있기 때문이다. 만일 애플리케이션을 시작부터 Fragment로 구현했다면, 나중에 애플리케이션에 다른 폼 요소들을 적용하기에 쉬울 것이다.
 
-- **Screen-to-screen communication.** Android's API does not provide a proper way of sending complex data (e.g., some Java Object) from one activity to another activity. With fragments, however, you can use the instance of an activity as a channel of communication between its child fragments. Even though this is better than Activity-to-Activity communication, you might want to consider an Event Bus architecture, using e.g. [Otto](https://square.github.io/otto/) or [greenrobot EventBus](https://github.com/greenrobot/EventBus), as a cleaner approach. RxJava can also be used for implementing an Event Bus, in case you want to avoid adding yet another library.
+- **화면 간 통신.** Android의 API는 Activity 간에 복잡한 데이터(e.g., Java 객체)를 전송하기에 적절한 방법을 제공하지 않는다. 그러나 Fragment를 이용하면, Activity 인스턴스를 자식 Fragment 간의 통신 채널로 사용할 수 있다. 이 방법이 Activity 간의 통신에 더 나은 방법임에도 불구하고 더 깔끔한 접근을 위해 [Otto](https://square.github.io/otto/)나 [greenrobot EventBus](https://github.com/greenrobot/EventBus) 같은 Event Bus 설계를 사용하길 원할 수 있는데, 또 하나의 라이브러리 추가를 피하고 싶을 경우, RxJava를 Event Bus 구현에 사용할 수 있다.
 
-- **Fragments are generic enough to not be UI-only.** You can have a [fragment without a UI](http://developer.android.com/guide/components/fragments.html#AddingWithoutUI) that works as background workers for the activity. You can take that idea further to create a [fragment to contain the logic for changing fragments](http://stackoverflow.com/questions/12363790/how-many-activities-vs-fragments/12528434#12528434), instead of having that logic in the activity.
+- **Fragment는 UI에만 국한되지 않을 만큼 일반적이다.** [fragment without a UI](http://developer.android.com/guide/components/fragments.html#AddingWithoutUI)를 통해 Activity에 대한 백그라운드 워커를 구현할 수 있다. 이 아이디어를 활용하여 Activity 대신 로직을 갖는 [fragment to contain the logic for changing fragments](http://stackoverflow.com/questions/12363790/how-many-activities-vs-fragments/12528434#12528434)를 만들 수도 있다.
 
-- **Even the ActionBar can be managed from within fragments.** You can choose to have one Fragment without a UI with the sole purpose of managing the ActionBar, or you can choose to have each currently visible Fragment add its own action items to the parent Activity's ActionBar. [Read more here](http://www.grokkingandroid.com/adding-action-items-from-within-fragments/).
+- **ActionBar 또한 Fragment 안에서 관리할 수 있다.** UI 없이 ActionBar를 관리하는 목적만을 가진 Fragment를 만들거나, 부모 Activity의 ActionBar에 자신의 액션 아이템들을 추가하는 가시적인 Fragment를 만들 수 있다. [Read more here](http://www.grokkingandroid.com/adding-action-items-from-within-fragments/).
 
-That being said, we advise not to use [nested fragments](https://developer.android.com/about/versions/android-4.2.html#NestedFragments) extensively, because [matryoshka bugs](http://delyan.me/android-s-matryoshka-problem/) can occur. Use nested fragments only when it makes sense (for instance, fragments in a horizontally-sliding ViewPager inside a screen-like fragment) or if it's a well-informed decision.
+그렇다고는 해도, [nested fragments](https://developer.android.com/about/versions/android-4.2.html#NestedFragments)를 널리 사용하는 것은 권하지 않는데, [matryoshka bugs](http://delyan.me/android-s-matryoshka-problem/)가 발생할 수 있기 때문이다. 중첩된 Fragment는 꼭 타당한 경우(예를 들면, 수평으로 슬라이딩하는 ViewPager 내부의 Fragment들)나 잘 설명할 수 있을 만한 경우에만 사용하자.
 
-On an architectural level, your app should have a top-level activity that contains most of the business-related fragments. You can also have some other supporting activities, as long as their communication with the main activity is simple and can be limited to [`Intent.setData()`](http://developer.android.com/reference/android/content/Intent.html#setData(android.net.Uri)) or [`Intent.setAction()`](http://developer.android.com/reference/android/content/Intent.html#setAction(java.lang.String)) or similar.
+설계 단계에서, 앱은 관련된 작업을 하는 Fragment들을 포함하는 최상위 Activity를 갖는다. 주 Activity와의 통신이 간단하고 [`Intent.setData()`](http://developer.android.com/reference/android/content/Intent.html#setData(android.net.Uri))나 [`Intent.setAction()`](http://developer.android.com/reference/android/content/Intent.html#setAction(java.lang.String))와 비슷한 것들로 제한될 수 있는 한, 다른 지원되는 Activity들도 사용할 수 있다.
 
-### Java packages architecture
+### Java 패키지 설계
 
-Java architectures for Android applications can be roughly approximated in [Model-View-Controller](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller). In Android, [Fragment and Activity are actually controller classes](http://www.informit.com/articles/article.aspx?p=2126865). On the other hand, they are explicity part of the user interface, hence are also views.
+Android 애플리케이션을 위한 Java 설계 간단히 [Model-View-Controller](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) 간략화할 수 있다. Android에서는, [Fragment and Activity are actually controller classes](http://www.informit.com/articles/article.aspx?p=2126865) 라고 설명되는데, 다른 면에서 Fragment와 Activity들은 명시적으로 사용자 인터페이스, 즉 View 이기도 하다.
 
-For this reason, it is hard to classify fragments (or activities) as strictly controllers or views. It's better to let them stay in their own `fragments` package. Activities can stay on the top-level package as long as you follow the advice of the previous section. If you are planning to have more than 2 or 3 activities, then make also an `activities` package.
+그렇기 때문에, Fragment(혹은 Activity)를 정확히 Conteroller나 View 구분할 수 없다. 그래서 그에 해당하는 `fragments` 패키지에 두는 것이 낫다. Activity는 이전 섹션에서의 조언에 따라 최상위 패키지에 둘 수 있다. 2, 3개 이상의 Activity들을 계획하고 있다면, `activities` 패키지를 만들어 두자.
 
-Otherwise, the architecture can look like a typical MVC, with a `models` package containing POJOs to be populated through the JSON parser with API responses, and a `views` package containing your custom Views, notifications, action bar views, widgets, etc. Adapters are a gray matter, living between data and views. However, they typically need to export some View via `getView()`, so you can include the `adapters` subpackage inside `views`.
+다른 경우에는, API 응답에 대한 JSON 파서에 의해 채워진 POJO들을 담는 `models` 패키지, 커스텀 View, Notification, Action bar view, Widget 등을 담는 `views` 패키지를 두어 설계가 일반적인 MVC로 표현될 수 있다. Adapter들은 데이터와 View들 사이에 존재하는 gray matter라고 할 수 있지만, 일반적으로 `getView()`를 통해 View들을 추출하는 데에 필요하기 때문에 `views` 패키지 안에 `adapters`라는 서브패키지로 둘 수 있다.
 
-Some controller classes are application-wide and close to the Android system. These can live in a `managers` package. Miscellaneous data processing classes, such as "DateUtils", stay in the `utils` package. Classes that are responsible for interacting with the backend stay in the `network` package.
+Controller 클래스들은 애플리케이션 전체에, Android 시스템에 가깝게 존재한다. 이들은 `managers` 패키지에 둘 수 있다. "DateUtils"와 같은 다양한 데이터 처리 클래스들은 `utils` 패키지에, 백엔드와 인터랙션하는 역할을 맡는 클래스들은 `network` 패키지에 두자.
 
-All in all, ordered from the closest-to-backend to the closest-to-the-user:
+종합적으로, 백엔드와 가까운 것부터 유저와 가까운 순서대로 정렬해보면 이렇다:
 
 ```
 com.futurice.project
@@ -243,18 +243,18 @@ com.futurice.project
    └─ notifications
 ```
 
-### Resources
+### 리소스
 
-**Naming.** Follow the convention of prefixing the type, as in `type_foo_bar.xml`. Examples: `fragment_contact_details.xml`, `view_primary_button.xml`, `activity_main.xml`.
+**이름 정하기.** `type_foo_bar.xml`과 같이 타입을 접두어로 두는 컨벤션을 따르자. 예시: `fragment_contact_details.xml`, `view_primary_button.xml`, `activity_main.xml`.
 
-**Organizing layout XMLs.** If you're unsure how to format a layout XML, the following convention may help.
+**레이아웃 XML을 체계화하기.** 레이아웃 XML을 어떤 형태로 만들지 확실치 않다면, 다음 컨벤션이 도움이 될 것이다.
 
-- One attribute per line, indented by 4 spaces
-- `android:id` as the first attribute always
-- `android:layout_****` attributes at the top
-- `style` attribute at the bottom
-- Tag closer `/>` on its own line, to facilitate ordering and adding attributes.
-- Rather than hard coding `android:text`, consider using [Designtime attributes](http://tools.android.com/tips/layout-designtime-attributes) available for Android Studio.
+- 한 속성당 한 줄, 들여쓰기는 4칸의 스페이스
+- `android:id`를 항상 첫 속성으로
+- `android:layout_****` 속성들을 윗쪽에
+- `style` 속성은 맨 아래에
+- 태그를 닫는 `/>`는 정렬과 새 속성 추가를 위해 독립적인 줄에
+- Rather than hard coding `android:text`에 하드코딩하는 것보다, Android Studio에서 사용 가능한 [Designtime attributes](http://tools.android.com/tips/layout-designtime-attributes)를 고려하자.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -280,16 +280,16 @@ com.futurice.project
 </LinearLayout>
 ```
 
-As a rule of thumb, attributes `android:layout_****` should be defined in the layout XML, while other attributes `android:****` should stay in a style XML. This rule has exceptions, but in general works fine. The idea is to keep only layout (positioning, margin, sizing) and content attributes in the layout files, while keeping all appearance details (colors, padding, font) in styles files.
+가장 중요한 것은, `android:layout_****`를 레이아웃 XML에 두고 `android:****`를 스타일 XML에 정의하는 것이다. 이 규칙은 예외가 있지만, 일반적으로 잘 동작한다. 이는 레이아웃(위치, 여백, 크기)과 내용에 관한 속성을 레이아웃 파일에 두고, 상세한 모양(색, 안쪽 여백, 폰트)에 대한 내용은 스타일 파일에 두기 위함이다.
 
-The exceptions are:
+예외는 이런 경우가 있다:
 
-- `android:id` should obviously be in the layout files
-- `android:orientation` for a `LinearLayout` normally makes more sense in layout files
-- `android:text` should be in layout files because it defines content
-- Sometimes it will make sense to make a generic style defining `android:layout_width` and `android:layout_height` but by default these should appear in the layout files
+- `android:id`는 정확히 레이아웃 파일에 두어야 한다. should obviously be in the layout files
+- `LinearLayout`의 `android:orientation` 속성은 일반적으로 레이아웃 파일에 있는 것이 타당하다.
+- `android:text`는 내용을 정의하는 속성이기 때문에 레이아웃 파일에 두어야 한다.
+- 가끔 일반적인 스타일로 `android:layout_width`와 `android:layout_height` 속성들을 두어야 말이 될 것 같지만, 기본적으로 이들은 레이아웃 파일에 보여진다.
 
-**Use styles.** Almost every project needs to properly use styles, because it is very common to have a repeated appearance for a view. At least you should have a common style for most text content in the application, for example:
+**스타일을 사용하자.** View에 중복되는 모양이 사용되는 것은 매우 일반적인 일이기 때문에, 거의 모든 프로젝트들이 스타일을 적절히 사용해야한다. 적어도 애플리케이션에서 대부분의 텍스트 내용들은 일반 스타일을 가져야한다. 예를 들면 이렇다:
 
 ```xml
 <style name="ContentText">
@@ -298,7 +298,7 @@ The exceptions are:
 </style>
 ```
 
-Applied to TextViews:
+TextView에 적용해보면:
 
 ```xml
 <TextView
@@ -309,13 +309,13 @@ Applied to TextViews:
     />
 ```
 
-You probably will need to do the same for buttons, but don't stop there yet. Go beyond and move a group of related and repeated `android:****` attributes to a common style.
+아마 버튼들에도 같은 일을 해주어야 하겠지만, 멈추지 말자. 계속 진행하면서 연관되어있고 중복된 `android:****` 속성들을 일반 스타일로 묶자.
 
-**Split a large style file into other files.** You don't need to have a single `styles.xml` file. Android SDK supports other files out of the box, there is nothing magical about the name `styles`, what matters are the XML tags `<style>` inside the file. Hence you can have files `styles.xml`, `styles_home.xml`, `styles_item_details.xml`, `styles_forms.xml`. Unlike resource directory names which carry some meaning for the build system, filenames in `res/values` can be arbitrary.
+**큰 스타일 파일은 다른 파일들로 나누자.** 단 하나의 `styles.xml` 파일을 가질 필요는 없다. Android SDK는 박스 외부의 파일들도 지원하는데, `styles`라는 이름엔 전혀 마법같은 무언가가 없이 파일 안에 `<style>` XML 태그가 있다면 상관없다. 그렇기 때문에 파일 이름은 `styles.xml`, `styles_home.xml`, `styles_item_details.xml`, `styles_forms.xml` 등과 같이 정할 수 있다. 빌드 시스템에서 의미를 갖는 리소스 디렉토리와는 다르게 `res/values` 안의 파일명은 임의로 설정 가능하다.
 
-**`colors.xml` is a color palette.** There should be nothing else in your `colors.xml` than just a mapping from a color name to an RGBA value. Do not use it to define RGBA values for different types of buttons.
+**`colors.xml`는 색 팔렛트이다.** `colors.xml`에는 색 이름과 RGBA 값을 매핑해놓는 일 외에 더 해야할 일은 없다. 각각 다른 버튼 타입들에 RGBA 값들을 정의하지 않도록 하자.
 
-*Don't do this:*
+*이렇게 해서는 안된다:*
 
 ```xml
 <resources>
@@ -329,9 +329,9 @@ You probably will need to do the same for buttons, but don't stop there yet. Go 
     <color name="comment_shadow">#323232</color>
 ```
 
-You can easily start repeating RGBA values in this format, and that makes it complicated to change a basic color if needed. Also, those definitions are related to some context, like "button" or "comment", and should live in a button style, not in `colors.xml`.
+이러한 형식으로 RGBA 값들을 반복하기 쉬운데, 이는 기본 색깔을 필요에 따라 변경하기 복잡하게 만든다. 또한 이러한 방식의 정의는 "button" 혹은 "comment" 처럼 특정 문맥에 관계되어있어 `colors.xml`이 아닌 스타일에 더 적합하다.
 
-Instead, do this:
+대신, 이렇게 하자:
 
 ```xml
 <resources>
@@ -352,9 +352,9 @@ Instead, do this:
 </resources>
 ```
 
-Ask for this palette from the designer of the application. The names do not need to be color names as "green", "blue", etc. Names such as "brand_primary", "brand_secondary", "brand_negative" are totally acceptable as well. Formatting colors as such will make it easy to change or refactor colors, and also will make it explicit how many different colors are being used. Normally for a aesthetic UI, it is important to reduce the variety of colors being used.
+애플리케이션의 디자이너에게 이 팔렛트를 요청해보자. 이름이 꼭 "green", "blue" 처럼 색의 이름일 필요는 없다. "brand_primary", "brand_secondary", "brand_negative" 같은 이름들이 더욱 받아들이기 쉽다. 이렇게 색의 형식을 지정하게 되면 색 값들을 리팩토링하기 쉬워지고, 얼마나 많은 색들이 사용되고 있는지 명시적으로 알 수 있다. 보통 심미감을 중요시하는 앱에서는, 사용되는 색의 종류를 줄이는 것이 중요하다.
 
-**Treat dimens.xml like colors.xml.** You should also define a "palette" of typical spacing and font sizes, for basically the same purposes as for colors. A good example of a dimens file:
+**dimens.xml을 colors.xml처럼 다루자.** 기본적으로 색과 같은 목적을 위해 일반적인 여백과 폰트 크기 등의 "팔렛트"를 정의하자. 다음은 dimens.xml 파일의 좋은 예시이다:
 
 ```xml
 <resources>
@@ -380,9 +380,9 @@ Ask for this palette from the designer of the application. The names do not need
 </resources>
 ```
 
-You should use the `spacing_****` dimensions for layouting, in margins and paddings, instead of hard-coded values, much like strings are normally treated. This will give a consistent look-and-feel, while making it easier to organize and change styles and layouts.
+문자열들이 일반적으로 다루어지듯이, 레이아웃, 바깥쪽/안쪽 여백에 하드코딩된 값들 대신 `spacing_****`을 사용하자. 이는 스타일과 레이아웃을 체계화하고 변경하는 것을 쉽게 해줌과 동시에 일관된 룩앤필(Look-and-feel)을 제공한다.
 
-**Avoid a deep hierarchy of views.** Sometimes you might be tempted to just add yet another LinearLayout, to be able to accomplish an arrangement of views. This kind of situation may occur:
+**깊은 View 계층을 피하자.** 가끔 View를 편성하기 위해 LinearLayout을 하나 더 추가하려할 것이다. 이 상황은 이러한 문제를 일으킨다:
 
 ```xml
 <LinearLayout
@@ -417,22 +417,22 @@ You should use the `spacing_****` dimensions for layouting, in margins and paddi
 </LinearLayout>
 ```
 
-Even if you don't witness this explicitly in a layout file, it might end up happening if you are inflating (in Java) views into other views.
+레이아웃 파일에서 명시적으로 이런 형태를 보지 못했다 하더라도, 결국 다른 View에 또 다른 View들을 채울 때(Java에서) 이렇게 끝나게 될 것이다.
 
-A couple of problems may occur. You might experience performance problems, because there are is a complex UI tree that the processor needs to handle. Another more serious issue is a possibility of [StackOverflowError](http://stackoverflow.com/questions/2762924/java-lang-stackoverflow-error-suspected-too-many-views).
+두 가지 문제가 발생한다. 프로세서가 다루어야 할 UI 트리가 복잡해지면서 퍼포먼스 문제를 경험하게 될 것이다. 또 하나의 심각한 문제는 [StackOverflowError](http://stackoverflow.com/questions/2762924/java-lang-stackoverflow-error-suspected-too-many-views)의 가능성이다.
 
-Therefore, try to keep your views hierarchy as flat as possible: learn how to use [RelativeLayout](https://developer.android.com/guide/topics/ui/layout/relative.html), how to [optimize your layouts](http://developer.android.com/training/improving-layouts/optimizing-layout.html) and to use the [`<merge>` tag](http://stackoverflow.com/questions/8834898/what-is-the-purpose-of-androids-merge-tag-in-xml-layouts).
+그러므로, 최대한 View 계층을 수평하게 유지하자: [RelativeLayout](https://developer.android.com/guide/topics/ui/layout/relative.html)를 사용하는 방법, [optimize your layouts](http://developer.android.com/training/improving-layouts/optimizing-layout.html) 방법과 [`<merge>` tag](http://stackoverflow.com/questions/8834898/what-is-the-purpose-of-androids-merge-tag-in-xml-layouts)를 사용하는 방법을 확인하자.
 
-**Beware of problems related to WebViews.** When you must display a web page, for instance for a news article, avoid doing client-side processing to clean the HTML, rather ask for a "*pure*" HTML from the backend programmers. [WebViews can also leak memory](http://stackoverflow.com/questions/3130654/memory-leak-in-webview) when they keep a reference to their Activity, instead of being bound to the ApplicationContext. Avoid using a WebView for simple texts or buttons, prefer TextViews or Buttons.
+**WebView와 관련된 문제들에 유의하자.** 뉴스 기사와 같은 웹페이지를 보여주어야 할 때, 백엔드 프로그래머들에게 "*순수한*" HTML을 요청하지 않고 HTML을 정리하기 위해 클라이언트단에서 프로세싱하는 것을 피하자. ApplicationContext가 아닌 Activity로의 참조를 유지할 때, [WebViews can also leak memory](http://stackoverflow.com/questions/3130654/memory-leak-in-webview). 간단한 텍스트와 버튼을 사용할 때에는 WebView를 피하고 TextView와 Button을 사용하도록 한다.
 
 
-### Test frameworks
+### 테스트 프레임워크
 
-Android SDK's testing framework is still infant, specially regarding UI tests. Android Gradle currently implements a test task called [`connectedAndroidTest`](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Testing) which runs JUnit tests that you created, using an [extension of JUnit with helpers for Android](http://developer.android.com/reference/android/test/package-summary.html). This means you will need to run tests connected to a device, or an emulator. Follow the official guide [[1]](http://developer.android.com/tools/testing/testing_android.html) [[2]](http://developer.android.com/tools/testing/activity_test.html) for testing.
+Android SDK의 테스팅 프레임워크는 여전히 미흡한데, 특히 UI 테스트에 관해서는 더더욱 그렇다. Android Gradle은 현재 [extension of JUnit with helpers for Android](http://developer.android.com/reference/android/test/package-summary.html)을 사용하여 만들어진 JUnit 테스트들을 실행하는 [`connectedAndroidTest`](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Testing)라는 테스트 Task를 구현하고 있다. 이는 기기 혹은 에뮬레이터에 연결된 테스트를 실행해야 할 것을 의미한다. 공식 가이드인 [[1]](http://developer.android.com/tools/testing/testing_android.html) [[2]](http://developer.android.com/tools/testing/activity_test.html)를 따라 테스트하자.
 
-**Use [Robolectric](http://robolectric.org/) only for unit tests, not for views.** It is a test framework seeking to provide tests "disconnected from device" for the sake of development speed, suitable specially for unit tests on models and view models. However, testing under Robolectric is inaccurate and incomplete regarding UI tests. You will have problems testing UI elements related to animations, dialogs, etc, and this will be complicated by the fact that you are "walking in the dark" (testing without seeing the screen being controlled).
+**View가 아닌 유닛 테스트에는 [Robolectric](http://robolectric.org/)를 사용하자.** 이는 개발 속도의 만족을 위해 "기기에 연결되지 않은" 테스트의 제공을 추구하는 테스트 프레임워크이다. 특히 모델과 View 모델들의 유닛 테스트에 적합하다. 하지만, UI 테스트에서의 Robolectric를 사용한 테스트는 부정확하고 불완전하다. 애니메이션, 대화 상자 등에 관한 UI 요소들의 테스트에서는 문제를 보일 것이고, 이는 "어둠 속에서 걷는 것"(조작할 만한 화면을 보지 않고 테스트)처럼 매우 복잡할 것이다.
 
-**[Robotium](https://code.google.com/p/robotium/) makes writing UI tests easy.** You do not need Robotium for running connected tests for UI cases, but it will probably be beneficial to you because of its many helpers to get and analyse views, and control the screen. Test cases will look as simple as:
+**[Robotium](https://code.google.com/p/robotium/)은 UI 테스트 작성을 쉽게 해준다.** UI의 연결된 테스트를 실행하는 데에 Robotium이 필요하지 않지만, View를 가져와 분석하고, 화면을 조작할 수 있게 해주는 Robotium의 많은 도우미들이 유용하게 작용할 것이다. 테스트 케이스는 이처럼 쉽게 표현된다:
 
 ```java
 solo.sendKey(Solo.MENU);
@@ -442,17 +442,17 @@ solo.clickOnText("Edit File Extensions");
 Assert.assertTrue(solo.searchText("rtf"));
 ```
 
-### Emulators
+### 에뮬레이터
 
-If you are developing Android apps as a profession, buy a license for the [Genymotion emulator](http://www.genymotion.com/). Genymotion emulators run at a faster frames/sec rate than typical AVD emulators. They have tools for demoing your app, emulating network connection quality, GPS positions, etc. They are also ideal for connected tests. You have access to many (not all) different devices, so the cost of a Genymotion license is actually much cheaper than buying multiple real devices.
+전문적으로 Android 앱을 개발하고 있다면, [Genymotion emulator](http://www.genymotion.com/)의 라이센스를 구매하자. Genymotion 에뮬레이터는 일반적인 AVD 에뮬레이터에 비해 빠른 FPS로 실행된다. 앱을 데모하고, 네트워크 연결 품질, GPS 포지션을 시험해보는 툴들을 제공한다. 또한 연결된 테스트에 이상적으로 작동한다. 많은(전부는 아님) 다른 기기들을 접할 때, Genymotion의 라이센스는 실제 여러가지 기기를 구매하는 것 보다 훨씬 저렴하다.
 
-Caveats are: Genymotion emulators don't ship all Google services such as Google Play Store and Maps. You might also need to test Samsung-specific APIs, so it's necessary to have a real Samsung device.
+주의할 점: Genymotion 에뮬레이터는 Google Play Store와 Maps과 같은 모든 Google 서비스들을 포함하고 있지는 않다. 삼성의 특정 API를 테스트해야 한다면, 실제 삼성 기기가 필요하다.
 
-### Proguard configuration
+### Proguard 설정
 
-[ProGuard](http://proguard.sourceforge.net/) is normally used on Android projects to shrink and obfuscate the packaged code.
+[ProGuard](http://proguard.sourceforge.net/)는 일반적으로 Android 프로젝트의 패키징된 코드를 축소하고, 난독화하기 위해 사용된다.
 
-Whether you are using ProGuard or not depends on your project configuration. Usually you would configure gradle to use ProGuard when building a release apk.
+ProGuard를 사용하고 있는지 아닌지는 해당 프로젝트 설정에 달려있다. 보통 릴리즈 apk를 빌드할 때 gradle을 설정하고 ProGuard를 사용할 것이다.
 
 ```groovy
 buildTypes {
@@ -467,36 +467,36 @@ buildTypes {
 }
 ```
 
-In order to determine which code has to be preserved and which code can be discarded or obfuscated, you have to specify one or more entry points to your code. These entry points are typically classes with main methods, applets, midlets, activities, etc.
-Android framework uses a default configuration which can be found from `SDK_HOME/tools/proguard/proguard-android.txt`. Custom project-specific proguard rules, as defined in `my-project/app/proguard-rules.pro`, will be appended to the default configuration.
+어떤 코드가 보존되어야 하고 어떤 코드가 버려지거나 난독화되어야할 지 결정하기 위해, 코드에 한 개 이상의 엔트리 포인트를 설정해야한다. 이 엔트리 포인트는 일반적으로 main 메소드, applets, midlets, Activity와 같은 것들이다.
+Android 프레임워크는 `SDK_HOME/tools/proguard/proguard-android.txt`에서 찾아볼 수 있는 기본 설정을 사용한다. `my-project/app/proguard-rules.pro`의 사용자화된 특정 프로젝트 ProGuard 규칙은 기본 설정에 추가로 설정될 것이다.
 
-A common problem related to ProGuard is to see the application crashing on startup with `ClassNotFoundException` or `NoSuchFieldException` or similar, even though the build command (i.e. `assembleRelease`) succeeded without warnings.
-This means one out of two things:
+ProGuard와 관련된 일반적인 문제는 어떠한 Warning도 없이 빌드 커맨드가 성공했는데도 애플리케이션이 시작시에  `ClassNotFoundException`나 `NoSuchFieldException`와 비슷한 예외로 크래시가 발생하는 것이다.
+이는 두 가지 중 하나를 의미한다:
 
-1. ProGuard has removed the class, enum, method, field or annotation, considering it's not required.
-2. ProGuard has obfuscated (renamed) the class, enum or field name, but it's being used indirectly by its original name, i.e. through Java reflection.
+1. ProGuard가 클래스, Enum, 메소드, 필드 혹은 어노테이션들을 필요하지 않다고 여겨 제거한 것이다.
+2. ProGuard가 클래스, Enum, 필드 이름들이 간접적으로 고유의 이름대로 사용되고 있음에도 불구하고(예를 들면 Java reflection을 통해) 이들을 난독화(이름 변경)한 것이다.
 
-Check `app/build/outputs/proguard/release/usage.txt` to see if the object in question has been removed.
-Check `app/build/outputs/proguard/release/mapping.txt` to see if the object in question has been obfuscated.
+물음의 객체가 제거되었는지 보려면 `app/build/outputs/proguard/release/usage.txt`을 확인하자.
+물음의 객체가 난독화되었는지 보려면 `app/build/outputs/proguard/release/mapping.txt`을 확인하자.
 
-In order to prevent ProGuard from *stripping away* needed classes or class members, add a `keep` options to your proguard config:
+ProGuard가 필요한 클래스 혹은 클래스 멤버들을 *벗겨내는 것*을 막기 위해서는, ProGuard 설정에 `keep` 옵션을 추가하자:
 ```
 -keep class com.futurice.project.MyClass { *; }
 ```
 
-To prevent ProGuard from *obfuscating* classes or class members, add a `keepnames`:
+ProGuard가 클래스 혹은 클래스 멤버들의 *난독화*을 막고싶다면, `keepnames`을 추가하자:
 ```
 -keepnames class com.futurice.project.MyClass { *; }
 ```
 
-Check [this template's ProGuard config](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro) for some examples.
-Read more at [Proguard](http://proguard.sourceforge.net/#manual/examples.html) for examples.
+예시로 [this template's ProGuard config](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro)를 확인하자.
+또 다른 예시로 [Proguard](http://proguard.sourceforge.net/#manual/examples.html)를 읽어보자.
 
-**Early on in your project, make a release build** to check whether ProGuard rules are correctly keeping whatever is important. Also whenever you include new libraries, make a release build and test the apk on a device. Don't wait until your app is finally version "1.0" to make a release build, you might get several unpleasant surprises and a short time to fix them.
+**프로젝트의 초기에, 릴리즈 빌드를 만들자.** 이는 ProGuard 규칙들이 중요한 것들을 정확하게 보관하고 있는지 확인하기 위함이다. 또한 언제든지 새로운 라이브러리를 포함시켰을 때, 릴리즈 빌드를 만들고 기기에서 apk를 테스트해보자. 릴리즈 빌드를 만들기 위해 앱이 "1.0" 버전이 되기까지 기다리지 말고, 수 차례 의외의 문제들을 발견하고 수정하는 짧은 시간을 갖자.
 
-**Tip.** Save the `mapping.txt` file for every release that you publish to your users. By retaining a copy of the `mapping.txt` file for each release build, you ensure that you can debug a problem if a user encounters a bug and submits an obfuscated stack trace.
+**팁.** 배포시에 `mapping.txt` 파일들은 매 릴리즈마다 저장하자. 각 릴리즈 빌드마다 `mapping.txt` 파일을 보관해두면, 사용자가 버그를 만나고 알아보기 힘든 스택 트레이스를 보내왔을 때 문제를 확실하게 디버깅할 수 있다.
 
-**DexGuard**. If you need hard-core tools for optimizing, and specially obfuscating release code, consider [DexGuard](http://www.saikoa.com/dexguard), a commercial software made by the same team that built ProGuard. It can also easily split Dex files to solve the 65k methods limitation.
+**DexGuard**. 릴리즈 코드를 최적화하고, 특히 알기 어렵게 만들기 위해 하드코어한 툴이 필요하다면, ProGuard를 빌드한 같은 팀에서 만든 상업 소프트웨어인 [DexGuard](http://www.saikoa.com/dexguard)를 고려해보자. 이는 65,000 메소드 수 제한을 해결하기 위해 Dex 파일들을 쉽게 나눈다.
 
 ### Thanks to
 
@@ -506,3 +506,10 @@ Antti Lammi, Joni Karppinen, Peter Tackage, Timo Tuominen, Vera Izrailit, Vihtor
 
 [Futurice Oy](www.futurice.com)
 Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+Translation
+===========
+
+Translated to Korean (`ko`) by **[Minsoo Park](http://www.github.com/minsoopark)**.
+
+Original content by [Futurice Oy](http://www.futurice.com).

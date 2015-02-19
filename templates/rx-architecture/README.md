@@ -71,12 +71,14 @@ If you don't have a public key yet, create it on command line using command `ssh
     git branch -a
 
 3.  Define necessary configurations such as passwords.
-    Make a `gradle.properties` file following the format of `gradle.properties.template`:
+    Make a `gradle.properties` file following this format:
 
-    KEYSTORE_PASSWORD=********
-    KEY_PASSWORD=********
+```
+KEYSTORE_PASSWORD=********
+KEY_PASSWORD=********
+```
 
-Get these passwords from passwords.futurice.com.
+Get these passwords from https://password.futurice.com.
 
 ## Important Gradle tasks
 

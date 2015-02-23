@@ -382,6 +382,36 @@ TextView에 적용해보면:
 
 문자열들이 일반적으로 다루어지듯이, 레이아웃, 바깥쪽/안쪽 여백에 하드코딩된 값들 대신 `spacing_****`을 사용하자. 이는 스타일과 레이아웃을 체계화하고 변경하는 것을 쉽게 해줌과 동시에 일관된 룩앤필(Look-and-feel)을 제공한다.
 
+**strings.xml**
+
+strings.xml의 문자열들은 네임스페이스의 형태와 비슷하게 이름을 짓고, 2개 이상의 Key에 값을 중복해서 사용하는 것을 두려워하지 않도록 하자. 언어는 복잡하기 때문에, 네임스페이스가 문맥을 갖고 애매함을 없애는 것이 필수이다.
+
+**잘못된 예**
+```xml
+<string name="network_error">Network error</string>
+<string name="call_failed">Call failed</string>
+<string name="map_failed">Map loading failed</string>
+```
+
+**좋은 예**
+```xml
+<string name="error.message.network">Network error</string>
+<string name="error.message.call">Call failed</string>
+<string name="error.message.map">Map loading failed</string>
+```
+
+문자열 값을 모두 대문자로 쓰지 않도록 한다. 일반적인 텍스트 컨벤션을 따르되(e.g., 첫 글자만 대문자로), 만약 문자열을 모두 대문자로 표시해야 한다면, TextView의 [`textAllCaps`](http://developer.android.com/reference/android/widget/TextView.html#attr_android:textAllCaps) 속성을 이용하자.
+
+**잘못된 예**
+```xml
+<string name="error.message.call">CALL FAILED</string>
+```
+
+**좋은 예**
+```xml
+<string name="error.message.call">Call failed</string>
+```
+
 **깊은 View 계층을 피하자.** 가끔 View를 편성하기 위해 LinearLayout을 하나 더 추가하려할 것이다. 이 상황은 이러한 문제를 일으킨다:
 
 ```xml

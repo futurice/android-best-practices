@@ -442,11 +442,6 @@ com.futurice.project
 </resources>
 ```
 
-Ask for this palette from the designer of the application. The names do not need to be color names as "green", "blue", etc.
- Names such as "brand_primary", "brand_secondary", "brand_negative" are totally acceptable as well.
-Formatting colors as such will make it easy to change or refactor colors, and also will make it explicit how many different colors are being used.
-Normally for a aesthetic UI, it is important to reduce the variety of colors being used.
-
 向应用设计者那里要这个调色板，名称不需要跟"green", "blue", 等等相同。
 "brand_primary", "brand_secondary", "brand_negative" 这样的名字也是完全可以接受的。
 像这样规范的颜色很容易修改或重构，会使应用一共使用了多少种不同的颜色变得非常清晰。

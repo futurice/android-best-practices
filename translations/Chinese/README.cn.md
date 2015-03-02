@@ -1,11 +1,5 @@
----
-layout: post
-category: 翻译
-tags : [翻译,android]
----
 # Android 开发最佳实践
  
-
 从[Futurice](http://www.futurice.com)公司Android开发者中学到的经验。
 遵循以下准则，避免重复发明轮子。若您对开发iOS或Windows Phone 有兴趣，
 请看[**iOS Good Practices**](https://github.com/futurice/ios-good-practices) 和 [**Windows client Good Practices**](https://github.com/futurice/win-client-dev-good-practices) 这两篇文章。

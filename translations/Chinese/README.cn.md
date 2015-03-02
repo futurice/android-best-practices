@@ -193,14 +193,6 @@ Jsonkson库比起GSON更大，所以根据你的情况选择，你可能选择GS
 来加载图片和缓存，同时使用[OkHttp](http://square.github.io/okhttp/)作为高效的网络请求。Retrofit，Picasso和OkHttp都是有同一家公司开发（注：
 是由[Square](https://github.com/square) 公司开发），所以它们能很好的在一起运行。[OkHttp 同样可以和Volley在一起使用 Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
 
-**RxJava** is a library for Reactive Programming, in other words, handling asynchronous events.
-It is a powerful and promising paradigm, which can also be confusing since it's so different.
-We recommend to take some caution before using this library to architect the entire application.
-There are some projects done by us using RxJava, if you need help talk to one of these people:
-Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, Juha Ristolainen.
-We have written some blog posts on it:
-[[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
-
 **RxJava** 是函数式反应性的一个类库，换句话说，能处理异步的事件。
 这是一个强大的和有前途的模式，同时也可能会造成混淆，因为它是如此的不同。
 我们建议在使用这个库架构整个应用程序之前要谨慎考虑。

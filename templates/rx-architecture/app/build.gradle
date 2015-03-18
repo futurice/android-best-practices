@@ -66,7 +66,7 @@ android {
                 keyPassword KEY_PASSWORD
             }
             catch (ex) {
-                println 'NB: For release builds, you must define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.'
+                logger.warning('NB: For release builds, you must define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.')
             }
         }
     }

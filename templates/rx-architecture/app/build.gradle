@@ -58,15 +58,15 @@ android {
     signingConfigs {
         release {
             try {
+                // Define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties
+                // (Only where you do release builds; do NOT commit those into version control.)
                 storeFile file("example.keystore")
                 storePassword KEYSTORE_PASSWORD
                 keyAlias "client"
                 keyPassword KEY_PASSWORD
             }
             catch (ex) {
-                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and " +
-                    "KEY_PASSWORD in gradle.properties."
-                )
+                println 'NB: For release builds, you must define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.'
             }
         }
     }

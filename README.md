@@ -23,7 +23,7 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### Use Robolectric for unit tests, Robotium for connected (UI) tests
 #### Use Genymotion as your emulator
 #### Always use ProGuard or DexGuard
-
+#### Always implements a class viewholder to recycle listview
 
 ----------
 

@@ -134,19 +134,17 @@ signingConfigs {
 }
 ```
 
-**jar 파일 임포트 대신 Maven을 선호하자.** 프로젝트에 jar 파일을 명시적으로 포함시킬 경우, 이들은 `2.1.1`처럼 특정하게 고정된 버전이 된다. jar를 다운로드하고, 업데이트하는 것은 귀찮은 일이다. 그러나 Maven은 이 문제를 적절하게 해결해줄 것이고, 또한 이는 Android Gradle 빌드에서 장려되는 방식이다. `2.1.+` 버전의 범위를 설정할 수 있고, Maven은 이러한 패턴에 매칭되는 가장 최신 버전으로 업데이트해줄 것이다. 예를 들자면 이렇다:
+**jar 파일 임포트 대신 Maven을 선호하자.** 프로젝트에 jar 파일을 명시적으로 포함시킬 경우, 이들은 `2.1.1`처럼 특정하게 고정된 버전이 된다. jar를 다운로드하고, 업데이트하는 것은 귀찮은 일이다. 그러나 Maven은 이 문제를 적절하게 해결해줄 것이고, 또한 이는 Android Gradle 빌드에서 장려되는 방식이다. 예를 들자면 이렇다:
 
 ```groovy
 dependencies {
-    compile 'com.netflix.rxjava:rxjava-core:0.19.+'
-    compile 'com.netflix.rxjava:rxjava-android:0.19.+'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.4.+'
-    compile 'com.fasterxml.jackson.core:jackson-core:2.4.+'
-    compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.+'
-    compile 'com.squareup.okhttp:okhttp:2.0.+'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.+'
+    compile 'com.squareup.okhttp:okhttp:2.2.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
 }
 ```
+
+**Maven의 동적 의존성 해결을 피하라**
+`2.1.+`과 같이 동적으로 버전을 정하는 방식은 불안정하고, 빌드 사이에 미묘하고 이해하기 어려운 차이를 초래할 수 있어 피하도록 하자. `2.1.1`처럼 정적으로 고정된 버전을 사용하는 것이 보다 안정적이고, 예측 가능하고, 반복적인 개발 환경을 구성하는 데에 도움이 될 것이다.
 
 ### IDE와 텍스트 에디터
 
@@ -172,7 +170,7 @@ Rx에 대한 경험이 없다면, API 응답 처리에만 적용해보자. 다�
 
 ```groovy
 dependencies {
-    classpath 'me.tatarka:gradle-retrolambda:2.4.+'
+    classpath 'me.tatarka:gradle-retrolambda:2.4.1'
 }
 ```
 
@@ -534,7 +532,7 @@ Antti Lammi, Joni Karppinen, Peter Tackage, Timo Tuominen, Vera Izrailit, Vihtor
 
 ### License
 
-[Futurice Oy](www.futurice.com)
+[Futurice Oy](http://www.futurice.com)
 Creative Commons Attribution 4.0 International (CC BY 4.0)
 
 Translation

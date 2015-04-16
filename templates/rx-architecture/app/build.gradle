@@ -4,7 +4,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.0.0'
-        classpath 'org.robolectric:robolectric-gradle-plugin:0.14.+'
+        classpath 'org.robolectric:robolectric-gradle-plugin:0.14.1'
     }
 }
 
@@ -13,17 +13,17 @@ apply plugin: 'checkstyle'
 apply plugin: 'robolectric'
 
 dependencies {
-    compile 'io.reactivex:rxjava:1.0.+'
-    compile 'io.reactivex:rxandroid:0.23.+'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.4.+'
-    compile 'com.fasterxml.jackson.core:jackson-core:2.4.+'
-    compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.+'
-    compile 'com.squareup.retrofit:retrofit:1.6.1'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
-    compile 'com.squareup.okhttp:okhttp:2.0.0'
-    compile 'com.android.support:support-v4:21.0.+'
+    compile 'io.reactivex:rxjava:1.0.8'
+    compile 'io.reactivex:rxandroid:0.24.0'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.5.1'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.5.1'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.5.1'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
+    compile 'com.squareup.okhttp:okhttp:2.2.0'
+    compile 'com.android.support:support-v4:22.0.0'
 
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.1'
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.3.1'
 
     androidTestCompile('junit:junit:4.11')
     androidTestCompile('org.robolectric:robolectric:2.3') {
@@ -46,27 +46,27 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.0"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
     signingConfigs {
         release {
             try {
+                // Define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties
+                // (Only where you do release builds; do NOT commit those into version control.)
                 storeFile file("example.keystore")
                 storePassword KEYSTORE_PASSWORD
                 keyAlias "client"
                 keyPassword KEY_PASSWORD
             }
             catch (ex) {
-                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and " +
-                    "KEY_PASSWORD in gradle.properties."
-                )
+                logger.warning('NB: For release builds, you must define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.')
             }
         }
     }

@@ -255,6 +255,30 @@ com.futurice.project
 
 ### Resources
 
+#### Resources structure
+
+Follow the package structure of res folder:
+
+```
+
+res
+├─ drawable
+├─ layout
+├─ menu
+├─ mipmap-hdpi
+├─ mipmap-mdpi
+├─ mipmap-xhdpi
+├─ mipmap-xxhdpi
+└─ values
+    ├─ attrs
+    ├─ colors
+    ├─ dimens
+    ├─ strings
+    └─ styles
+
+```
+**Never** forget from support differents devices and languanges.
+
 **Naming.** Follow the convention of prefixing the type, as in `type_foo_bar.xml`. Examples: `fragment_contact_details.xml`, `view_primary_button.xml`, `activity_main.xml`.
 
 **Organizing layout XMLs.** If you're unsure how to format a layout XML, the following convention may help.

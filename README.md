@@ -484,13 +484,13 @@ buildTypes {
     release {
         signingConfig signingConfigs.release
         minifyEnabled true
-        proguardFiles 'proguard-rules.pro'
+        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
 }
 ```
 
 In order to determine which code has to be preserved and which code can be discarded or obfuscated, you have to specify one or more entry points to your code. These entry points are typically classes with main methods, applets, midlets, activities, etc.
-Android framework uses a default configuration which can be found from `SDK_HOME/tools/proguard/proguard-android.txt`. Custom project-specific proguard rules, as defined in `my-project/app/proguard-rules.pro`, will be appended to the default configuration.
+Android framework uses a default configuration which can be found from `SDK_HOME/tools/proguard/proguard-android.txt`. Using the above configuration, custom project-specific ProGuard rules, as defined in `my-project/app/proguard-rules.pro`, will be appended to the default configuration.
 
 A common problem related to ProGuard is to see the application crashing on startup with `ClassNotFoundException` or `NoSuchFieldException` or similar, even though the build command (i.e. `assembleRelease`) succeeded without warnings.
 This means one out of two things:
@@ -501,7 +501,7 @@ This means one out of two things:
 Check `app/build/outputs/proguard/release/usage.txt` to see if the object in question has been removed.
 Check `app/build/outputs/proguard/release/mapping.txt` to see if the object in question has been obfuscated.
 
-In order to prevent ProGuard from *stripping away* needed classes or class members, add a `keep` options to your proguard config:
+In order to prevent ProGuard from *stripping away* needed classes or class members, add a `keep` options to your ProGuard config:
 ```
 -keep class com.futurice.project.MyClass { *; }
 ```

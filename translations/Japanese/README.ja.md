@@ -164,10 +164,10 @@ dependencies {
 
 一番推奨されるIDEは[Android Studio](https://developer.android.com/sdk/installing/studio.html)である。Google が開発しており、Gradleと親和性が高いうえ、プロジェクト構成もデフォルトで推奨されているものを採用しているからだ。
 
-もしお望みなら[Eclipse ADT](https://developer.android.com/sdk/installing/index.html?pkg=adt)をつかってもいいが、デフォルトで古いプロジェクト構成でかつAntを採用しているので設定が必要である。EclipseのGraldeプラグインが動かない場合はコマンドラインでやるか、Android Studioに移行するかしかない。
+もしお望みなら[Eclipse ADT](https://developer.android.com/sdk/installing/index.html?pkg=adt)をつかってもいいが、デフォルトで古いプロジェクト構成でかつAntを採用しているので設定が必要である。EclipseのGradleプラグインが動かない場合はコマンドラインでやるか、Android Studioに移行するかしかない。
 またVim、Sublime TextやEmacsといった純粋なテキストエディタを使用することさえできる。その場合は、コマンドラインからGradleとadbを使えるよう準備する必要がある。
 
-何を使っても良いが、Graldeを使う事と新しいプロジェクト構成で開発する事がオフィシャルな方法である事を頭に入れておかねばならない。またAntの`build.xml`などのエディタ特有の設定ファイルなどはバージョン管理外とすることもお忘れなく。特に、Antのビルド設定を変更した際は`build.gradle`が最新であり機能する事を確認することを怠ってはならない。また他の開発者が使っているツールの設定を強要することがないようにしよう。
+何を使っても良いが、Gradleを使う事と新しいプロジェクト構成で開発する事がオフィシャルな方法である事を頭に入れておかねばならない。またAntの`build.xml`などのエディタ特有の設定ファイルなどはバージョン管理外とすることもお忘れなく。特に、Antのビルド設定を変更した際は`build.gradle`が最新であり機能する事を確認することを怠ってはならない。また他の開発者が使っているツールの設定を強要することがないようにしよう。
 
 ### Libraries
 

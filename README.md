@@ -23,7 +23,7 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### Use Robolectric for unit tests, Robotium for connected (UI) tests
 #### Use Genymotion as your emulator
 #### Always use ProGuard or DexGuard
-
+#### Always implements a class viewholder to recycle listview
 
 ----------
 
@@ -158,14 +158,22 @@ Whatever you use, just make sure Gradle and the new project structure remain as 
 
 ### Libraries
 
-**[Jackson](http://wiki.fasterxml.com/JacksonHome)** is a Java library for converting Objects into JSON and vice-versa. [Gson](https://code.google.com/p/google-gson/) is a popular choice for solving this problem, however we find Jackson to be more performant since it supports alternative ways of processing JSON: streaming, in-memory tree model, and traditional JSON-POJO data binding. Keep in mind, though, that Jackson is a larger library than GSON, so depending on your case, you might prefer GSON to avoid 65k methods limitation. Other alternatives: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
+#### JSON
+[Jackson](http://wiki.fasterxml.com/JacksonHome) is a Java library for converting Objects into JSON and vice-versa. 
+[Gson](https://code.google.com/p/google-gson/) is a popular choice for solving this problem, however we find Jackson to be more performant since it supports alternative ways of processing JSON: streaming, in-memory tree model, and traditional JSON-POJO data binding. Keep in mind, though, that Jackson is a larger library than GSON, so depending on your case, you might prefer GSON to avoid 65k methods limitation. 
+##### Other alternatives: 
+[Json-smart](https://code.google.com/p/json-smart/)
+[Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
 
-**Networking, caching, and images.** There are a couple of battle-proven solutions for performing requests to backend servers, which you should use perform considering implementing your own client. Use [Volley](https://android.googlesource.com/platform/frameworks/volley) or [Retrofit](http://square.github.io/retrofit/). Volley also provides helpers to load and cache images. If you choose Retrofit, consider [Picasso](http://square.github.io/picasso/) for loading and caching images, and [OkHttp](http://square.github.io/okhttp/) for efficient HTTP requests. All three Retrofit, Picasso and OkHttp are created by the same company, so they complement each other nicely. [OkHttp can also be used in connection with Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
+#### Networking, caching, and images
+There are a couple of battle-proven solutions for performing requests to backend servers, which you should use perform considering implementing your own client. Use [Volley](https://android.googlesource.com/platform/frameworks/volley) or [Retrofit](http://square.github.io/retrofit/). Volley also provides helpers to load and cache images. If you choose Retrofit, consider [Picasso](http://square.github.io/picasso/) for loading and caching images, and [OkHttp](http://square.github.io/okhttp/) for efficient HTTP requests. All three Retrofit, Picasso and OkHttp are created by the same company, so they complement each other nicely. [OkHttp can also be used in connection with Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
 
+#### Asynchronous Events
 **RxJava** is a library for Reactive Programming, in other words, handling asynchronous events. It is a powerful and promising paradigm, which can also be confusing since it's so different. We recommend to take some caution before using this library to architect the entire application. There are some projects done by us using RxJava, if you need help talk to one of these people: Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, Juha Ristolainen. We have written some blog posts on it: [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
 
 If you have no previous experience with Rx, start by applying it only for responses from the API. Alternatively, start by applying it for simple UI event handling, like click events or typing events on a search field. If you are confident in your Rx skills and want to apply it to the whole architecture, then write Javadocs on all the tricky parts. Keep in mind that another programmer unfamiliar to RxJava might have a very hard time maintaining the project. Do your best to help them understand your code and also Rx.
 
+#### Lambda
 **[Retrolambda](https://github.com/evant/gradle-retrolambda)** is a Java library for using Lambda expression syntax in Android and other pre-JDK8 platforms. It helps keep your code tight and readable especially if you use a functional style with for example with RxJava. To use it, install JDK8, set that as your SDK Location in the Android Studio Project Structure dialog, and set `JAVA8_HOME` and `JAVA7_HOME` environment variables, then in the project root build.gradle:
 
 ```groovy
@@ -213,29 +221,57 @@ Because of Android API's history, you can loosely consider Fragments as UI piece
 
 Java architectures for Android applications can be roughly approximated in [Model-View-Controller](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller). In Android, [Fragment and Activity are actually controller classes](http://www.informit.com/articles/article.aspx?p=2126865). On the other hand, they are explicity part of the user interface, hence are also views.
 
-For this reason, it is hard to classify fragments (or activities) as strictly controllers or views. It's better to let them stay in their own `fragments` package. Activities can stay on the top-level package as long as you follow the advice of the previous section. If you are planning to have more than 2 or 3 activities, then make also an `activities` package.
+For this reason, it is hard to classify fragments (or activities) as strictly controllers or views. It's better to let them stay in their own `fragments` package. Activities can stay on `activities` package.
 
-Otherwise, the architecture can look like a typical MVC, with a `models` package containing POJOs to be populated through the JSON parser with API responses, and a `views` package containing your custom Views, notifications, action bar views, widgets, etc. Adapters are a gray matter, living between data and views. However, they typically need to export some View via `getView()`, so you can include the `adapters` subpackage inside `views`.
+Otherwise, the architecture can look like a typical MVC, with a `models` package containing POJOs to be populated through the JSON parser with API responses, and a `views` package containing your custom Views, notifications, action bar views, widgets, etc. Adapters are a gray matter, living between data and views include a `adapters` package.
 
 Some controller classes are application-wide and close to the Android system. These can live in a `managers` package. Miscellaneous data processing classes, such as "DateUtils", stay in the `utils` package. Classes that are responsible for interacting with the backend stay in the `network` package.
+
+All custom listeners need be in `listeners` package. All custom views stay inside a subpackage in `views` package.
 
 All in all, ordered from the closest-to-backend to the closest-to-the-user:
 
 ```
 com.futurice.project
-├─ network
-├─ models
-├─ managers
-├─ utils
+├─ activities
+├─ adapters
 ├─ fragments
+├─ listeners
+├─ managers
+├─ models
+├─ network
+├─ utils
 └─ views
-   ├─ adapters
    ├─ actionbar
    ├─ widgets
    └─ notifications
 ```
 
 ### Resources
+
+#### Resources structure
+
+Follow the package structure of res folder:
+
+```
+
+res
+├─ drawable
+├─ layout
+├─ menu
+├─ mipmap-hdpi
+├─ mipmap-mdpi
+├─ mipmap-xhdpi
+├─ mipmap-xxhdpi
+└─ values
+    ├─ attrs
+    ├─ colors
+    ├─ dimens
+    ├─ strings
+    └─ styles
+
+```
+**Never** forget from support differents devices and languanges.
 
 **Naming.** Follow the convention of prefixing the type, as in `type_foo_bar.xml`. Examples: `fragment_contact_details.xml`, `view_primary_button.xml`, `activity_main.xml`.
 
@@ -255,8 +291,7 @@ com.futurice.project
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/name"
@@ -264,8 +299,7 @@ com.futurice.project
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:text="@string/name"
-        style="@style/FancyText"
-        />
+        style="@style/FancyText" />
 
     <include layout="@layout/reusable_part" />
 
@@ -297,8 +331,7 @@ Applied to TextViews:
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/price"
-    style="@style/ContentText"
-    />
+    style="@style/ContentText" />
 ```
 
 You probably will need to do the same for buttons, but don't stop there yet. Go beyond and move a group of related and repeated `android:****` attributes to a common style.
@@ -329,11 +362,11 @@ Instead, do this:
 <resources>
 
     <!-- grayscale -->
-    <color name="white"     >#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
     <color name="gray_light">#DBDBDB</color>
-    <color name="gray"      >#939393</color>
-    <color name="gray_dark" >#5F5F5F</color>
-    <color name="black"     >#323232</color>
+    <color name="gray">#939393</color>
+    <color name="gray_dark">#5F5F5F</color>
+    <color name="black">#323232</color>
 
     <!-- basic colors -->
     <color name="green">#27D34D</color>
@@ -358,15 +391,15 @@ Ask for this palette from the designer of the application. The names do not need
     <dimen name="font_small">12sp</dimen>
 
     <!-- typical spacing between two views -->
-    <dimen name="spacing_huge">40dp</dimen>
+    <dimen name="spacing_huge">48dp</dimen>
     <dimen name="spacing_large">24dp</dimen>
-    <dimen name="spacing_normal">14dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
     <dimen name="spacing_small">10dp</dimen>
     <dimen name="spacing_tiny">4dp</dimen>
 
     <!-- typical sizes of views -->
-    <dimen name="button_height_tall">60dp</dimen>
-    <dimen name="button_height_normal">40dp</dimen>
+    <dimen name="button_height_tall">64dp</dimen>
+    <dimen name="button_height_normal">48dp</dimen>
     <dimen name="button_height_short">32dp</dimen>
 
 </resources>

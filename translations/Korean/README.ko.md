@@ -201,19 +201,13 @@ Android Studio는 Java8 lambda의 코드 지원을 제공한다. 만약 lambda�
 
 ### Activity와 Fragment
 
-[Fragment](http://developer.android.com/guide/components/fragments.html)는 Android의 UI 화면을 구현하는 데에 기본 옵션이 된다. Fragment는 애플리케이션을 구성하는 재사용 가능한 사용자 인터페이스이다. 사용자 인터페이스 화면을 표현할 때 [Activity](http://developer.android.com/guide/components/activities.html) 대신 Fragment를 사용하는 것을 추천하는데, 그 이유는 다음과 같다:
+Fragment와 Activity를 이용하여 Android의 구조를 가장 좋은 방법으로 설계하는 방법은 커뮤니티나 Futurice 개발자들 사이에서도 합의된 바가 없다. Square는 Fragment의 우회 대안으로 [a library for building architectures mostly with Views](https://github.com/square/mortar)를 제공하는데, 이 또한 커뮤니티 사이에서 널리 추천할만한 방식은 아니라고 생각된다.
 
-- **다중 화면(Multi-pane) 레이아웃의 해결책.** Fragment는 주로 폰 애플리케이션을 타블렛 화면으로 확장하는 것으로 소개되는데, A와 B가 폰 화면 전체를 차지할 때 A와 B 화면 모두를 타블렛 화면에 표현할 수 있기 때문이다. 만일 애플리케이션을 시작부터 Fragment로 구현했다면, 나중에 애플리케이션에 다른 폼 요소들을 적용하기에 쉬울 것이다.
+Android API의 히스토리로 인해, 막연히 Fragment가 화면상의 UI 조각이라고 떠올릴 수 있을 것이다. 즉, Fragment는 일반적으로 UI와 연관되어 있다는 것이다. Activity 또한 막연하게 그들의 라이프사이클과 상태를 관리하는 데에 중요한 컨트롤러라고 생각할 수 있다. 그러나, 다음 역할들에서 차이를 쉽게 찾아볼 수 있다: Activity는 UI 역할을 수행하고([delivering transitions between screens](https://developer.android.com/about/versions/lollipop.html)), [Fragment는 독립적으로 컨트롤러의 역할을 수행한다](http://developer.android.com/guide/components/fragments.html#AddingWithoutUI). 그래서 우리는 Fragment 혹은 Activity, 또는 View 셋 중 하나만을 이용한 구조를 선택함에 있어서 결함이 있다는 점을 파악하고 정확한 근거를 갖는 결정을 하여 조심스럽게 시작하기를 권한다. 다음은 주의해야 할 것들에 대한 조언인데, 적당히 걸러서 수용하자:
 
-- **화면 간 통신.** Android의 API는 Activity 간에 복잡한 데이터(e.g., Java 객체)를 전송하기에 적절한 방법을 제공하지 않는다. 그러나 Fragment를 이용하면, Activity 인스턴스를 자식 Fragment 간의 통신 채널로 사용할 수 있다. 이 방법이 Activity 간의 통신에 더 나은 방법임에도 불구하고 더 깔끔한 접근을 위해 [Otto](https://square.github.io/otto/)나 [greenrobot EventBus](https://github.com/greenrobot/EventBus) 같은 Event Bus 설계를 사용하길 원할 수 있는데, 또 하나의 라이브러리 추가를 피하고 싶을 경우, RxJava를 Event Bus 구현에 사용할 수 있다.
-
-- **Fragment는 UI에만 국한되지 않을 만큼 일반적이다.** [fragment without a UI](http://developer.android.com/guide/components/fragments.html#AddingWithoutUI)를 통해 Activity에 대한 백그라운드 워커를 구현할 수 있다. 이 아이디어를 활용하여 Activity 대신 로직을 갖는 [fragment to contain the logic for changing fragments](http://stackoverflow.com/questions/12363790/how-many-activities-vs-fragments/12528434#12528434)를 만들 수도 있다.
-
-- **ActionBar 또한 Fragment 안에서 관리할 수 있다.** UI 없이 ActionBar를 관리하는 목적만을 가진 Fragment를 만들거나, 부모 Activity의 ActionBar에 자신의 액션 아이템들을 추가하는 가시적인 Fragment를 만들 수 있다. [Read more here](http://www.grokkingandroid.com/adding-action-items-from-within-fragments/).
-
-그렇다고는 해도, [nested fragments](https://developer.android.com/about/versions/android-4.2.html#NestedFragments)를 널리 사용하는 것은 권하지 않는데, [matryoshka bugs](http://delyan.me/android-s-matryoshka-problem/)가 발생할 수 있기 때문이다. 중첩된 Fragment는 꼭 타당한 경우(예를 들면, 수평으로 슬라이딩하는 ViewPager 내부의 Fragment들)나 잘 설명할 수 있을 만한 경우에만 사용하자.
-
-설계 단계에서, 앱은 관련된 작업을 하는 Fragment들을 포함하는 최상위 Activity를 갖는다. 주 Activity와의 통신이 간단하고 [`Intent.setData()`](http://developer.android.com/reference/android/content/Intent.html#setData(android.net.Uri))나 [`Intent.setAction()`](http://developer.android.com/reference/android/content/Intent.html#setAction(java.lang.String))와 비슷한 것들로 제한될 수 있는 한, 다른 지원되는 Activity들도 사용할 수 있다.
+- [Nested fragments](https://developer.android.com/about/versions/android-4.2.html#NestedFragments)를 널리 사용하는 것은 피해야 하는데, [matryoshka bugs](http://delyan.me/android-s-matryoshka-problem/)가 발생할 수 있기 때문이다. 중첩된 Fragment는 꼭 타당한 경우(예를 들면, 수평으로 슬라이딩하는 ViewPager 내부의 Fragment들)나 잘 설명할 수 있을 만한 경우에만 사용하자.
+- Activity에 너무 많은 코드를 넣는 것을 피해야 한다. 가능하면 언제든지 가벼운 컨테이너로서 유지하고, 주로 라이프사이클과 다른 중요한 Android와의 인터페이싱 API를 위해서만 존재하도록 하자. 순수 Activity 보다는 단일 Fragment로 구성된 Activity가 좋다 - UI 코드를 Activity의 Fragment에 넣자. 이는 다른 잘 구성된 레이아웃, 혹은 여러 Fragment로 구성된 타블렛 화면으로 옮길 필요가 있을 때에 재사용이 가능하도록 만든다. 정확한 근거가 없는 결정이라면 Fragment와 상호 작용하지 않는 Activity는 피하자.
+- 앱의 내부적 동작이 Intent에 강하게 의존적인 Android 레벨의 API를 남용해서는 안된다. 이는 버그와 렉을 유발하여 Android OS나 다른 애플리케이션들에 영향을 줄 수 있다. 예를 들어, 만약 앱이 당신의 패키지 사이에서 내부적인 커뮤니케이션을 위해 Intent를 사용한다면, 앱이 OS 부팅 바로 후에 실행되었을 때 사용자 경험 상에서 몇 초간의 렉을 발생시킬 수 있다고 알려져 있다.
 
 ### Java 패키지 설계
 
@@ -490,13 +484,13 @@ buildTypes {
     release {
         signingConfig signingConfigs.release
         minifyEnabled true
-        proguardFiles 'proguard-rules.pro'
+        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
 }
 ```
 
 어떤 코드가 보존되어야 하고 어떤 코드가 버려지거나 난독화되어야할 지 결정하기 위해, 코드에 한 개 이상의 엔트리 포인트를 설정해야한다. 이 엔트리 포인트는 일반적으로 main 메소드, applets, midlets, Activity와 같은 것들이다.
-Android 프레임워크는 `SDK_HOME/tools/proguard/proguard-android.txt`에서 찾아볼 수 있는 기본 설정을 사용한다. `my-project/app/proguard-rules.pro`의 사용자화된 특정 프로젝트 ProGuard 규칙은 기본 설정에 추가로 설정될 것이다.
+Android 프레임워크는 `SDK_HOME/tools/proguard/proguard-android.txt`에서 찾아볼 수 있는 기본 설정을 사용한다. 위의 설정을 사용하여, `my-project/app/proguard-rules.pro`의 사용자화된 특정 프로젝트 ProGuard 규칙은 기본 설정에 추가로 설정될 것이다.
 
 ProGuard와 관련된 일반적인 문제는 어떠한 Warning도 없이 빌드 커맨드가 성공했는데도 애플리케이션이 시작시에  `ClassNotFoundException`나 `NoSuchFieldException`와 비슷한 예외로 크래시가 발생하는 것이다.
 이는 두 가지 중 하나를 의미한다:

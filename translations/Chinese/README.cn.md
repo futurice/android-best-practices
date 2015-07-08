@@ -28,7 +28,7 @@
 
 将你的[Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools)放在你的home目录或其他应用程序无关的位置。
 当安装有些包含SDK的IDE的时候，可能会将SDK放在IDE同一目录下，当你需要升级（或重新安装）IDE或更换的IDE时，会非常麻烦。
-此外，若果你的IDE是在普通用户，不是在root下运行，还要避免吧SDK放到一下需要sudo权限的系统级别目录下。
+此外，若果你的IDE是在普通用户，不是在root下运行，还要避免把SDK放到一下需要sudo权限的系统级别目录下。
 
 ### 构建系统
 

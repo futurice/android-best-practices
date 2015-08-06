@@ -23,6 +23,7 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### Use Robolectric for unit tests, Robotium for connected (UI) tests
 #### Use Genymotion as your emulator
 #### Always use ProGuard or DexGuard
+#### Use SharedPreferences for simple persistence, otherwise ContentProviders
 
 
 ----------
@@ -519,6 +520,33 @@ Read more at [Proguard](http://proguard.sourceforge.net/#manual/examples.html) f
 **Tip.** Save the `mapping.txt` file for every release that you publish to your users. By retaining a copy of the `mapping.txt` file for each release build, you ensure that you can debug a problem if a user encounters a bug and submits an obfuscated stack trace.
 
 **DexGuard**. If you need hard-core tools for optimizing, and specially obfuscating release code, consider [DexGuard](http://www.saikoa.com/dexguard), a commercial software made by the same team that built ProGuard. It can also easily split Dex files to solve the 65k methods limitation.
+
+### Data storage
+
+
+#### SharedPreferences
+
+If you only need to persist simple flags and your application runs in a single process SharedPreferences is probably enough for you. It is a good default option.
+
+There are two reasons why you might not want to use SharedPreferences:
+
+* *Performance*: Your data is complex or there is a lot of it
+* *Multiple processes accessing the data*: You have widgets or remote services that run in their own processes and require synchronized data
+
+
+#### ContentProviders
+
+In the case SharedPreferences is not enough for you, you should use the platform standard ContentProviders, which are fast and process safe.
+
+The single problem with ContentProviders is the amount of boilerplate code that is needed to set them up, as well as low quality tutorials. It is possible, however, to generate the ContentProvider by using a library such as [Schematic](https://github.com/SimonVT/schematic), which significantly reduces the effort.
+
+You still need to write some parsing code yourself to read the data objects from the Sqlite columns and vice versa. It is possible to serialize the data objects, for instance with Gson, and only persist the resulting string. In this way you lose in performance but on the other hand you do not need to declare a column for all the fields of the data class.
+
+
+#### Using an ORM
+
+We generally do not recommend using an Object-Relation Mapping library unless you have unusually complex data and you have a dire need. They tend to be complex and require time to learn. If you decide to go with an ORM you should pay attention to whether or not it is _process safe_ if your application requires it, as many of the existing ORM solutions surprisingly are not.
+
 
 ### Thanks to
 

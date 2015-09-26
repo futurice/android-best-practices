@@ -529,8 +529,8 @@ com.futurice.project
 **小心关于WebViews的问题.** 如果你必须显示一个web视图，
 比如说对于一个新闻文章，避免做客户端处理HTML的工作，
 最好让后端工程师协助，让他返回一个 "*纯*" HTML。
-[WebViews 也能导致内存泄露](http://stackoverflow.com/questions/3130654/memory-leak-in-webview)
-当保持引他们的Activity，而不是被绑定到ApplicationContext中的时候。
+当绑定WebViews到引用它的Activity,而不是绑定到ApplicationContext时。
+[WebViews 也能导致内存泄露](http://stackoverflow.com/questions/3130654/memory-leak-in-webview)。
 当使用简单的文字或按钮时，避免使用WebView，这时使用TextView或Buttons更好。
 
 ### 测试框架

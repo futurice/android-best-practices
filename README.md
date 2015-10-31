@@ -145,7 +145,7 @@ dependencies {
 ```    
 
 **Avoid Maven dynamic dependency resolution**
-Avoid the use of dynamically versioned, such as `2.1.+` as this may result in different in unstable builds or subtle, untracked differences in behavior between builds. The use of static versions such as `2.1.1` helps create a more stable, predictable and repeatable development environment.
+Avoid the use of dynamically versioned, such as `2.1.+` as this may result in different and unstable builds or subtle, untracked differences in behavior between builds. The use of static versions such as `2.1.1` helps create a more stable, predictable and repeatable development environment.
 
 ### IDEs and text editors
 

@@ -20,6 +20,7 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### Also keep dimens.xml DRY, define generic constants
 #### Do not make a deep hierarchy of ViewGroups
 #### Avoid client-side processing for WebViews, and beware of leaks
+#### Avoid time delays on UI thread, use a Runnable and Handler instead.
 #### Use Robolectric for unit tests, Robotium for connected (UI) tests
 #### Use Genymotion as your emulator
 #### Always use ProGuard or DexGuard

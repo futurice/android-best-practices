@@ -385,28 +385,28 @@ Dê o nome aos strings com keys que fazem lembrar namespaces, e não tenha recei
 
 **Mau**
 ```xml
-<string name="network_error">Network error</string>
-<string name="call_failed">Call failed</string>
-<string name="map_failed">Map loading failed</string>
+<string name="network_error">Erro de rede</string>
+<string name="call_failed">Pedido falhou</string>
+<string name="map_failed">Carregamento do mapa falhou</string>
 ```
 
 **Bom**
 ```xml
-<string name="error.message.network">Network error</string>
-<string name="error.message.call">Call failed</string>
-<string name="error.message.map">Map loading failed</string>
+<string name="error.message.network">Erro de rede</string>
+<string name="error.message.call">Pedido falhou</string>
+<string name="error.message.map">Carregamento do mapa falhou</string>
 ```
 
 Não escreva os valores do strings em letras maiúsculas. Mantenha-se dentro das convenções normais de texto (exemplo: coloque o primeiro caráter em letras maiúscula). Se precisa de mostrar o string em letras maiúsculas, então use por exemplo o atributo [`textAllCaps`](http://developer.android.com/reference/android/widget/TextView.html#attr_android:textAllCaps) na própria TextView.
 
 **Bad**
 ```xml
-<string name="error.message.call">CALL FAILED</string>
+<string name="error.message.call">PEDIDO FALHOU</string>
 ```
 
 **Good**
 ```xml
-<string name="error.message.call">Call failed</string>
+<string name="error.message.call">Pedido falhou</string>
 ```
 
 **Evite uma hierarquia muito profunda de views.** Por vezes poderá ser tentado a adicionar apenas mais uma LinearLayout, para conseguir organizar as suas views. Este tipo de situação pode ocorrer:

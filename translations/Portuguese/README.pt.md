@@ -30,7 +30,7 @@ Lições aprendidas por programadores Android na [Futurice](http://www.futurice.
 
 ### Android SDK
 
-Coloque o [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) algures no seu diretório inicial ou algum outro local independente da aplicação . Alguns IDEs incluem o SDK aquando da instalação, e pode colocá-lo sob o mesmo diretório que o IDE. Isso pode ser mau quando precisa de atualizar (ou reinstalar) o IDE, ou quando mudar IDEs . Além disso, evite colocar o SDK noutro diretório em nível de sistema que pode precisar de permissões sudo, se o IDE é executado sob o utilizador e não na raiz.
+Coloque o [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) algures no seu diretório inicial ou algum outro local independente da aplicação . Alguns IDEs incluem o SDK aquando da instalação, e pode colocá-lo sob o mesmo diretório que o IDE. Isso pode ser ruim quando precisa de atualizar (ou reinstalar) o IDE, ou quando mudar IDEs . Além disso, evite colocar o SDK noutro diretório em nível de sistema que pode precisar de permissões sudo, se o IDE é executado sob o utilizador e não na raiz.
 
 ### Sistema de compilação
 
@@ -383,7 +383,7 @@ Nas margens e espaçamentos deverá usar as dimensões `spacing_****` para o lay
 
 Dê o nome aos strings com keys que fazem lembrar namespaces, e não tenha receio de repetir um valor para duas ou mais keys. Linguagens são complexas, portanto namespaces são necessários para trazer contexto e quebrar ambiguidade.
 
-**Mau**
+**Ruim*
 ```xml
 <string name="network_error">Erro de rede</string>
 <string name="call_failed">Pedido falhou</string>
@@ -399,12 +399,12 @@ Dê o nome aos strings com keys que fazem lembrar namespaces, e não tenha recei
 
 Não escreva os valores do strings em letras maiúsculas. Mantenha-se dentro das convenções normais de texto (exemplo: coloque o primeiro caráter em letras maiúscula). Se precisa de mostrar o string em letras maiúsculas, então use por exemplo o atributo [`textAllCaps`](http://developer.android.com/reference/android/widget/TextView.html#attr_android:textAllCaps) na própria TextView.
 
-**Bad**
+**Ruim**
 ```xml
 <string name="error.message.call">PEDIDO FALHOU</string>
 ```
 
-**Good**
+**Bom**
 ```xml
 <string name="error.message.call">Pedido falhou</string>
 ```

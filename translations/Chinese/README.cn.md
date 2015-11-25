@@ -10,11 +10,11 @@
 * 把密码和敏感数据放在gradle.properties
 * 不要自己写 HTTP 客户端,使用Volley或OkHttp库
 * 使用Jackson库解析JSON数据
-* 避免使用Guava同时使用一些类库来避免*65k method limit*（一个Android程序中最多能执行65536个方法）
+* 避免使用Guava，同时只用必要的库来避免*65k method limit*（一个Android程序中最多能执行65536个方法）
 * 使用 Fragments来呈现UI视图
 * 使用 Activities 只是为了管理 Fragments
 * Layout 布局是 XMLs代码，组织好它们
-* 在layoutout XMLs布局时，使用styles文件来避免使用重复的属性
+* 在layout XMLs布局时，使用styles文件来避免使用重复的属性
 * 使用多个style文件来避免单一的一个大style文件
 * 保持你的colors.xml 简短DRY(不要重复自己)，只是定义调色板
 * 总是使用dimens.xml DRY(不要重复自己)，定义通用常数
@@ -22,17 +22,17 @@
 * 在使用WebViews时避免在客户端做处理，当心内存泄露
 * 使用Robolectric单元测试，Robotium 做UI测试
 * 使用Genymotion 作为你的模拟器
-* 总是使用ProGuard 和 DexGuard混淆来项目
+* 总是使用ProGuard 和 DexGuard 来混淆项目
 
 ### Android SDK
 
 将你的[Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools)放在你的home目录或其他应用程序无关的位置。
 当安装有些包含SDK的IDE的时候，可能会将SDK放在IDE同一目录下，当你需要升级（或重新安装）IDE或更换的IDE时，会非常麻烦。
-此外，若果你的IDE是在普通用户，不是在root下运行，还要避免吧SDK放到一下需要sudo权限的系统级别目录下。
+此外，如果你的IDE是在普通用户，不是在root下运行，还要避免把SDK放到以下需要sudo权限的系统级别目录下。
 
 ### 构建系统
 
-你的默认编译环境应该是[Gradle](http://tools.android.com/tech-docs/new-build-system).
+你的默认编译环境应该是[Gradle](http://tools.android.com/tech-docs/new-build-system)。
 Ant 有很多限制，也很冗余。使用Gradle，完成以下工作很方便：
 
 - 构建APP不同版本的变种
@@ -101,10 +101,10 @@ new-structure
 更多信息请参考[Gradle's documentation](http://www.gradle.org/docs/current/userguide/userguide_single.html#N10CBF)。
 
 
-**密码** 在做版本release时你app的 `build.gradle`你需要定义 `signingConfigs`.此时你应该避免以下内容：
+**密码** 在做版本release时你app的 `build.gradle`你需要定义 `signingConfigs`。此时你应该避免以下内容：
 
 
-_不要做这个_ . 这会出现在版本控制中。
+_不要这样做_ 。 这会出现在版本控制中。
 
 ```groovy
 signingConfigs {
@@ -144,10 +144,10 @@ signingConfigs {
 ```
 	
 
-**使用 Maven 依赖方案代替使用导入jar包方案** 如果在你的项目中你明确使用率
-jar文件，那么它们可能成为永久的版本，如`2.1.1`.下载jar包更新他们是很繁琐的，
+**使用 Maven 依赖方案代替使用导入jar包方案** 如果在你的项目中你明确使用了
+jar文件，那么它们可能成为永久的版本，如`2.1.1`。下载jar包更新他们是很繁琐的，
 这个问题Maven很好的解决了，这在Android Gradle构建中也是推荐的方法。你可
-以指定版本的一个范围，如`2.1.+`,然后Maven会自动升级到制定的最新版本，例如：
+以指定版本的一个范围，如`2.1.+`,然后Maven会自动升级到指定的最新版本，例如：
 
 ```groovy
 dependencies {
@@ -185,16 +185,16 @@ dependencies {
 
 **[Jackson](http://wiki.fasterxml.com/JacksonHome)** 是一个将java对象转换成JSON与JSON转化java类的类库。[Gson](https://code.google.com/p/google-gson/)
 是解决这个问题的流行方案，然而我们发现Jackson更高效,因为它支持替代的方法处理JSON:流、内存树模型,和传统JSON-POJO数据绑定。不过，请记住，
-Jsonkson库比起GSON更大，所以根据你的情况选择，你可能选择GSON来避免APP 65k个方法限制。其它选择: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
+Jsonkson库比起GSON更大，所以根据你的情况选择，你可能选择GSON来避免APP 65k个方法限制。其它选择: [Json-smart](https://code.google.com/p/json-smart/) 和 [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
 
 
 **网络请求，缓存，图片** 执行请求后端服务器，有几种交互的解决方案，你应该考虑实现你自己的网络客户端。使用 [Volley](https://android.googlesource.com/platform/frameworks/volley)
-或[Retrofit](http://square.github.io/retrofit/)。Volley 同时提供图片缓存类。若果你选择使用Retrofit,那么考虑使用[Picasso](http://square.github.io/picasso/)
-来加载图片和缓存，同时使用[OkHttp](http://square.github.io/okhttp/)作为高效的网络请求。Retrofit，Picasso和OkHttp都是有同一家公司开发（注：
-是由[Square](https://github.com/square) 公司开发），所以它们能很好的在一起运行。[OkHttp 同样可以和Volley在一起使用 Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
+或[Retrofit](http://square.github.io/retrofit/)。Volley 同时提供图片加载和缓存功能。如果你选择使用Retrofit,那么考虑使用[Picasso](http://square.github.io/picasso/)
+来加载图片和缓存，同时使用[OkHttp](http://square.github.io/okhttp/)作为高效的网络请求。Retrofit，Picasso和OkHttp都是由同一家公司开发（注：
+是由[Square](https://github.com/square) 公司开发），所以它们能很好的在一起运行。[OkHttp 同样可以和Volley在一起使用](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
 
-**RxJava** 是函数式反应性的一个类库，换句话说，能处理异步的事件。
-这是一个强大的和有前途的模式，同时也可能会造成混淆，因为它是如此的不同。
+**RxJava** 是反应型编程的一个类库，换句话说，能处理异步的事件。
+这是一个强大且有前途的模式，同时也可能会造成混淆，因为它是如此的不同。
 我们建议在使用这个库架构整个应用程序之前要谨慎考虑。
 有一些项目是使用RxJava完成的，如果你需要帮助可以跟这些人取得联系：
 Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, Juha Ristolainen.
@@ -204,20 +204,20 @@ Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrail
 [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
 
 
-如若你之前有使用过Rx的经历，开始从API响应应用它。
+如若你之前没有使用过Rx的经历，开始从API响应应用它。
 另外，从简单的UI事件处理开始运用，如单击事件或在搜索栏输入事件。
 若对你的Rx技术有信心，同时想要将它应用到你的整体架构中，那么请在复杂的部分写好Javadocs文档。
 请记住其他不熟悉RxJava的开发人员，可能会非常难理解整个项目。
-尽你的的全力帮助他们理解你的代码和Rx。
+尽你的全力帮助他们理解你的代码和Rx。
 
-**[Retrolambda](https://github.com/evant/gradle-retrolambda)** 是一个在Android和预JDK8平台上的使用Lambda表达式语法的Java类库。
+**[Retrolambda](https://github.com/evant/gradle-retrolambda)** 是一个在Android和JDK8之前的平台上使用Lambda表达式语法的Java类库。
 它有助于保持你代码的紧凑性和可读性，特别当你使用如RxJava函数风格编程时。
 使用它时先安装JDK8，在Android Studio工程结构对话框中把它设置成为SDK路径，同时设置`JAVA8_HOME`和`JAVA7_HOME`环境变量，
 然后在工程根目录下配置 build.gradle：
 
 ```groovy
 dependencies {
-	classpath 'me.tatarka:gradle-retrolambda:2.4.+'
+	classpath 'me.tatarka:gradle-retrolambda:2.4.1'
 }
 ```
 
@@ -239,14 +239,14 @@ retrolambda {
 }
 ```
 
-Android Studio 提供Java8 lambdas表带是代码提示支持。如果你对lambdas不熟悉，只需参照以下开始学习吧：
+Android Studio 提供Java8 lambdas表达式代码提示支持。如果你对lambdas不熟悉，只需参照以下开始学习吧：
 
-- 任何只包含一个接口的方法都是"lambda friendly"同时代码可以被折叠成更紧凑的语法
-- 如果对参数或类似有疑问，就写一个普通的匿名内部类，然后让Android Status为你生成一个lambda。
+- 任何只包含一个接口的方法都是"lambda friendly"，同时代码可以被折叠成更紧凑的语法
+- 如果对参数或类似有疑问，就写一个普通的匿名内部类，然后让Android Studio为你生成一个lambda。
 
-**当心dex方法数限制，同时避免使用过多的类库** Android apps，当打包成一个dex文件时，有一个65535个应用方法强硬限制[[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/)。
+**当心dex方法数限制，同时避免使用过多的类库** Android apps，当打包成一个dex文件时，有一个65536个应用方法强硬限制[[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/)。
 当你突破65k限制之后你会看到一个致命错误。因此，使用一个正常范围的类库文件，同时使用[dex-method-counts](https://github.com/mihaip/dex-method-counts)
-工具来决定哪些类库可以再65k限制之下使用，特别的避免使用Guava类库，因为它包含超过13k个方法。
+工具来决定哪些类库可以在65k限制之下使用，特别的避免使用Guava类库，因为它包含超过13k个方法。
 
 ### Activities and Fragments
 
@@ -285,9 +285,9 @@ Android 应用程序在架构上大致是Java中的[Model-View-Controller](http:
 换句话说，他们是用户接口的部分，同样也是Views视图的部分。
 
 
-正是因为如此，才很难严格的将fragments (或者 activities) 严格的划分成 控制器controlloers还是视图 views。
-最还是将它们放在自己单独的 `fragments` 包中。只要你遵循之前提到的建议，Activities 则可以放在顶级目录下。
-若果你规划有2到3个以上的activity，那么还是同样新建一个`activities`包吧。
+正是因为如此，才很难严格的将fragments (或者 activities) 划分成 控制器controllers还是视图 views。
+最好还是将它们放在自己单独的 `fragments` 包中。只要你遵循之前提到的建议，Activities 则可以放在顶级目录下。
+如果你规划有2到3个以上的activity，那么还是同样新建一个`activities`包吧。
 
 然而，这种架构可以看做是另一种形式的MVC，
 包含要被解析API响应的JSON数据，来填充的POJO的`models`包中。
@@ -298,7 +298,7 @@ Android 应用程序在架构上大致是Java中的[Model-View-Controller](http:
 一些控制器角色的类是应用程序级别的，同时是接近系统的。
 这些类放在`managers`包下面。
 一些繁杂的数据处理类，比如说"DateUtils",放在`utils`包下面。
-与后端交互负责网络处理类，放在`network`包下面。
+负责与后端交互的网络处理类，放在`network`包下面。
 
 
 总而言之，以最接近用户而不是最接近后端去安排他们。
@@ -323,7 +323,7 @@ com.futurice.project
 
 - **命名** 遵循前缀表明类型的习惯，形如`type_foo_bar.xml`。例如：`fragment_contact_details.xml`,`view_primary_button.xml`,`activity_main.xml`.
 
-**组织布局文件** 若果你不确定如何排版一个布局文件，遵循一下规则可能会有帮助。
+**组织布局文件** 如果你不确定如何排版一个布局文件，遵循以下规则可能会有帮助。
 
 - 每一个属性一行，缩进4个空格
 - `android:id` 总是作为第一个属性
@@ -357,12 +357,12 @@ com.futurice.project
 </LinearLayout>
 ```
 
-作为一个经验法则,`android:layout_****`属性应该在 layout XML 中定义,同时其它属性`android:****` 应放在 styler XML中。此规则也有例外，不过大体工作
+作为一个经验法则,`android:layout_****`属性应该在 layout XML 中定义,同时其它属性`android:****` 应放在 style XML中。此规则也有例外，不过大体工作
 的很好。这个思想整体是保持layout属性(positioning, margin, sizing) 和content属性在布局文件中，同时将所有的外观细节属性（colors, padding, font）放
 在style文件中。
 
 
-例外有以下这些:
+有以下例外:
 
 - `android:id` 明显应该在layout文件中
 - layout文件中`android:orientation`对于一个`LinearLayout`布局通常更有意义
@@ -396,7 +396,7 @@ com.futurice.project
 
 **将一个大的style文件分割成多个文件** 你可以有多个`styles.xml` 文件。Android SDK支持其它文件，`styles`这个文件名称并没有作用，起作用的是在文件
 里xml的`<style>`标签。因此你可以有多个style文件`styles.xml`,`style_home.xml`,`style_item_details.xml`,`styles_forms.xml`。
-不用于资源文件路径需要为系统构建起的有意义，在`res/values`目录下的文件可以任意命名。
+不同于资源文件路径需要为系统构建起的有意义，在`res/values`目录下的文件可以任意命名。
 
 
 
@@ -442,7 +442,7 @@ com.futurice.project
 </resources>
 ```
 
-向应用设计者那里要这个调色板，名称不需要跟"green", "blue", 等等相同。
+向应用设计师那里要这个调色板，名称不需要跟"green", "blue", 等等相同。
 "brand_primary", "brand_secondary", "brand_negative" 这样的名字也是完全可以接受的。
 像这样规范的颜色很容易修改或重构，会使应用一共使用了多少种不同的颜色变得非常清晰。
 通常一个具有审美价值的UI来说，减少使用颜色的种类是非常重要的。
@@ -530,7 +530,7 @@ com.futurice.project
 比如说对于一个新闻文章，避免做客户端处理HTML的工作，
 最好让后端工程师协助，让他返回一个 "*纯*" HTML。
 [WebViews 也能导致内存泄露](http://stackoverflow.com/questions/3130654/memory-leak-in-webview)
-当保持引他们的Activity，而不是被绑定到ApplicationContext中的时候。
+当保持引用他们的Activity，而不是被绑定到ApplicationContext中的时候。
 当使用简单的文字或按钮时，避免使用WebView，这时使用TextView或Buttons更好。
 
 ### 测试框架
@@ -538,20 +538,20 @@ com.futurice.project
 
 Android SDK的测试框架还处于初级阶段，特别是关于UI测试方面。Android Gradle 
 目前实现了一个叫[`connectedAndroidTest`](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Testing)的测试，
-它[使用一个JUnit 为Android提供的扩展插件 extension of JUnit with helpers for Android](http://developer.android.com/reference/android/test/package-summary.html).可以跑你生成的JUnit测试，
+它[使用一个JUnit 为Android提供的扩展插件](http://developer.android.com/reference/android/test/package-summary.html).可以跑你生成的JUnit测试，
 
 
 **只当做单元测试时使用 [Robolectric](http://robolectric.org/) ，views 不用**
-它是一个最求提供"不连接设备的"为了加速开发的测试，
-非常时候做 models 和 view models 的单元测试。
-然而，使用Robolectric测试时不精确的，也不完全对UI测试。
+它是一个追求提供"不连接设备的"为了加速开发的测试，
+非常适合做 models 和 view models 的单元测试。
+然而，使用Robolectric测试是不精确的，也不完全对UI测试。
 当你对有关动画的UI元素、对话框等，测试时会有问题，
 这主要是因为你是在 “在黑暗中工作”（在没有可控的界面情况下测试）
 
 
 **[Robotium](https://code.google.com/p/robotium/) 使写UI测试非常简单。
 ** 对于UI测试你不需 Robotium 跑与设备连接的测试。
-但它可能会对你有益，是因为它有许多来帮助类的获得和分析视图，控制屏幕。
+但它可能会对你有益，是因为它有许多帮助类来获得和分析视图，控制屏幕。
 测试用例看起来像这样简单：
 
 ```java
@@ -600,7 +600,7 @@ Android framework 使用一个默认的配置文件，可以在`SDK_HOME/tools/p
 
 
 关于 ProGuard 一个普遍的问题，是看应用程序是否崩溃并报`ClassNotFoundException` 或者 `NoSuchFieldException` 或类似的异常，
-即使编译是没有警告并运行成功。
+即使编译时没有警告并运行成功。
 这意味着以下两种可能：
 
 1. ProGuard 已经移除了类，枚举，方法，成员变量或注解，考虑是否是必要的。
@@ -609,7 +609,6 @@ Android framework 使用一个默认的配置文件，可以在`SDK_HOME/tools/p
 检查`app/build/outputs/proguard/release/usage.txt`文件看有问题的对象是否被移除了。
 检查 `app/build/outputs/proguard/release/mapping.txt` 文件看有问题的对象是否被混淆了。
 
-In order to prevent ProGuard from *stripping away* needed classes or class members, add a `keep` options to your proguard config:
 以防 ProGuard *剥离* 需要的类和类成员，添加一个 `keep`选项在你的 proguard 配置文件中：
 ```
 -keep class com.futurice.project.MyClass { *; }
@@ -630,8 +629,8 @@ In order to prevent ProGuard from *stripping away* needed classes or class membe
 **Tips**每次发布新版本都要写 `mapping.txt`。每发布一个版本，如果用户遇到一个bug，同时提交了一个混淆过的堆栈跟踪。
 通过保留`mapping.txt`文件，来确定你可以调试的问题。
 
-**DexGuard** 若果你需要核心工具来优化，和专门混淆的发布代码，考虑使用[DexGuard](http://www.saikoa.com/dexguard),
-一个商业软件，ProGuard 也是有他们团队开发的。
+**DexGuard** 如果你需要核心工具来优化，和专门混淆的发布代码，考虑使用[DexGuard](http://www.saikoa.com/dexguard),
+一个商业软件，ProGuard 也是由他们团队开发的。
 它会很容易将Dex文件分割，来解决65K个方法限制问题。
 
 

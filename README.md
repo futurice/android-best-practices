@@ -459,7 +459,7 @@ Android SDK's testing framework is still infant, specially regarding UI tests. A
 
 ```java
 solo.sendKey(Solo.MENU);
-solo.clickOnText("More"); // searches for the first occurence of "More" and clicks on it
+solo.clickOnText("More"); // searches for the first occurrence of "More" and clicks on it
 solo.clickOnText("Preferences");
 solo.clickOnText("Edit File Extensions");
 Assert.assertTrue(solo.searchText("rtf"));

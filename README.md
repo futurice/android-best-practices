@@ -14,9 +14,9 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### [Use Fragments to represent a UI screen](#activities-and-fragments)
 #### [Use Activities just to manage Fragments](#activities-and-fragments)
 #### [Layout XMLs are code, organize them well](#resources)
-#### [Use styles to avoid duplicate attributes in layout XMLs](#resources)
-#### [Use multiple style files to avoid a single huge one](#resources)
-#### [Keep your colors.xml short and DRY, just define the palette](#styles)
+#### [Use styles to avoid duplicate attributes in layout XMLs](#styles)
+#### [Use multiple style files to avoid a single huge one](#splitstyles)
+#### [Keep your colors.xml short and DRY, just define the palette](#colorsxml)
 #### [Also keep dimens.xml DRY, define generic constants](#dimensxml)
 #### [Do not make a deep hierarchy of ViewGroups](#deephierarchy)
 #### [Avoid client-side processing for WebViews, and beware of leaks](#webviews)
@@ -307,6 +307,7 @@ Applied to TextViews:
 
 You probably will need to do the same for buttons, but don't stop there yet. Go beyond and move a group of related and repeated `android:****` attributes to a common style.
 
+<a name="splitstyles"></a>
 **Split a large style file into other files.** You don't need to have a single `styles.xml` file. Android SDK supports other files out of the box, there is nothing magical about the name `styles`, what matters are the XML tags `<style>` inside the file. Hence you can have files `styles.xml`, `styles_home.xml`, `styles_item_details.xml`, `styles_forms.xml`. Unlike resource directory names which carry some meaning for the build system, filenames in `res/values` can be arbitrary.
 
 <a name="colorsxml"></a>

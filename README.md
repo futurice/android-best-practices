@@ -6,24 +6,24 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 
 ## Summary
 
-#### Use Gradle and its recommended project structure
-#### Put passwords and sensitive data in gradle.properties
-#### Don't write your own HTTP client, use Volley or OkHttp libraries
-#### Use the Jackson library to parse JSON data
-#### Avoid Guava and use only a few libraries due to the *65k method limit*
-#### Use Fragments to represent a UI screen
-#### Use Activities just to manage Fragments
-#### Layout XMLs are code, organize them well
-#### Use styles to avoid duplicate attributes in layout XMLs
-#### Use multiple style files to avoid a single huge one
-#### Keep your colors.xml short and DRY, just define the palette
-#### Also keep dimens.xml DRY, define generic constants
-#### Do not make a deep hierarchy of ViewGroups
-#### Avoid client-side processing for WebViews, and beware of leaks
-#### Use Robolectric for unit tests, Robotium for connected (UI) tests
-#### Use Genymotion as your emulator
-#### Always use ProGuard or DexGuard
-#### Use SharedPreferences for simple persistence, otherwise ContentProviders
+#### [Use Gradle and its recommended project structure](#build-system)
+#### [Put passwords and sensitive data in gradle.properties](#gradle-configuration)
+#### [Use the Jackson library to parse JSON data](#libraries)
+#### [Don't write your own HTTP client, use Volley or OkHttp libraries](#networklibs)
+#### [Avoid Guava and use only a few libraries due to the *65k method limit*](#methodlimitation)
+#### [Use Fragments to represent a UI screen](#activities-and-fragments)
+#### [Use Activities just to manage Fragments](#activities-and-fragments)
+#### [Layout XMLs are code, organize them well](#resources)
+#### [Use styles to avoid duplicate attributes in layout XMLs](#resources)
+#### [Use multiple style files to avoid a single huge one](#resources)
+#### [Keep your colors.xml short and DRY, just define the palette](#styles)
+#### [Also keep dimens.xml DRY, define generic constants](#dimensxml)
+#### [Do not make a deep hierarchy of ViewGroups](#deephierarchy)
+#### [Avoid client-side processing for WebViews, and beware of leaks](#webviews)
+#### [Use Robolectric for unit tests, Robotium for connected (UI) tests](#test-frameworks)
+#### [Use Genymotion as your emulator](#emulators)
+#### [Always use ProGuard or DexGuard](#proguard-configuration)
+#### [Use SharedPreferences for simple persistence, otherwise ContentProviders](#data-storage)
 
 
 ----------
@@ -159,8 +159,9 @@ Whatever you use, just make sure Gradle and the new project structure remain as 
 
 ### Libraries
 
-**[Jackson](http://wiki.fasterxml.com/JacksonHome)** is a Java library for converting Objects into JSON and vice-versa. [Gson](https://code.google.com/p/google-gson/) is a popular choice for solving this problem, however we find Jackson to be more performant since it supports alternative ways of processing JSON: streaming, in-memory tree model, and traditional JSON-POJO data binding. Keep in mind, though, that Jackson is a larger library than GSON, so depending on your case, you might prefer GSON to avoid 65k methods limitation. Other alternatives: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
+**[Jackson](http://wiki.fasterxml.com/JacksonHome)** is a Java library for converting Objects into JSON and vice-versa. [Gson](https://code.google.com/p/google-gson/) is a popular choice for solving this problem, however we find Jackson to be more performant since it supports alternative ways of processing JSON: streaming, in-memory tree model, and traditional JSON-POJO data binding. Keep in mind, though, that Jackson is a larger library than Gson, so depending on your case, you might prefer Gson to avoid 65k methods limitation. Other alternatives: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
 
+<a name="networklibs"></a>
 **Networking, caching, and images.** There are a couple of battle-proven solutions for performing requests to backend servers, which you should use perform considering implementing your own client. Use [Volley](https://android.googlesource.com/platform/frameworks/volley) or [Retrofit](http://square.github.io/retrofit/). Volley also provides helpers to load and cache images. If you choose Retrofit, consider [Picasso](http://square.github.io/picasso/) for loading and caching images, and [OkHttp](http://square.github.io/okhttp/) for efficient HTTP requests. All three Retrofit, Picasso and OkHttp are created by the same company, so they complement each other nicely. [OkHttp can also be used in connection with Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
 
 **RxJava** is a library for Reactive Programming, in other words, handling asynchronous events. It is a powerful and promising paradigm, which can also be confusing since it's so different. We recommend to take some caution before using this library to architect the entire application. There are some projects done by us using RxJava, if you need help talk to one of these people: Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, Juha Ristolainen. We have written some blog posts on it: [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
@@ -198,6 +199,7 @@ Android Studio offers code assist support for Java8 lambdas. If you are new to l
 - Any interface with just one method is "lambda friendly" and can be folded into the more tight syntax
 - If in doubt about parameters and such, write a normal anon inner class and then let Android Studio fold it into a lambda for you.
 
+<a name="methodlimitation"></a>
 **Beware of the dex method limitation, and avoid using many libraries.** Android apps, when packaged as a dex file, have a hard limitation of 65536 referenced methods [[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/). You will see a fatal error on compilation if you pass the limit. For that reason, use a minimal amount of libraries, and use the [dex-method-counts](https://github.com/mihaip/dex-method-counts) tool to determine which set of libraries can be used in order to stay under the limit. Especially avoid using the Guava library, since it contains over 13k methods.
 
 ### Activities and Fragments
@@ -282,6 +284,7 @@ The exceptions are:
 - `android:text` should be in layout files because it defines content
 - Sometimes it will make sense to make a generic style defining `android:layout_width` and `android:layout_height` but by default these should appear in the layout files
 
+<a name="styles"></a>
 **Use styles.** Almost every project needs to properly use styles, because it is very common to have a repeated appearance for a view. At least you should have a common style for most text content in the application, for example:
 
 ```xml
@@ -306,6 +309,7 @@ You probably will need to do the same for buttons, but don't stop there yet. Go 
 
 **Split a large style file into other files.** You don't need to have a single `styles.xml` file. Android SDK supports other files out of the box, there is nothing magical about the name `styles`, what matters are the XML tags `<style>` inside the file. Hence you can have files `styles.xml`, `styles_home.xml`, `styles_item_details.xml`, `styles_forms.xml`. Unlike resource directory names which carry some meaning for the build system, filenames in `res/values` can be arbitrary.
 
+<a name="colorsxml"></a>
 **`colors.xml` is a color palette.** There should be nothing else in your `colors.xml` than just a mapping from a color name to an RGBA value. Do not use it to define RGBA values for different types of buttons.
 
 *Don't do this:*
@@ -347,6 +351,7 @@ Instead, do this:
 
 Ask for this palette from the designer of the application. The names do not need to be color names as "green", "blue", etc. Names such as "brand_primary", "brand_secondary", "brand_negative" are totally acceptable as well. Formatting colors as such will make it easy to change or refactor colors, and also will make it explicit how many different colors are being used. Normally for a aesthetic UI, it is important to reduce the variety of colors being used.
 
+<a name="dimensxml"></a>
 **Treat dimens.xml like colors.xml.** You should also define a "palette" of typical spacing and font sizes, for basically the same purposes as for colors. A good example of a dimens file:
 
 ```xml
@@ -405,6 +410,7 @@ Don't write string values in all uppercase. Stick to normal text conventions (e.
 <string name="error.message.call">Call failed</string>
 ```
 
+<a name="deephierarchy"></a>
 **Avoid a deep hierarchy of views.** Sometimes you might be tempted to just add yet another LinearLayout, to be able to accomplish an arrangement of views. This kind of situation may occur:
 
 ```xml
@@ -446,6 +452,7 @@ A couple of problems may occur. You might experience performance problems, becau
 
 Therefore, try to keep your views hierarchy as flat as possible: learn how to use [RelativeLayout](https://developer.android.com/guide/topics/ui/layout/relative.html), how to [optimize your layouts](http://developer.android.com/training/improving-layouts/optimizing-layout.html) and to use the [`<merge>` tag](http://stackoverflow.com/questions/8834898/what-is-the-purpose-of-androids-merge-tag-in-xml-layouts).
 
+<a name="webviews"></a>
 **Beware of problems related to WebViews.** When you must display a web page, for instance for a news article, avoid doing client-side processing to clean the HTML, rather ask for a "*pure*" HTML from the backend programmers. [WebViews can also leak memory](http://stackoverflow.com/questions/3130654/memory-leak-in-webview) when they keep a reference to their Activity, instead of being bound to the ApplicationContext. Avoid using a WebView for simple texts or buttons, prefer TextViews or Buttons.
 
 

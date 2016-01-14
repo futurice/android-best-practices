@@ -73,6 +73,8 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
         }
         release {
             signingConfig signingConfigs.release

@@ -173,11 +173,9 @@ Use different icons to distinguish the builds installed on a device—for exampl
 
 The most recommended IDE at the moment is [Android Studio](https://developer.android.com/sdk/installing/studio.html), because it is developed by Google, is closest to Gradle, uses the new project structure by default, is finally in stable stage, and is tailored for Android development.
 
-You could still use [Eclipse ADT](http://developer.android.com/tools/help/adt.html) if you wish, but you need to configure it, since it expects the old project structure and Ant for building. Be aware that Google now recommends dropping Eclipse in favor of Android Studio:
+Using [Eclipse ADT](http://developer.android.com/tools/help/adt.html) for Android development is no longer a good practice. [Google ended ADT support at the end of 2015](http://android-developers.blogspot.fi/2015/06/an-update-on-eclipse-android-developer.html) and urges users to [migrate to Android Studio](http://developer.android.com/sdk/installing/migrate.html) as soon as possible. You *could* still use Eclipse, but since it expects the old project structure and Ant for building, you need to configure it to work with Gradle, or if that fails, use the command line to build.
 
-> Important: Support for the Android Developer Tools (ADT) in Eclipse has ended, per our [announcement](http://android-developers.blogspot.fi/2015/06/an-update-on-eclipse-android-developer.html). You should migrate your app development projects to Android Studio as soon as possible. For more information on transitioning to Android Studio, see [Migrating from Eclipse ADT](http://developer.android.com/sdk/installing/migrate.html).
-
-You can even use a plain text editor like Vim, Sublime Text, or Emacs. In that case, you will need to use Gradle and `adb` on the command line. If Eclipse's integration with Gradle is not working for you, your options are using the command line just to build, or migrating to Android Studio. This is the best option due to ADT plugin was deprecated recently.
+You can even use a plain text editor like Vim, Sublime Text, or Emacs. In that case, you will need to use Gradle and `adb` on the command line. 
 
 Whatever you use, just make sure Gradle and the new project structure remain as the official way of building the application, and avoid adding your editor-specific configuration files to the version control system. For instance, avoid adding an Ant `build.xml` file. Especially don't forget to keep `build.gradle` up-to-date and functioning if you are changing build configurations in Ant. Also, be kind to other developers, don't force them to change their tool of preference.
 

@@ -24,6 +24,7 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### Use Genymotion as your emulator
 #### Always use ProGuard or DexGuard
 #### Use SharedPreferences for simple persistence, otherwise ContentProviders
+#### Use Stetho to debug your application
 
 
 ----------
@@ -547,6 +548,10 @@ You still need to write some parsing code yourself to read the data objects from
 
 We generally do not recommend using an Object-Relation Mapping library unless you have unusually complex data and you have a dire need. They tend to be complex and require time to learn. If you decide to go with an ORM you should pay attention to whether or not it is _process safe_ if your application requires it, as many of the existing ORM solutions surprisingly are not.
 
+
+### Use Stetho 
+
+[Stetho](http://facebook.github.io/stetho/) is a debug bridge for Android applications from Facebook that integrates with the Chrome desktop browser's Developer Tools. With Stetho you can easily inspect your application, most notably the network traffic. It also allows you to easily inspect and edit SQLite databases and the shared preferences in your app. You should, however, make sure that Stetho is only enabled in the debug build and not in the release build variant. 
 
 ### Thanks to
 

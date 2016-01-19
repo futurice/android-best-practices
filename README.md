@@ -24,6 +24,7 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### [Use Genymotion as your emulator](#emulators)
 #### [Always use ProGuard or DexGuard](#proguard-configuration)
 #### [Use SharedPreferences for simple persistence, otherwise ContentProviders](#data-storage)
+#### [Use Stetho to debug your application](#use-stetho)
 
 
 ----------
@@ -147,13 +148,35 @@ dependencies {
 **Avoid Maven dynamic dependency resolution**
 Avoid the use of dynamically versioned, such as `2.1.+` as this may result in different and unstable builds or subtle, untracked differences in behavior between builds. The use of static versions such as `2.1.1` helps create a more stable, predictable and repeatable development environment.
 
+**Use different package name for non-release builds**
+Use `applicationIdSuffix` for *debug* [build type](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Build-Types) to be able to install both *debug* and *release* apk on the same device (do this also for custom build types, if you need any). This will be especially valuable later on in the app's lifecycle, after it has been published to the store.
+
+```groovy
+android {
+    buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
+        }
+
+        release {
+            // ...
+        }
+    }
+}
+```
+
+Use different icons to distinguish the builds installed on a device—for example with different colors or an overlaid  "debug" label. Gradle makes this very easy: with default project structure, simply put *debug* icon in `app/src/debug/res` and *release* icon in `app/src/release/res`. You could also [change app name](http://stackoverflow.com/questions/24785270/how-to-change-app-name-per-gradle-build-type) per build type, as well as  `versionName` (as in the above example).
+
 ### IDEs and text editors
 
 **Use whatever editor, but it must play nicely with the project structure.** Editors are a personal choice, and it's your responsibility to get your editor functioning according to the project structure and build system.
 
 The most recommended IDE at the moment is [Android Studio](https://developer.android.com/sdk/installing/studio.html), because it is developed by Google, is closest to Gradle, uses the new project structure by default, is finally in stable stage, and is tailored for Android development.
 
-You can use [Eclipse ADT](https://developer.android.com/sdk/installing/index.html?pkg=adt) if you wish, but you need to configure it, since it expects the old project structure and Ant for building. You can even use a plain text editor like Vim, Sublime Text, or Emacs. In that case, you will need to use Gradle and `adb` on the command line. If Eclipse's integration with Gradle is not working for you, your options are using the command line just to build, or migrating to Android Studio. This is the best option due to ADT plugin was deprecated recently.
+Using [Eclipse ADT](http://developer.android.com/tools/help/adt.html) for Android development is no longer a good practice. [Google ended ADT support at the end of 2015](http://android-developers.blogspot.fi/2015/06/an-update-on-eclipse-android-developer.html) and urges users to [migrate to Android Studio](http://developer.android.com/sdk/installing/migrate.html) as soon as possible. You *could* still use Eclipse, but since it expects the old project structure and Ant for building, you need to configure it to work with Gradle, or if that fails, use the command line to build.
+
+You can even use a plain text editor like Vim, Sublime Text, or Emacs. In that case, you will need to use Gradle and `adb` on the command line. 
 
 Whatever you use, just make sure Gradle and the new project structure remain as the official way of building the application, and avoid adding your editor-specific configuration files to the version control system. For instance, avoid adding an Ant `build.xml` file. Especially don't forget to keep `build.gradle` up-to-date and functioning if you are changing build configurations in Ant. Also, be kind to other developers, don't force them to change their tool of preference.
 
@@ -555,6 +578,10 @@ You still need to write some parsing code yourself to read the data objects from
 
 We generally do not recommend using an Object-Relation Mapping library unless you have unusually complex data and you have a dire need. They tend to be complex and require time to learn. If you decide to go with an ORM you should pay attention to whether or not it is _process safe_ if your application requires it, as many of the existing ORM solutions surprisingly are not.
 
+
+### Use Stetho 
+
+[Stetho](http://facebook.github.io/stetho/) is a debug bridge for Android applications from Facebook that integrates with the Chrome desktop browser's Developer Tools. With Stetho you can easily inspect your application, most notably the network traffic. It also allows you to easily inspect and edit SQLite databases and the shared preferences in your app. You should, however, make sure that Stetho is only enabled in the debug build and not in the release build variant. 
 
 ### Thanks to
 

@@ -8,7 +8,7 @@ Leçons apprises par les developpeurs Android de [Futurice](http://www.futurice.
 
 #### Utiliser Gradle et sa structure de projet recommandée
 #### Mettre les mots de passe et les données sensibles dans le fichier gradle.properties
-#### Ne pas écrire son propre client HTTP, utiliser les librairies Volley ou OkHttp
+#### Ne pas écrire son propre client HTTP, utiliser les bibliothèques Volley ou OkHttp
 #### Utiliser la librairie Jackson pour parser les données au format JSON
 #### Eviter d'utiliser Guava et ne pas trop utiliser de libraries à cause de la *limite des 65k méthodes*
 #### Utiliser des fragments pour représenter une interface graphique
@@ -86,7 +86,7 @@ nouvelle-structure
 
 La principale différence est que la nouvelle structure sépare explicitement `source sets` (`main`, `androidTest`), résultant d'un des concepts de Gradle. Vous pourriez par exemple ajouter deux dossiers `payant` `gratuit` dans le dossier `src`qui aura donc le code source de la version payante et de la version gratuite de votre application.
 
-Le fait d'avoir un dossier global `app` permet de distinguer facilement votre application d'autre libraries (ex.: `library-foobar`) qui seraient référencées dans votre application. Le fichier `settings.gradle` garde les références de ces librairies qui pourront ensuite être référencées dans `app/build.gradle`.
+Le fait d'avoir un dossier global `app` permet de distinguer facilement votre application d'autre libraries (ex.: `library-foobar`) qui seraient référencées dans votre application. Le fichier `settings.gradle` garde les références de ces bibliothèques qui pourront ensuite être référencées dans `app/build.gradle`.
 
 ### Configuration de Gradle
 
@@ -144,7 +144,7 @@ dependencies {
 ```
 
 **Eviter les résolutions dynamiques de dépendence Maven**
-Evitez l'utilisation de versions dynamiques des librairies comme `2.1.+` car cela pourrait mener à des builds de votre application instables ou à des différénces subtiles du comportement de votre application entre vos différents builds. L'utilisation de versions statiques des librairies comme `2.1.1` permet de créer des environnements de développement plus stables et prédictibles.
+Evitez l'utilisation de versions dynamiques des bibliothèques comme `2.1.+` car cela pourrait mener à des builds de votre application instables ou à des différénces subtiles du comportement de votre application entre vos différents builds. L'utilisation de versions statiques des bibliothèques comme `2.1.1` permet de créer des environnements de développement plus stables et prédictibles.
 
 ### IDEs et éditeurs de texte/code
 
@@ -156,11 +156,11 @@ Vous pouvez utiliser [Eclipse ADT](https://developer.android.com/sdk/installing/
 
 Peu importe ce que vous utilisez, veuillez vous assurer que vous avez la nouvelle structure de projet, que vous utilisez Gradle et que vous n'introduisez pas de fichiers de configuation spécifique à votre éditeur de code dans le système de contrôle de version. Par exemple évitez d'ajouter un fichier de configuration Ant `build.xml`. Notamment n'oubliez pas de mettre à jour `build.gradle` si vous changez de configuration Ant. Enfin soyez sympas avec les autres développeurs et ne les forcez pas à changer leurs outils de développement ou leurs préférences.
 
-### Librairies
+### Bibliothèques
 
 **[Jackson](http://wiki.fasterxml.com/JacksonHome)** est une librairie capable de convertir les Objets en JSON et vice-versa. [Gson](https://code.google.com/p/google-gson/) est une librairie similaire et aussi populaire cependant nous trouvons que Jackson est plus performante car elle supporte différentes façons de traiter le JSON : en streaming, avec une structure d'arbre et le mapping traditionnel JSON-POJO. Garder en tête toutefois que Jackson est une librairie plus conséquente que GSON donc selon votre cas vous serez peut-être amené à choisir GSON pour éviter la limitation des 65k méthodes. Autres alternatives : [Json-smart](https://code.google.com/p/json-smart/) et [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
 
-**Réseaux, cache et images.** Il existe plusieurs solutions pour faire des requètes sur un backend. Vous pouvez utiliser [Volley](https://android.googlesource.com/platform/frameworks/volley) ou [Retrofit](http://square.github.io/retrofit/). Volley apporte aussi des helpers permettant de charger et mettre en cache des images. Si vous choisissez Retrofit, nous vous conseillons d'utiliser [Picasso](http://square.github.io/picasso/) pour charger et mettre en cache les images et [OkHttp](http://square.github.io/okhttp/) pour faire des requètes HTTP performantes. Les trois librairies Retrofit, Picasso et OkHttp ont été créees par la même entreprise donc elles se complètent plutôt bien. [OkHttp can also be used in connection with Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
+**Réseaux, cache et images.** Il existe plusieurs solutions pour faire des requètes sur un backend. Vous pouvez utiliser [Volley](https://android.googlesource.com/platform/frameworks/volley) ou [Retrofit](http://square.github.io/retrofit/). Volley apporte aussi des helpers permettant de charger et mettre en cache des images. Si vous choisissez Retrofit, nous vous conseillons d'utiliser [Picasso](http://square.github.io/picasso/) pour charger et mettre en cache les images et [OkHttp](http://square.github.io/okhttp/) pour faire des requètes HTTP performantes. Les trois bibliothèques Retrofit, Picasso et OkHttp ont été créees par la même entreprise donc elles se complètent plutôt bien. [OkHttp can also be used in connection with Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
 
 **RxJava** est une librairie pour faire de la programmation réactive, en d'autres termes, elle permet de gérer des évènements asynchrones. C'est un paradigme puissant et prometteur bien qu'il puisse être déroutant du fait de ses différences. Nous vous recommandons de faire très attention avant d'utiliser cette librairie pour réaliser l'architecture de votre application. Parmi nous projets, certains ont été réalisés avec RxJava. Si vous avez besoin d'aide adressez vous à l'une de ces personnes : Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, Juha Ristolainen. Nous avons écris des articles dessus : [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
 
@@ -197,7 +197,7 @@ Android Studio propose un support pour l'utilisation de lambdas Java8. Si vous d
 - Toute interface qui comporte uniquement une méthode est compatible lambda et peut être réduite dans la syntaxe la plus compacte.
 - Si vous avez des doutes concernant les paramètres ou autre, écrivez une classe interne normale et laissez Android Studio la compacter en un lambda pour vous.
 
-**Faites attention à la limiation des méthodes dex et évitez d'utiliser beaucoup de librairies.** Lorsque les applications Android sont packagées en un fichier Dex, elles ont une limitation de 65536 méthodes référencées [[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/). Vous verrez une erreur fatale si jamais vous dépassez cette limite. Pour cette raison utilisez un minimum de librairies et utilisez l'outil [dex-method-counts](https://github.com/mihaip/dex-method-counts) pour déterminer quelles librairies peuvent être utilisées pour rester en dessous de cette limite. Evitez d'utiliser la librairie Guava car elle contient plus de 13k méthodes.
+**Faites attention à la limiation des méthodes dex et évitez d'utiliser beaucoup de bibliothèques.** Lorsque les applications Android sont packagées en un fichier Dex, elles ont une limitation de 65536 méthodes référencées [[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/). Vous verrez une erreur fatale si jamais vous dépassez cette limite. Pour cette raison utilisez un minimum de bibliothèques et utilisez l'outil [dex-method-counts](https://github.com/mihaip/dex-method-counts) pour déterminer quelles bibliothèques peuvent être utilisées pour rester en dessous de cette limite. Evitez d'utiliser la librairie Guava car elle contient plus de 13k méthodes.
 
 ### Les activités et les fragments
 

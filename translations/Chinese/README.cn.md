@@ -1,7 +1,7 @@
 # Android 开发最佳实践
- 
+
 从[Futurice](http://www.futurice.com)公司Android开发者中学到的经验。
-遵循以下准则，避免重复发明轮子。若您对开发iOS或Windows Phone 有兴趣，
+遵循以下准则，避免重复发明轮子。若你对开发iOS或Windows Phone 有兴趣，
 请看[**iOS Good Practices**](https://github.com/futurice/ios-good-practices) 和 [**Windows client Good Practices**](https://github.com/futurice/win-client-dev-good-practices) 这两篇文章。
 
 ## 摘要
@@ -28,7 +28,7 @@
 
 将你的[Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools)放在你的home目录或其他应用程序无关的位置。
 当安装有些包含SDK的IDE的时候，可能会将SDK放在IDE同一目录下，当你需要升级（或重新安装）IDE或更换的IDE时，会非常麻烦。
-此外，若果你的IDE是在普通用户，不是在root下运行，还要避免吧SDK放到一下需要sudo权限的系统级别目录下。
+此外，如果你的IDE是在普通用户下运行，而不是在root下运行，还要避免把SDK放到一下需要sudo权限的系统级别目录下。
 
 ### 构建系统
 
@@ -86,8 +86,8 @@ new-structure
 └─ settings.gradle
 ```
 
-主要的区别在于，新的结构明确的分开了'source sets' (`main`,`androidTest`)，Gradle的一个理念。
-你可以做到，例如，添加源组‘paid’和‘free’在src中，这将成为您的应用程序的付费和免费的两种模式的源代码。
+主要的区别在于，新的结构明确的分开了'source sets' (`main`,`androidTest`)，这是Gradle的一个理念。
+通过这个你可以做到，例如，添加源组‘paid’和‘free’在src中，让你的应用程序具有付费和免费的两种模式的源代码。
 
 你的项目引用第三方项目库时（例如，library-foobar），拥有一个顶级包名`app`从第三方库项目区分你的应用程序是非常有用的。
 然后`settings.gradle`不断引用这些库项目，其中`app/build.gradle`可以引用。
@@ -116,7 +116,7 @@ signingConfigs {
 	}
 }
 ```
-	
+
 而是，建立一个不加入版本控制系统的`gradle.properties`文件。
 
 ```
@@ -142,10 +142,10 @@ signingConfigs {
 	}
 }
 ```
-	
 
-**使用 Maven 依赖方案代替使用导入jar包方案** 如果在你的项目中你明确使用率
-jar文件，那么它们可能成为永久的版本，如`2.1.1`.下载jar包更新他们是很繁琐的，
+
+**使用 Maven 依赖方案代替使用导入jar包方案** 如果在你的项目中你明确使用某些
+jar文件，那么它们可能成为固定的版本，如`2.1.1`.下载jar包更新他们是很繁琐的，
 这个问题Maven很好的解决了，这在Android Gradle构建中也是推荐的方法。你可
 以指定版本的一个范围，如`2.1.+`,然后Maven会自动升级到制定的最新版本，例如：
 
@@ -185,12 +185,12 @@ dependencies {
 
 **[Jackson](http://wiki.fasterxml.com/JacksonHome)** 是一个将java对象转换成JSON与JSON转化java类的类库。[Gson](https://code.google.com/p/google-gson/)
 是解决这个问题的流行方案，然而我们发现Jackson更高效,因为它支持替代的方法处理JSON:流、内存树模型,和传统JSON-POJO数据绑定。不过，请记住，
-Jsonkson库比起GSON更大，所以根据你的情况选择，你可能选择GSON来避免APP 65k个方法限制。其它选择: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
+Jsonkson库比起GSON更大，所以根据你的情况选择，你可能选择GSON来避免APP 65k个方法的限制。其它选择: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
 
 
 **网络请求，缓存，图片** 执行请求后端服务器，有几种交互的解决方案，你应该考虑实现你自己的网络客户端。使用 [Volley](https://android.googlesource.com/platform/frameworks/volley)
-或[Retrofit](http://square.github.io/retrofit/)。Volley 同时提供图片缓存类。若果你选择使用Retrofit,那么考虑使用[Picasso](http://square.github.io/picasso/)
-来加载图片和缓存，同时使用[OkHttp](http://square.github.io/okhttp/)作为高效的网络请求。Retrofit，Picasso和OkHttp都是有同一家公司开发（注：
+或[Retrofit](http://square.github.io/retrofit/)。Volley 同时提供图片缓存类。如果你选择使用Retrofit,那么考虑使用[Picasso](http://square.github.io/picasso/)
+来加载图片和缓存，同时使用[OkHttp](http://square.github.io/okhttp/)作为高效的网络请求。Retrofit，Picasso和OkHttp都是同一家公司开发（注：
 是由[Square](https://github.com/square) 公司开发），所以它们能很好的在一起运行。[OkHttp 同样可以和Volley在一起使用 Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
 
 **RxJava** 是函数式反应性的一个类库，换句话说，能处理异步的事件。
@@ -287,7 +287,7 @@ Android 应用程序在架构上大致是Java中的[Model-View-Controller](http:
 
 正是因为如此，才很难严格的将fragments (或者 activities) 严格的划分成 控制器controlloers还是视图 views。
 最还是将它们放在自己单独的 `fragments` 包中。只要你遵循之前提到的建议，Activities 则可以放在顶级目录下。
-若果你规划有2到3个以上的activity，那么还是同样新建一个`activities`包吧。
+如果你规划有2到3个以上的activity，那么还是同样新建一个`activities`包吧。
 
 然而，这种架构可以看做是另一种形式的MVC，
 包含要被解析API响应的JSON数据，来填充的POJO的`models`包中。
@@ -323,7 +323,7 @@ com.futurice.project
 
 - **命名** 遵循前缀表明类型的习惯，形如`type_foo_bar.xml`。例如：`fragment_contact_details.xml`,`view_primary_button.xml`,`activity_main.xml`.
 
-**组织布局文件** 若果你不确定如何排版一个布局文件，遵循一下规则可能会有帮助。
+**组织布局文件** 如果你不确定如何排版一个布局文件，遵循一下规则可能会有帮助。
 
 - 每一个属性一行，缩进4个空格
 - `android:id` 总是作为第一个属性
@@ -474,7 +474,7 @@ com.futurice.project
 
 </resources>
 ```
-	
+
 布局时在写 margins 和 paddings 时，你应该使用`spacing_****`尺寸格式来布局，而不是像对待String字符串一样直接写值。
 这样写会非常有感觉，会使组织和改变风格或布局是非常容易。
 
@@ -536,7 +536,7 @@ com.futurice.project
 ### 测试框架
 
 
-Android SDK的测试框架还处于初级阶段，特别是关于UI测试方面。Android Gradle 
+Android SDK的测试框架还处于初级阶段，特别是关于UI测试方面。Android Gradle
 目前实现了一个叫[`connectedAndroidTest`](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Testing)的测试，
 它[使用一个JUnit 为Android提供的扩展插件 extension of JUnit with helpers for Android](http://developer.android.com/reference/android/test/package-summary.html).可以跑你生成的JUnit测试，
 
@@ -630,7 +630,7 @@ In order to prevent ProGuard from *stripping away* needed classes or class membe
 **Tips**每次发布新版本都要写 `mapping.txt`。每发布一个版本，如果用户遇到一个bug，同时提交了一个混淆过的堆栈跟踪。
 通过保留`mapping.txt`文件，来确定你可以调试的问题。
 
-**DexGuard** 若果你需要核心工具来优化，和专门混淆的发布代码，考虑使用[DexGuard](http://www.saikoa.com/dexguard),
+**DexGuard** 如果你需要核心工具来优化，和专门混淆的发布代码，考虑使用[DexGuard](http://www.saikoa.com/dexguard),
 一个商业软件，ProGuard 也是有他们团队开发的。
 它会很容易将Dex文件分割，来解决65K个方法限制问题。
 

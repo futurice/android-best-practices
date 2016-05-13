@@ -417,21 +417,21 @@ Name your strings with keys that resemble namespaces, and don't be afraid of rep
 
 **Good**
 ```xml
-<string name="error.message.network">Network error</string>
-<string name="error.message.call">Call failed</string>
-<string name="error.message.map">Map loading failed</string>
+<string name="error_message_network">Network error</string>
+<string name="error_message_call">Call failed</string>
+<string name="error_message_map">Map loading failed</string>
 ```
 
 Don't write string values in all uppercase. Stick to normal text conventions (e.g., capitalize first character). If you need to display the string in all caps, then do that using for instance the attribute [`textAllCaps`](http://developer.android.com/reference/android/widget/TextView.html#attr_android:textAllCaps) on a TextView.
 
 **Bad**
 ```xml
-<string name="error.message.call">CALL FAILED</string>
+<string name="error_message_call">CALL FAILED</string>
 ```
 
 **Good**
 ```xml
-<string name="error.message.call">Call failed</string>
+<string name="error_message_call">Call failed</string>
 ```
 
 <a name="deephierarchy"></a>

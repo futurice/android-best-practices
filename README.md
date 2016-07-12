@@ -191,31 +191,7 @@ Whatever you use, just make sure Gradle and the new project structure remain as 
 
 If you have no previous experience with Rx, start by applying it only for responses from the API. Alternatively, start by applying it for simple UI event handling, like click events or typing events on a search field. If you are confident in your Rx skills and want to apply it to the whole architecture, then write Javadocs on all the tricky parts. Keep in mind that another programmer unfamiliar to RxJava might have a very hard time maintaining the project. Do your best to help them understand your code and also Rx.
 
-**[Retrolambda](https://github.com/evant/gradle-retrolambda)** is a Java library for using Lambda expression syntax in Android and other pre-JDK8 platforms. It helps keep your code tight and readable especially if you use a functional style with for example with RxJava. To use it, install JDK8, set that as your SDK Location in the Android Studio Project Structure dialog, and set `JAVA8_HOME` and `JAVA7_HOME` environment variables, then in the project root build.gradle:
-
-```groovy
-dependencies {
-    classpath 'me.tatarka:gradle-retrolambda:2.4.1'
-}
-```
-
-and in each module's build.gradle, add
-
-```groovy
-apply plugin: 'retrolambda'
-
-android {
-    compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-}
-
-retrolambda {
-    jdk System.getenv("JAVA8_HOME")
-    oldJdk System.getenv("JAVA7_HOME")
-    javaVersion JavaVersion.VERSION_1_7
-}
-```
+**[Retrolambda](https://github.com/evant/gradle-retrolambda)** is a Java library for using Lambda expression syntax in Android and other pre-JDK8 platforms. It helps keep your code tight and readable especially if you use a functional style with for example with RxJava.
 
 Android Studio offers code assist support for Java8 lambdas. If you are new to lambdas, just use the following to get started:
 

@@ -30,9 +30,7 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 
 ### Android SDK
 
-Place your [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) somewhere in your home directory or some other application-independent location. 
-Some distributions of IDEs include the SDK when installed, and may place it under the same directory as the IDE. This can be bad when you need to upgrade (or reinstall) the IDE, 
-as you may lose your SDK installation, forcing a long and tedious redownload.
+Place your [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) somewhere in your home directory or some other application-independent location. Some distributions of IDEs include the SDK when installed, and may place it under the same directory as the IDE. This can be bad when you need to upgrade (or reinstall) the IDE, as you may lose your SDK installation, forcing a long and tedious redownload.
 
 Also avoid putting the SDK in another system-level directory that might need sudo permissions, if your IDE is running under your user and not under root.
 
@@ -48,13 +46,11 @@ Your default option should be [Gradle](http://tools.android.com/tech-docs/new-bu
 
 Ant, the previously supported build system has been deprecated since 2015 and now only Android's Gradle plugin is being actively developed by Google.
 
-It is important that your application's build process is defined by your Gradle files, rather than being reliant on IDE specific configurations. 
-This allows for consistent builds between tools and better support for continuous integration systems.
+It is important that your application's build process is defined by your Gradle files, rather than being reliant on IDE specific configurations. This allows for consistent builds between tools and better support for continuous integration systems.
 
 ### Project structure
 
-Although Gradle offers a large degree of flexibility in your project structure, unless you have a compelling reason to do otherwise, you should accept its default structure.
-This will simplify your build scripts. 
+Although Gradle offers a large degree of flexibility in your project structure, unless you have a compelling reason to do otherwise, you should accept its default structure. This will simplify your build scripts. 
 
 ### Gradle configuration
 
@@ -139,20 +135,16 @@ Use different icons to distinguish the builds installed on a device—for exampl
 
 ### IDEs and text editors
 
-**Use whatever editor, but it must play nicely with the project structure.** Editors are a personal choice, and it's your responsibility to get your editor functioning 
-according to the project structure and build system.
+**Use whatever editor, but it must play nicely with the project structure.** Editors are a personal choice, and it's your responsibility to get your editor functioning according to the project structure and build system.
 
-The recommended IDE is [Android Studio](https://developer.android.com/sdk/installing/studio.html) because it is developed and frequently upadted by Google, has good support 
-for Gradle, contains a range of useful monitoring and analysis tools and is generally tailored for Android development.
+The recommended IDE is [Android Studio](https://developer.android.com/sdk/installing/studio.html) because it is developed and frequently upadted by Google, has good support for Gradle, contains a range of useful monitoring and analysis tools and is generally tailored for Android development.
 
 If you choose, you could use a plain text editor like Vim, Sublime Text, or Emacs. In that case, you will need to use Gradle and `adb` on the command line. 
 
 Using [Eclipse ADT](http://developer.android.com/tools/help/adt.html) for Android development is no longer a good practice. 
-[Google ended ADT support at the end of 2015](http://android-developers.blogspot.fi/2015/06/an-update-on-eclipse-android-developer.html) and urges users to 
-[migrate to Android Studio](http://developer.android.com/sdk/installing/migrate.html) as soon as possible.
+[Google ended ADT support at the end of 2015](http://android-developers.blogspot.fi/2015/06/an-update-on-eclipse-android-developer.html) and urges users to [migrate to Android Studio](http://developer.android.com/sdk/installing/migrate.html) as soon as possible.
 
-Whatever your choice, avoid adding editor-specific configuration files, such as an Android Studio's `.iml` files, to the version control system as these often contain 
-configurations specific your local machine which won't work for your colleagues.
+Whatever your choice, avoid adding editor-specific configuration files, such as an Android Studio's `.iml` files, to the version control system as these often contain configurations specific your local machine which won't work for your colleagues.
 
 Ultimately, be kind to other developers; don't force them to change their tool of preference if that's how they are most productive.
 

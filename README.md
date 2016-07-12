@@ -26,16 +26,19 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### [Use SharedPreferences for simple persistence, otherwise ContentProviders](#data-storage)
 #### [Use Stetho to debug your application](#use-stetho)
 
-
 ----------
 
 ### Android SDK
 
-Place your [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) somewhere in your home directory or some other application-independent location. Some IDEs include the SDK when installed, and may place it under the same directory as the IDE. This can be bad when you need to upgrade (or reinstall) the IDE, or when changing IDEs. Also avoid putting the SDK in another system-level directory that might need sudo permissions, if your IDE is running under your user and not under root.
+Place your [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) somewhere in your home directory or some other application-independent location. 
+Some distributions of IDEs include the SDK when installed, and may place it under the same directory as the IDE. This can be bad when you need to upgrade (or reinstall) the IDE, 
+as you may lose your SDK installation, forcing a long and tedious redownload.
+
+Also avoid putting the SDK in another system-level directory that might need sudo permissions, if your IDE is running under your user and not under root.
 
 ### Build system
 
-Your default option should be [Gradle](http://tools.android.com/tech-docs/new-build-system). Ant is much more limited and also more verbose. With Gradle, it's simple to:
+Your default option should be [Gradle](http://tools.android.com/tech-docs/new-build-system). With Gradle, it's simple to:
 
 - Build different flavours or variants of your app
 - Make simple script-like tasks
@@ -43,52 +46,15 @@ Your default option should be [Gradle](http://tools.android.com/tech-docs/new-bu
 - Customize keystores
 - And more
 
-Android's Gradle plugin is also being actively developed by Google as the new standard build system.
+Ant, the previously supported build system has been deprecated since 2015 and now only Android's Gradle plugin is being actively developed by Google.
+
+It is important that your application's build process is defined by your Gradle files, rather than being reliant on IDE specific configurations. 
+This allows for consistent builds between tools and better support for continuous integration systems.
 
 ### Project structure
 
-There are two popular options: the old Ant & Eclipse ADT project structure, and the new Gradle & Android Studio project structure. You should choose the new project structure. If your project uses the old structure, consider it legacy and start porting it to the new structure.
-
-Old structure:
-
-```
-old-structure
-├─ assets
-├─ libs
-├─ res
-├─ src
-│  └─ com/futurice/project
-├─ AndroidManifest.xml
-├─ build.gradle
-├─ project.properties
-└─ proguard-rules.pro
-```
-
-New structure:
-
-```
-new-structure
-├─ library-foobar
-├─ app
-│  ├─ libs
-│  ├─ src
-│  │  ├─ androidTest
-│  │  │  └─ java
-│  │  │     └─ com/futurice/project
-│  │  └─ main
-│  │     ├─ java
-│  │     │  └─ com/futurice/project
-│  │     ├─ res
-│  │     └─ AndroidManifest.xml
-│  ├─ build.gradle
-│  └─ proguard-rules.pro
-├─ build.gradle
-└─ settings.gradle
-```
-
-The main difference is that the new structure explicitly separates 'source sets' (`main`, `androidTest`), a concept from Gradle. You could, for instance, add source sets 'paid' and 'free' into `src` which will have source code for the paid and free flavours of your app.
-
-Having a top-level `app` is useful to distinguish your app from other library projects (e.g., `library-foobar`) that will be referenced in your app. The `settings.gradle` then keeps references to these library projects, which `app/build.gradle` can reference to.
+Although Gradle offers a large degree of flexibility in your project structure, unless you have a compelling reason to do otherwise, you should accept its default structure.
+This will simplify your build scripts. 
 
 ### Gradle configuration
 
@@ -146,10 +112,13 @@ dependencies {
 ```    
 
 **Avoid Maven dynamic dependency resolution**
-Avoid the use of dynamically versioned, such as `2.1.+` as this may result in different and unstable builds or subtle, untracked differences in behavior between builds. The use of static versions such as `2.1.1` helps create a more stable, predictable and repeatable development environment.
+Avoid the use of dynamically versioned, such as `2.1.+` as this may result in different and unstable builds or subtle, untracked differences in behavior between builds. 
+The use of static versions such as `2.1.1` helps create a more stable, predictable and repeatable development environment.
 
 **Use different package name for non-release builds**
-Use `applicationIdSuffix` for *debug* [build type](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Build-Types) to be able to install both *debug* and *release* apk on the same device (do this also for custom build types, if you need any). This will be especially valuable later on in the app's lifecycle, after it has been published to the store.
+Use `applicationIdSuffix` for *debug* [build type](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Build-Types) to be able to install both *debug* and 
+*release* apk on the same device (do this also for custom build types, if you need any). This will be especially valuable later on in the app's lifecycle, after it has been 
+published to the store.
 
 ```groovy
 android {
@@ -170,15 +139,22 @@ Use different icons to distinguish the builds installed on a device—for exampl
 
 ### IDEs and text editors
 
-**Use whatever editor, but it must play nicely with the project structure.** Editors are a personal choice, and it's your responsibility to get your editor functioning according to the project structure and build system.
+**Use whatever editor, but it must play nicely with the project structure.** Editors are a personal choice, and it's your responsibility to get your editor functioning 
+according to the project structure and build system.
 
-The most recommended IDE at the moment is [Android Studio](https://developer.android.com/sdk/installing/studio.html), because it is developed by Google, is closest to Gradle, uses the new project structure by default, is finally in stable stage, and is tailored for Android development.
+The recommended IDE is [Android Studio](https://developer.android.com/sdk/installing/studio.html) because it is developed and frequently upadted by Google, has good support 
+for Gradle, contains a range of useful monitoring and analysis tools and is generally tailored for Android development.
 
-Using [Eclipse ADT](http://developer.android.com/tools/help/adt.html) for Android development is no longer a good practice. [Google ended ADT support at the end of 2015](http://android-developers.blogspot.fi/2015/06/an-update-on-eclipse-android-developer.html) and urges users to [migrate to Android Studio](http://developer.android.com/sdk/installing/migrate.html) as soon as possible. You *could* still use Eclipse, but since it expects the old project structure and Ant for building, you need to configure it to work with Gradle, or if that fails, use the command line to build.
+If you choose, you could use a plain text editor like Vim, Sublime Text, or Emacs. In that case, you will need to use Gradle and `adb` on the command line. 
 
-You can even use a plain text editor like Vim, Sublime Text, or Emacs. In that case, you will need to use Gradle and `adb` on the command line. 
+Using [Eclipse ADT](http://developer.android.com/tools/help/adt.html) for Android development is no longer a good practice. 
+[Google ended ADT support at the end of 2015](http://android-developers.blogspot.fi/2015/06/an-update-on-eclipse-android-developer.html) and urges users to 
+[migrate to Android Studio](http://developer.android.com/sdk/installing/migrate.html) as soon as possible.
 
-Whatever you use, just make sure Gradle and the new project structure remain as the official way of building the application, and avoid adding your editor-specific configuration files to the version control system. For instance, avoid adding an Ant `build.xml` file. Especially don't forget to keep `build.gradle` up-to-date and functioning if you are changing build configurations in Ant. Also, be kind to other developers, don't force them to change their tool of preference.
+Whatever your choice, avoid adding editor-specific configuration files, such as an Android Studio's `.iml` files, to the version control system as these often contain 
+configurations specific your local machine which won't work for your colleagues.
+
+Ultimately, be kind to other developers; don't force them to change their tool of preference if that's how they are most productive.
 
 ### Libraries
 
@@ -205,7 +181,7 @@ Android Studio offers code assist support for Java8 lambdas. If you are new to l
 
 There is no consensus among the community nor Futurice developers how to best organize Android architectures with Fragments and Activities. Square even has [a library for building architectures mostly with Views](https://github.com/square/mortar), bypassing the need for Fragments, but this still is not considered a widely recommendable practice in the community.
 
-Because of Android API's history, you can loosely consider Fragments as UI pieces of a screen. In other words, Fragments are normally related to UI. Activities can be loosely considered to be controllers, they are especially important for their lifecycle and for managing state. However, you are likely to see variation in these roles: activities might take UI roles ([delivering transitions between screens](https://developer.android.com/about/versions/lollipop.html)), and [fragments might be used solely as controllers](http://developer.android.com/guide/components/fragments.html#AddingWithoutUI). We suggest to sail carefully, taking informed decisions since there are drawbacks for choosing a fragments-only architecture, or activities-only, or views-only. Here are some advices on what to be careful with, but take them with a grain of salt:
+Because of Android API's history, you can loosely consider Fragments as UI pieces of a screen. In other words, Fragments are normally related to UI. Activities can be loosely considered to be controllers, they are especially important for their lifecycle and for managing state. However, you are likely to see variation in these roles: activities might take UI roles ([delivering transitions between screens](https://developer.android.com/about/versions/lollipop.html)), and [fragments might be used solely as controllers](http://developer.android.com/guide/components/fragments.html#AddingWithoutUI). We suggest to sail carefully, taking informed decisions since there are drawbacks for choosing a fragments-only architecture, or activities-only, or views-only. Here is some advice on what to be careful with, but take them with a grain of salt:
 
 - Avoid using [nested fragments](https://developer.android.com/about/versions/android-4.2.html#NestedFragments) extensively, because [matryoshka bugs](http://delyan.me/android-s-matryoshka-problem/) can occur. Use nested fragments only when it makes sense (for instance, fragments in a horizontally-sliding ViewPager inside a screen-like fragment) or if it's a well-informed decision.
 - Avoid putting too much code in activities. Whenever possible, keep them as lightweight containers, existing in your application primarily for the lifecycle and other important Android-interfacing APIs. Prefer single-fragment activities instead of plain activities - put UI code into the activity's fragment. This makes it reusable in case you need to change it to reside in a tabbed layout, or in a multi-fragment tablet screen. Avoid having an activity without a corresponding fragment, unless you are making an informed decision.

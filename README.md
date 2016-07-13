@@ -50,7 +50,7 @@ It is important that your application's build process is defined by your Gradle 
 
 ### Project structure
 
-Although Gradle offers a large degree of flexibility in your project structure, unless you have a compelling reason to do otherwise, you should accept its default structure. This will simplify your build scripts. 
+Although Gradle offers a large degree of flexibility in your project structure, unless you have a compelling reason to do otherwise, you should accept its [default structure](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Project-Structure). This will simplify your build scripts. 
 
 ### Gradle configuration
 

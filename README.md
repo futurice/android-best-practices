@@ -134,7 +134,7 @@ Use different icons to distinguish the builds installed on a device—for exampl
 
 **Use whatever editor, but it must play nicely with the project structure.** Editors are a personal choice, and it's your responsibility to get your editor functioning according to the project structure and build system.
 
-The recommended IDE is [Android Studio](https://developer.android.com/sdk/installing/studio.html) because it is developed and frequently upadted by Google, has good support for Gradle, contains a range of useful monitoring and analysis tools and is generally tailored for Android development.
+The recommended IDE is [Android Studio](https://developer.android.com/sdk/installing/studio.html) because it is developed and frequently updated by Google, has good support for Gradle, contains a range of useful monitoring and analysis tools and is generally tailored for Android development.
 
 If you choose, you could use a plain text editor like Vim, Sublime Text, or Emacs. In that case, you will need to use Gradle and `adb` on the command line. 
 

@@ -6,34 +6,36 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 
 ## Summary
 
-#### Use Gradle and its recommended project structure
-#### Put passwords and sensitive data in gradle.properties
-#### Don't write your own HTTP client, use Volley or OkHttp libraries
-#### Use the Jackson library to parse JSON data
-#### Avoid Guava and use only a few libraries due to the *65k method limit*
-#### Use Fragments to represent a UI screen
-#### Use Activities just to manage Fragments
-#### Layout XMLs are code, organize them well
-#### Use styles to avoid duplicate attributes in layout XMLs
-#### Use multiple style files to avoid a single huge one
-#### Keep your colors.xml short and DRY, just define the palette
-#### Also keep dimens.xml DRY, define generic constants
-#### Do not make a deep hierarchy of ViewGroups
-#### Avoid client-side processing for WebViews, and beware of leaks
-#### Use Robolectric for unit tests, Robotium for connected (UI) tests
-#### Use Genymotion as your emulator
-#### Always use ProGuard or DexGuard
-
+#### [Use Gradle and its recommended project structure](#build-system)
+#### [Put passwords and sensitive data in gradle.properties](#gradle-configuration)
+#### [Use the Jackson library to parse JSON data](#libraries)
+#### [Don't write your own HTTP client, use Volley or OkHttp libraries](#networklibs)
+#### [Avoid Guava and use only a few libraries due to the *65k method limit*](#methodlimitation)
+#### [Sail carefully when choosing between Activities and Fragments](#activities-and-fragments)
+#### [Layout XMLs are code, organize them well](#resources)
+#### [Use styles to avoid duplicate attributes in layout XMLs](#styles)
+#### [Use multiple style files to avoid a single huge one](#splitstyles)
+#### [Keep your colors.xml short and DRY, just define the palette](#colorsxml)
+#### [Also keep dimens.xml DRY, define generic constants](#dimensxml)
+#### [Do not make a deep hierarchy of ViewGroups](#deephierarchy)
+#### [Avoid client-side processing for WebViews, and beware of leaks](#webviews)
+#### [Use Robolectric for unit tests, Robotium for connected (UI) tests](#test-frameworks)
+#### [Use Genymotion as your emulator](#emulators)
+#### [Always use ProGuard or DexGuard](#proguard-configuration)
+#### [Use SharedPreferences for simple persistence, otherwise ContentProviders](#data-storage)
+#### [Use Stetho to debug your application](#use-stetho)
 
 ----------
 
 ### Android SDK
 
-Place your [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) somewhere in your home directory or some other application-independent location. Some IDEs include the SDK when installed, and may place it under the same directory as the IDE. This can be bad when you need to upgrade (or reinstall) the IDE, or when changing IDEs. Also avoid putting the SDK in another system-level directory that might need sudo permissions, if your IDE is running under your user and not under root.
+Place your [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) somewhere in your home directory or some other application-independent location. Some distributions of IDEs include the SDK when installed, and may place it under the same directory as the IDE. This can be bad when you need to upgrade (or reinstall) the IDE, as you may lose your SDK installation, forcing a long and tedious redownload.
+
+Also avoid putting the SDK in another system-level directory that might need sudo permissions, if your IDE is running under your user and not under root.
 
 ### Build system
 
-Your default option should be [Gradle](http://tools.android.com/tech-docs/new-build-system). Ant is much more limited and also more verbose. With Gradle, it's simple to:
+Your default option should be [Gradle](http://tools.android.com/tech-docs/new-build-system). With Gradle, it's simple to:
 
 - Build different flavours or variants of your app
 - Make simple script-like tasks
@@ -41,52 +43,13 @@ Your default option should be [Gradle](http://tools.android.com/tech-docs/new-bu
 - Customize keystores
 - And more
 
-Android's Gradle plugin is also being actively developed by Google as the new standard build system.
+Ant, the previously supported build system has been deprecated since 2015 and now only Android's Gradle plugin is being actively developed by Google.
+
+It is important that your application's build process is defined by your Gradle files, rather than being reliant on IDE specific configurations. This allows for consistent builds between tools and better support for continuous integration systems.
 
 ### Project structure
 
-There are two popular options: the old Ant & Eclipse ADT project structure, and the new Gradle & Android Studio project structure. You should choose the new project structure. If your project uses the old structure, consider it legacy and start porting it to the new structure.
-
-Old structure:
-
-```
-old-structure
-├─ assets
-├─ libs
-├─ res
-├─ src
-│  └─ com/futurice/project
-├─ AndroidManifest.xml
-├─ build.gradle
-├─ project.properties
-└─ proguard-rules.pro
-```
-
-New structure:
-
-```
-new-structure
-├─ library-foobar
-├─ app
-│  ├─ libs
-│  ├─ src
-│  │  ├─ androidTest
-│  │  │  └─ java
-│  │  │     └─ com/futurice/project
-│  │  └─ main
-│  │     ├─ java
-│  │     │  └─ com/futurice/project
-│  │     ├─ res
-│  │     └─ AndroidManifest.xml
-│  ├─ build.gradle
-│  └─ proguard-rules.pro
-├─ build.gradle
-└─ settings.gradle
-```
-
-The main difference is that the new structure explicitly separates 'source sets' (`main`, `androidTest`), a concept from Gradle. You could, for instance, add source sets 'paid' and 'free' into `src` which will have source code for the paid and free flavours of your app.
-
-Having a top-level `app` is useful to distinguish your app from other library projects (e.g., `library-foobar`) that will be referenced in your app. The `settings.gradle` then keeps references to these library projects, which `app/build.gradle` can reference to.
+Although Gradle offers a large degree of flexibility in your project structure, unless you have a compelling reason to do otherwise, you should accept its [default structure](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Project-Structure). This will simplify your build scripts. 
 
 ### Gradle configuration
 
@@ -116,7 +79,7 @@ KEYSTORE_PASSWORD=password123
 KEY_PASSWORD=password789
 ```
 
-That file is automatically imported by gradle, so you can use it in `build.gradle` as such:
+That file is automatically imported by Gradle, so you can use it in `build.gradle` as such:
 
 ```groovy
 signingConfigs {
@@ -144,66 +107,69 @@ dependencies {
 ```    
 
 **Avoid Maven dynamic dependency resolution**
-Avoid the use of dynamically versioned, such as `2.1.+` as this may result in different in unstable builds or subtle, untracked differences in behavior between builds. The use of static versions such as `2.1.1` helps create a more stable, predictable and repeatable development environment.
+Avoid the use of dynamic dependency versions, such as `2.1.+` as this may result in different and unstable builds or subtle, untracked differences in behavior between builds. The use of static versions such as `2.1.1` helps create a more stable, predictable and repeatable development environment.
+
+**Use different package name for non-release builds**
+Use `applicationIdSuffix` for *debug* [build type](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Build-Types) to be able to install both *debug* and *release* apk on the same device (do this also for custom build types, if you need any). This will be especially valuable later on in the app's lifecycle, after it has been published to the store.
+
+```groovy
+android {
+    buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
+        }
+
+        release {
+            // ...
+        }
+    }
+}
+```
+
+Use different icons to distinguish the builds installed on a device—for example with different colors or an overlaid  "debug" label. Gradle makes this very easy: with default project structure, simply put *debug* icon in `app/src/debug/res` and *release* icon in `app/src/release/res`. You could also [change app name](http://stackoverflow.com/questions/24785270/how-to-change-app-name-per-gradle-build-type) per build type, as well as  `versionName` (as in the above example).
 
 ### IDEs and text editors
 
 **Use whatever editor, but it must play nicely with the project structure.** Editors are a personal choice, and it's your responsibility to get your editor functioning according to the project structure and build system.
 
-The most recommended IDE at the moment is [Android Studio](https://developer.android.com/sdk/installing/studio.html), because it is developed by Google, is closest to Gradle, uses the new project structure by default, is finally in stable stage, and is tailored for Android development.
+The recommended IDE is [Android Studio](https://developer.android.com/sdk/installing/studio.html) because it is developed and frequently updated by Google, has good support for Gradle, contains a range of useful monitoring and analysis tools and is generally tailored for Android development.
 
-You can use [Eclipse ADT](https://developer.android.com/sdk/installing/index.html?pkg=adt) if you wish, but you need to configure it, since it expects the old project structure and Ant for building. You can even use a plain text editor like Vim, Sublime Text, or Emacs. In that case, you will need to use Gradle and `adb` on the command line. If Eclipse's integration with Gradle is not working for you, your options are using the command line just to build, or migrating to Android Studio. This is the best option due to ADT plugin was deprecated recently.
+If you choose, you could use a plain text editor like Vim, Sublime Text, or Emacs. In that case, you will need to use Gradle and `adb` on the command line. 
 
-Whatever you use, just make sure Gradle and the new project structure remain as the official way of building the application, and avoid adding your editor-specific configuration files to the version control system. For instance, avoid adding an Ant `build.xml` file. Especially don't forget to keep `build.gradle` up-to-date and functioning if you are changing build configurations in Ant. Also, be kind to other developers, don't force them to change their tool of preference.
+Using [Eclipse ADT](http://developer.android.com/tools/help/adt.html) for Android development is no longer a good practice. 
+[Google ended ADT support at the end of 2015](http://android-developers.blogspot.fi/2015/06/an-update-on-eclipse-android-developer.html) and urges users to [migrate to Android Studio](http://developer.android.com/sdk/installing/migrate.html) as soon as possible.
+
+Whatever your choice, avoid adding editor-specific configuration files, such as an Android Studio's `.iml` files, to the version control system as these often contain configurations specific your local machine which won't work for your colleagues.
+
+Ultimately, be kind to other developers; don't force them to change their tool of preference if that's how they are most productive.
 
 ### Libraries
 
-**[Jackson](http://wiki.fasterxml.com/JacksonHome)** is a Java library for converting Objects into JSON and vice-versa. [Gson](https://code.google.com/p/google-gson/) is a popular choice for solving this problem, however we find Jackson to be more performant since it supports alternative ways of processing JSON: streaming, in-memory tree model, and traditional JSON-POJO data binding. Keep in mind, though, that Jackson is a larger library than GSON, so depending on your case, you might prefer GSON to avoid 65k methods limitation. Other alternatives: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
+**[Jackson](http://wiki.fasterxml.com/JacksonHome)** is a Java library for converting Objects into JSON and vice-versa. [Gson](https://code.google.com/p/google-gson/) is a popular choice for solving this problem, however we find Jackson to be more performant since it supports alternative ways of processing JSON: streaming, in-memory tree model, and traditional JSON-POJO data binding. Keep in mind, though, that Jackson is a larger library than Gson, so depending on your case, you might prefer Gson to avoid 65k methods limitation. Other alternatives: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
 
+<a name="networklibs"></a>
 **Networking, caching, and images.** There are a couple of battle-proven solutions for performing requests to backend servers, which you should use perform considering implementing your own client. Use [Volley](https://android.googlesource.com/platform/frameworks/volley) or [Retrofit](http://square.github.io/retrofit/). Volley also provides helpers to load and cache images. If you choose Retrofit, consider [Picasso](http://square.github.io/picasso/) for loading and caching images, and [OkHttp](http://square.github.io/okhttp/) for efficient HTTP requests. All three Retrofit, Picasso and OkHttp are created by the same company, so they complement each other nicely. [OkHttp can also be used in connection with Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
 
 **RxJava** is a library for Reactive Programming, in other words, handling asynchronous events. It is a powerful and promising paradigm, which can also be confusing since it's so different. We recommend to take some caution before using this library to architect the entire application. There are some projects done by us using RxJava, if you need help talk to one of these people: Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, Juha Ristolainen. We have written some blog posts on it: [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
 
 If you have no previous experience with Rx, start by applying it only for responses from the API. Alternatively, start by applying it for simple UI event handling, like click events or typing events on a search field. If you are confident in your Rx skills and want to apply it to the whole architecture, then write Javadocs on all the tricky parts. Keep in mind that another programmer unfamiliar to RxJava might have a very hard time maintaining the project. Do your best to help them understand your code and also Rx.
 
-**[Retrolambda](https://github.com/evant/gradle-retrolambda)** is a Java library for using Lambda expression syntax in Android and other pre-JDK8 platforms. It helps keep your code tight and readable especially if you use a functional style with for example with RxJava. To use it, install JDK8, set that as your SDK Location in the Android Studio Project Structure dialog, and set `JAVA8_HOME` and `JAVA7_HOME` environment variables, then in the project root build.gradle:
-
-```groovy
-dependencies {
-    classpath 'me.tatarka:gradle-retrolambda:2.4.1'
-}
-```
-
-and in each module's build.gradle, add
-
-```groovy
-apply plugin: 'retrolambda'
-
-android {
-    compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-}
-
-retrolambda {
-    jdk System.getenv("JAVA8_HOME")
-    oldJdk System.getenv("JAVA7_HOME")
-    javaVersion JavaVersion.VERSION_1_7
-}
-```
+**[Retrolambda](https://github.com/evant/gradle-retrolambda)** is a Java library for using Lambda expression syntax in Android and other pre-JDK8 platforms. It helps keep your code tight and readable especially if you use a functional style with for example with RxJava.
 
 Android Studio offers code assist support for Java8 lambdas. If you are new to lambdas, just use the following to get started:
 
 - Any interface with just one method is "lambda friendly" and can be folded into the more tight syntax
 - If in doubt about parameters and such, write a normal anon inner class and then let Android Studio fold it into a lambda for you.
 
+<a name="methodlimitation"></a>
 **Beware of the dex method limitation, and avoid using many libraries.** Android apps, when packaged as a dex file, have a hard limitation of 65536 referenced methods [[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/). You will see a fatal error on compilation if you pass the limit. For that reason, use a minimal amount of libraries, and use the [dex-method-counts](https://github.com/mihaip/dex-method-counts) tool to determine which set of libraries can be used in order to stay under the limit. Especially avoid using the Guava library, since it contains over 13k methods.
 
 ### Activities and Fragments
 
 There is no consensus among the community nor Futurice developers how to best organize Android architectures with Fragments and Activities. Square even has [a library for building architectures mostly with Views](https://github.com/square/mortar), bypassing the need for Fragments, but this still is not considered a widely recommendable practice in the community.
 
-Because of Android API's history, you can loosely consider Fragments as UI pieces of a screen. In other words, Fragments are normally related to UI. Activities can be loosely considered to be controllers, they are specially important for their lifecycle and for managing state. However, you are likely to see variation in these roles: activities might take UI roles ([delivering transitions between screens](https://developer.android.com/about/versions/lollipop.html)), and [fragments might be used solely as controllers](http://developer.android.com/guide/components/fragments.html#AddingWithoutUI). We suggest you sail carefully, making informed decisions since there are drawbacks for choosing a fragments-only architecture, or activities-only, or views-only. Here are some advices on what to be careful with, but take them with a grain of salt:
+Because of Android API's history, you can loosely consider Fragments as UI pieces of a screen. In other words, Fragments are normally related to UI. Activities can be loosely considered to be controllers, they are especially important for their lifecycle and for managing state. However, you are likely to see variation in these roles: activities might take UI roles ([delivering transitions between screens](https://developer.android.com/about/versions/lollipop.html)), and [fragments might be used solely as controllers](http://developer.android.com/guide/components/fragments.html#AddingWithoutUI). We suggest to sail carefully, taking informed decisions since there are drawbacks for choosing a fragments-only architecture, or activities-only, or views-only. Here is some advice on what to be careful with, but take them with a grain of salt:
 
 - Avoid using [nested fragments](https://developer.android.com/about/versions/android-4.2.html#NestedFragments) extensively, because [matryoshka bugs](http://delyan.me/android-s-matryoshka-problem/) can occur. Use nested fragments only when it makes sense (for instance, fragments in a horizontally-sliding ViewPager inside a screen-like fragment) or if it's a well-informed decision.
 - Avoid putting too much code in activities. Whenever possible, keep them as lightweight containers, existing in your application primarily for the lifecycle and other important Android-interfacing APIs. Prefer single-fragment activities instead of plain activities - put UI code into the activity's fragment. This makes it reusable in case you need to change it to reside in a tabbed layout, or in a multi-fragment tablet screen. Avoid having an activity without a corresponding fragment, unless you are making an informed decision.
@@ -211,7 +177,7 @@ Because of Android API's history, you can loosely consider Fragments as UI piece
 
 ### Java packages architecture
 
-Java architectures for Android applications can be roughly approximated in [Model-View-Controller](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller). In Android, [Fragment and Activity are actually controller classes](http://www.informit.com/articles/article.aspx?p=2126865). On the other hand, they are explicity part of the user interface, hence are also views.
+Java architectures for Android applications can be roughly approximated in [Model-View-Controller](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller). In Android, [Fragment and Activity are actually controller classes](http://www.informit.com/articles/article.aspx?p=2126865). On the other hand, they are explicitly part of the user interface, hence are also views.
 
 For this reason, it is hard to classify fragments (or activities) as strictly controllers or views. It's better to let them stay in their own `fragments` package. Activities can stay on the top-level package as long as you follow the advice of the previous section. If you are planning to have more than 2 or 3 activities, then make also an `activities` package.
 
@@ -281,6 +247,7 @@ The exceptions are:
 - `android:text` should be in layout files because it defines content
 - Sometimes it will make sense to make a generic style defining `android:layout_width` and `android:layout_height` but by default these should appear in the layout files
 
+<a name="styles"></a>
 **Use styles.** Almost every project needs to properly use styles, because it is very common to have a repeated appearance for a view. At least you should have a common style for most text content in the application, for example:
 
 ```xml
@@ -303,8 +270,10 @@ Applied to TextViews:
 
 You probably will need to do the same for buttons, but don't stop there yet. Go beyond and move a group of related and repeated `android:****` attributes to a common style.
 
+<a name="splitstyles"></a>
 **Split a large style file into other files.** You don't need to have a single `styles.xml` file. Android SDK supports other files out of the box, there is nothing magical about the name `styles`, what matters are the XML tags `<style>` inside the file. Hence you can have files `styles.xml`, `styles_home.xml`, `styles_item_details.xml`, `styles_forms.xml`. Unlike resource directory names which carry some meaning for the build system, filenames in `res/values` can be arbitrary.
 
+<a name="colorsxml"></a>
 **`colors.xml` is a color palette.** There should be nothing else in your `colors.xml` than just a mapping from a color name to an RGBA value. Do not use it to define RGBA values for different types of buttons.
 
 *Don't do this:*
@@ -346,6 +315,7 @@ Instead, do this:
 
 Ask for this palette from the designer of the application. The names do not need to be color names as "green", "blue", etc. Names such as "brand_primary", "brand_secondary", "brand_negative" are totally acceptable as well. Formatting colors as such will make it easy to change or refactor colors, and also will make it explicit how many different colors are being used. Normally for a aesthetic UI, it is important to reduce the variety of colors being used.
 
+<a name="dimensxml"></a>
 **Treat dimens.xml like colors.xml.** You should also define a "palette" of typical spacing and font sizes, for basically the same purposes as for colors. A good example of a dimens file:
 
 ```xml
@@ -387,23 +357,24 @@ Name your strings with keys that resemble namespaces, and don't be afraid of rep
 
 **Good**
 ```xml
-<string name="error.message.network">Network error</string>
-<string name="error.message.call">Call failed</string>
-<string name="error.message.map">Map loading failed</string>
+<string name="error_message_network">Network error</string>
+<string name="error_message_call">Call failed</string>
+<string name="error_message_map">Map loading failed</string>
 ```
 
 Don't write string values in all uppercase. Stick to normal text conventions (e.g., capitalize first character). If you need to display the string in all caps, then do that using for instance the attribute [`textAllCaps`](http://developer.android.com/reference/android/widget/TextView.html#attr_android:textAllCaps) on a TextView.
 
 **Bad**
 ```xml
-<string name="error.message.call">CALL FAILED</string>
+<string name="error_message_call">CALL FAILED</string>
 ```
 
 **Good**
 ```xml
-<string name="error.message.call">Call failed</string>
+<string name="error_message_call">Call failed</string>
 ```
 
+<a name="deephierarchy"></a>
 **Avoid a deep hierarchy of views.** Sometimes you might be tempted to just add yet another LinearLayout, to be able to accomplish an arrangement of views. This kind of situation may occur:
 
 ```xml
@@ -445,6 +416,7 @@ A couple of problems may occur. You might experience performance problems, becau
 
 Therefore, try to keep your views hierarchy as flat as possible: learn how to use [RelativeLayout](https://developer.android.com/guide/topics/ui/layout/relative.html), how to [optimize your layouts](http://developer.android.com/training/improving-layouts/optimizing-layout.html) and to use the [`<merge>` tag](http://stackoverflow.com/questions/8834898/what-is-the-purpose-of-androids-merge-tag-in-xml-layouts).
 
+<a name="webviews"></a>
 **Beware of problems related to WebViews.** When you must display a web page, for instance for a news article, avoid doing client-side processing to clean the HTML, rather ask for a "*pure*" HTML from the backend programmers. [WebViews can also leak memory](http://stackoverflow.com/questions/3130654/memory-leak-in-webview) when they keep a reference to their Activity, instead of being bound to the ApplicationContext. Avoid using a WebView for simple texts or buttons, prefer TextViews or Buttons.
 
 
@@ -454,11 +426,11 @@ Android SDK's testing framework is still infant, specially regarding UI tests. A
 
 **Use [Robolectric](http://robolectric.org/) only for unit tests, not for views.** It is a test framework seeking to provide tests "disconnected from device" for the sake of development speed, suitable specially for unit tests on models and view models. However, testing under Robolectric is inaccurate and incomplete regarding UI tests. You will have problems testing UI elements related to animations, dialogs, etc, and this will be complicated by the fact that you are "walking in the dark" (testing without seeing the screen being controlled).
 
-**[Robotium](https://code.google.com/p/robotium/) makes writing UI tests easy.** You do not need Robotium for running connected tests for UI cases, but it will probably be beneficial to you because of its many helpers to get and analyse views, and control the screen. Test cases will look as simple as:
+**[Robotium](https://code.google.com/p/robotium/) makes writing UI tests easy.** You do not need Robotium for running connected tests for UI cases, but it will probably be beneficial to you because of its many helpers to get and analyze views, and control the screen. Test cases will look as simple as:
 
 ```java
 solo.sendKey(Solo.MENU);
-solo.clickOnText("More"); // searches for the first occurence of "More" and clicks on it
+solo.clickOnText("More"); // searches for the first occurrence of "More" and clicks on it
 solo.clickOnText("Preferences");
 solo.clickOnText("Edit File Extensions");
 Assert.assertTrue(solo.searchText("rtf"));
@@ -474,7 +446,7 @@ Caveats are: Genymotion emulators don't ship all Google services such as Google 
 
 [ProGuard](http://proguard.sourceforge.net/) is normally used on Android projects to shrink and obfuscate the packaged code.
 
-Whether you are using ProGuard or not depends on your project configuration. Usually you would configure gradle to use ProGuard when building a release apk.
+Whether you are using ProGuard or not depends on your project configuration. Usually you would configure Gradle to use ProGuard when building a release apk.
 
 ```groovy
 buildTypes {
@@ -519,6 +491,37 @@ Read more at [Proguard](http://proguard.sourceforge.net/#manual/examples.html) f
 **Tip.** Save the `mapping.txt` file for every release that you publish to your users. By retaining a copy of the `mapping.txt` file for each release build, you ensure that you can debug a problem if a user encounters a bug and submits an obfuscated stack trace.
 
 **DexGuard**. If you need hard-core tools for optimizing, and specially obfuscating release code, consider [DexGuard](http://www.saikoa.com/dexguard), a commercial software made by the same team that built ProGuard. It can also easily split Dex files to solve the 65k methods limitation.
+
+### Data storage
+
+
+#### SharedPreferences
+
+If you only need to persist simple flags and your application runs in a single process SharedPreferences is probably enough for you. It is a good default option.
+
+There are two reasons why you might not want to use SharedPreferences:
+
+* *Performance*: Your data is complex or there is a lot of it
+* *Multiple processes accessing the data*: You have widgets or remote services that run in their own processes and require synchronized data
+
+
+#### ContentProviders
+
+In the case SharedPreferences is not enough for you, you should use the platform standard ContentProviders, which are fast and process safe.
+
+The single problem with ContentProviders is the amount of boilerplate code that is needed to set them up, as well as low quality tutorials. It is possible, however, to generate the ContentProvider by using a library such as [Schematic](https://github.com/SimonVT/schematic), which significantly reduces the effort.
+
+You still need to write some parsing code yourself to read the data objects from the Sqlite columns and vice versa. It is possible to serialize the data objects, for instance with Gson, and only persist the resulting string. In this way you lose in performance but on the other hand you do not need to declare a column for all the fields of the data class.
+
+
+#### Using an ORM
+
+We generally do not recommend using an Object-Relation Mapping library unless you have unusually complex data and you have a dire need. They tend to be complex and require time to learn. If you decide to go with an ORM you should pay attention to whether or not it is _process safe_ if your application requires it, as many of the existing ORM solutions surprisingly are not.
+
+
+### Use Stetho 
+
+[Stetho](http://facebook.github.io/stetho/) is a debug bridge for Android applications from Facebook that integrates with the Chrome desktop browser's Developer Tools. With Stetho you can easily inspect your application, most notably the network traffic. It also allows you to easily inspect and edit SQLite databases and the shared preferences in your app. You should, however, make sure that Stetho is only enabled in the debug build and not in the release build variant. 
 
 ### Thanks to
 

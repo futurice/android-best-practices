@@ -60,6 +60,8 @@ Feel free to create your own feature branches out of this branch.
 
 ## Environment Setup
 
+**This is only required if you will make a `release` build, and if you work at Futurice.**
+
 1.  Add yourself to the git project 'PCustomerXProjectY' at `https://code.futurice.com`.
 Under your profile, add your ssh public key.
 If you don't have a public key yet, create it on command line using command `ssh-keygen`.

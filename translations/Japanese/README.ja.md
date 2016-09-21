@@ -473,7 +473,7 @@ Assert.assertTrue(solo.searchText("rtf"));
 Androidアプリを専門で開発していくなら[Genymotion emulator](http://www.genymotion.com/)のライセンスは買っておいた方が良い。Genymotionは通常のAVD Emulatorよりも早い。またアプリのデモ、ネットワーク接続品質のエミュレート、GPS、などなどを行う為のツールがそろっている。
 テストはたくさんの端末で行わなければならないが、実際にたくさんの端末を買うよりはGenymotionのライセンスを買う方がコスパが良い。
 
-注: GenymotionはGoogle Play StoreやMapなどがインストールされていない。またSumsungの特定のAPIをテストしたい場合は、実際のSumsungの端末を使う必要がある。
+注: GenymotionはGoogle Play StoreやMapなどがインストールされていない。またSamsungの特定のAPIをテストしたい場合は、実際のSamsungの端末を使う必要がある。
 
 ### Proguardの設定
 

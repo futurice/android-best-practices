@@ -24,7 +24,7 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### [Always use ProGuard or DexGuard](#proguard-configuration)
 #### [Use SharedPreferences for simple persistence, otherwise ContentProviders](#data-storage)
 #### [Use Stetho to debug your application](#use-stetho)
-#### [Use Leak Canary to find memory leaks]
+#### [Use Leak Canary to find memory leaks](#use-leakcanary)
 
 ----------
 

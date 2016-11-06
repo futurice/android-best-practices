@@ -438,7 +438,8 @@ solo.clickOnText("Edit File Extensions");
 Assert.assertTrue(solo.searchText("rtf"));
 ```
 
-**[AssertJ-Android](http://square.github.io/assertj-android/) an AssertJ extension library making assertions easy in Android tests** 
+**[AssertJ-Android](http://square.github.io/assertj-android/) an AssertJ extension library making assertions easy in Android tests** which you can use in both your Robolectric or Robotium. Assert-J comes with plenty extra libraries that make it even easier for you to test Android specific components, such as the Android support, play services and appcomat libraries.
+Test assertion will look as simple as:
 
 ```java
 // Example assertion on an intent with AssertJ-Android

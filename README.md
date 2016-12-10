@@ -19,7 +19,7 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### [Also keep dimens.xml DRY, define generic constants](#dimensxml)
 #### [Do not make a deep hierarchy of ViewGroups](#deephierarchy)
 #### [Avoid client-side processing for WebViews, and beware of leaks](#webviews)
-#### [Use Robolectric for unit tests, Robotium for connected (UI) tests](#test-frameworks)
+#### [Use Robolectric for unit tests, Robotium for connected (UI) tests, and AssertJ-Android for easier assertions in your Android tests](#test-frameworks)
 #### [Use Genymotion as your emulator](#emulators)
 #### [Always use ProGuard or DexGuard](#proguard-configuration)
 #### [Use SharedPreferences for simple persistence, otherwise ContentProviders](#data-storage)
@@ -436,6 +436,19 @@ solo.clickOnText("More"); // searches for the first occurrence of "More" and cli
 solo.clickOnText("Preferences");
 solo.clickOnText("Edit File Extensions");
 Assert.assertTrue(solo.searchText("rtf"));
+```
+
+**[AssertJ-Android](http://square.github.io/assertj-android/) an AssertJ extension library making assertions easy in Android tests** which you can use in both your Robolectric or Robotium. Assert-J comes with plenty extra libraries that make it even easier for you to test Android specific components, such as the Android support, play services and appcomat libraries.
+Test assertion will look as simple as:
+
+```java
+// Example assertion on an intent with AssertJ-Android
+Intent nextStartedServiceIntent = shadowOf(activity).getNextStartedService();
+assertThat(nextStartedServiceIntent)
+    .isNotNull()
+    .hasAction("org.example.action.YOUR_ACTION")
+    .hasExtra("yourExtra", "expectedValue")
+    ... so on
 ```
 
 ### Emulators

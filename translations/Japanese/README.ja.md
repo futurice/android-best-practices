@@ -513,8 +513,6 @@ ProGuard関連のよくある問題でビルドが成功したにもかかわら
 -keepnames class com.futurice.project.MyClass { *; }
 ```
 
-サンプルとして[こちら](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro)を確認しよう。また[Proguard](http://proguard.sourceforge.net/#manual/examples.html)も読んでおくと良い。
-
 **Tip** 
 リリースするたびに`mapping.txt`を保存しておこう。ユーザがバグを踏み、難読化されたスタックトレースを送ってきた際にデバッグする事ができる。
 

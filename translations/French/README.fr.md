@@ -496,7 +496,6 @@ Pour empêcher ProGuard *d'obfusquer* les classes ou les champs des calsses, ajo
 -keepnames class com.futurice.project.MyClass { *; }
 ```
 
-Regardez [cette configuration ProGuard de référence](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro) pour voir quelques exemples.
 Lisez [Proguard](http://proguard.sourceforge.net/#manual/examples.html) pour obtenir plus d'exemples.
 
 **Faites un build de la release tôt dans le développement de votre application** pour vérifier si ProGuard garde correctement ce qui est important. De plus dès que vous ajoutez une nouvelle librairie dans votre projet, faites une build de la release et testez l'apk sur votre périphérique. N'attendez pas que votre application soit finalisée en version "1.0" pour faire ce build de la release car vous risquez de tomber sur de mauvaises surprises et d'avoir peu de temps pour les corriger.

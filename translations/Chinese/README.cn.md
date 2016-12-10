@@ -242,7 +242,7 @@ retrolambda {
 Android Studio 提供Java8 lambdas表带是代码提示支持。如果你对lambdas不熟悉，只需参照以下开始学习吧：
 
 - 任何只包含一个接口的方法都是"lambda friendly"同时代码可以被折叠成更紧凑的语法
-- 如果对参数或类似有疑问，就写一个普通的匿名内部类，然后让Android Status为你生成一个lambda。
+- 如果对参数或类似有疑问，就写一个普通的匿名内部类，然后让Android Studio 为你生成一个lambda。
 
 **当心dex方法数限制，同时避免使用过多的类库** Android apps，当打包成一个dex文件时，有一个65535个应用方法强硬限制[[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/)。
 当你突破65k限制之后你会看到一个致命错误。因此，使用一个正常范围的类库文件，同时使用[dex-method-counts](https://github.com/mihaip/dex-method-counts)

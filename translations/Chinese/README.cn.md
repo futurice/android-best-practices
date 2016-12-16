@@ -166,19 +166,18 @@ dependencies {
 ### IDE集成开发环境和文本编辑器
 
 
-**无论使用什么编辑器，一定要构建一个良好的工程结构** 编辑器每个人都有自己的
+**无论使用什么编辑器，一定要构建一个良好的工程结构。** 编辑器每个人都有自己的
 选择，让你的编辑器根据工程结构和构建系统运作，那是你自己的责任。
 
-当下首推[Android Studio](https://developer.android.com/sdk/installing/studio.html),因为他是由谷歌开发，最接近Gradle，默认使用最新的工程结构，已经到beta阶段
-（目前已经有release 1.0了），它就是为Android开发定制的。
+当下首推[Android Studio](https://developer.android.com/sdk/installing/studio.html),因为他是由谷歌开发，很好地支持Gradle，包含很多有用的检测和分析工具，默认使用最新的工程结构，它就是为Android开发定制的。
 
-你也可以使用[Eclipse ADT](https://developer.android.com/sdk/installing/index.html?pkg=adt) ，但是你需要对它进行配置，因为它使用了旧的工程结构
-和Ant作为构建系统。你甚至可以使用纯文版编辑器如Vim，Sublime Text，或者Emacs。如果那样的话，你需要使用Gardle和`adb`命令行。如果使用Eclipse集成Gradle
-不适合你，你只是使用命令行构建工程，或迁移到Android Studio中来吧。
+你也可以使用纯文版编辑器如Vim，Sublime Text，或者Emacs。如果那样的话，你需要使用Gradle和`adb`命令行。
 
+不再推荐使用Eclipse和ADT开发，因为[谷歌在2015年年末结束了对ADT的支持](https://android-developers.googleblog.com/2015/06/an-update-on-eclipse-android-developer.html)，并呼吁开发者尽快迁移到Android Studio。
 
-无论你使用何种开发工具，只要确保Gradle和新的项目结构保持官方的方式构建应用程序，避免你的编辑器配置文件加入到版本控制。例如，避免加入Ant `build.xml`文件。
-特别如果你改变Ant的配置，不要忘记保持`build.gradle`是最新和起作用的。同时，善待其他开发者，不要强制改变他们的开发工具和偏好。
+无论你使用何种开发工具，避免将你的编辑器配置文件（比如Android Studio的iml文件）加入到版本控制，因为这些文件通常包含与本地机器有关的配置，可能会影响你的同事。
+
+最后，善待其他开发者，不要强制改变他们的开发工具和偏好。
 
 ### 类库
 

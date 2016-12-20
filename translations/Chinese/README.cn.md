@@ -620,7 +620,6 @@ In order to prevent ProGuard from *stripping away* needed classes or class membe
 -keepnames class com.futurice.project.MyClass { *; }
 ```
 
-查看[this template's ProGuard config](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro) 中的一些例子。
 更多例子请参考[Proguard](http://proguard.sourceforge.net/#manual/examples.html)。
 
 **在构建项目之初，发布一个版本** 来检查ProGuard规则是否正确的保持了重要的部分。

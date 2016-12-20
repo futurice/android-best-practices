@@ -542,7 +542,6 @@ ProGuard'ın gerekli dosyaları ve methodları *karartmasını* engellemek için
 -keepnames class com.futurice.project.MyClass { *; }
 ```
 
-[ProGuard ayarları örnek dosyası](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro) nı inceleyin.
 Dahası için [Proguard](http://proguard.sourceforge.net/#manual/examples.html).
 
 **Projelerinizin erken aşamalarında yayınlamak için APK oluşturun** Böylece ProGuard'ın size gerekli dosyaları tutup tutmadığını kontrol edebilirsiniz.Yeni bir kütüphane eklediğiniz zamanda aynı şekilde, bir tane yayına göndermek üzere APK hazırlayıp, cihazlarda deneyin. Uygulamanızın yayına tamamen hazır olduğunu düşündüğünüzde APK oluşturmak yerine bu şekilde durmadan APK oluşturmak daha yararlıdır. Böylece hatayı erkenden keşfedip önüne geçebilirsiniz.

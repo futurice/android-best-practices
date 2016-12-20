@@ -482,7 +482,6 @@ Kiểm tra `app/build/outputs/proguard/release/mapping.txt` để xem các objec
 -keepnames class com.futurice.project.MyClass { *; }
 ```
 
-Bạn có thể tham khảo thêm [this template's ProGuard config](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro).
 Tìm hiểu thêm các ví dụ [Proguard](http://proguard.sourceforge.net/#manual/examples.html).
 
 **Ngay từ ban đầu, hãy build bản release** để kiểm tra ProGuard có được cấu hình đúng hay không. Bên cạnh đó, bất cứ khi nào thêm một thư viện mới, hãy build bản release và test apk trên thiết bị. Đừng đợi đến khi app của bạn hoàn thành version "1.0" mới build bản release. Việc này giúp gặp và sửa vấn đề nhanh hơn.

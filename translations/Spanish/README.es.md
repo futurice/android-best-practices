@@ -504,7 +504,6 @@ Para prevenir que ProGuard *ofusque* clases u otros elementos, añádelos a `kee
 -keepnames class com.futurice.project.MyClass { *; }
 ```
 
-Échale un vistazo a [esta plantilla de configuración de ProGuard](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro) para más ejemplos.
 También podrás encontrar más ejemplos en la documentación oficial de [Proguard](http://proguard.sourceforge.net/#manual/examples.html).
 
 **En las primeras etapas de tu proyecto, haz una versión para release** para comprobar si las reglas de ProGuard funcionan correctamente. También, cuando incluyas nuevas librerías al proyecto, haz otra versión para release y prueba el apk en un dispositivo real. No esperes hasta la versión "1.0" de tu app para hacer las pruebas, ya que podrías encontrarte con sorpresas inesperadas y un tiempo muy ajustado para poder solucionar cualquier error.

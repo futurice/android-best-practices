@@ -11,7 +11,7 @@ Lições aprendidas por programadores Android na [Futurice](http://www.futurice.
 #### Não escreva o seu próprio cliente de HTTP, utilize as bibliotecas Volley ou OkHttp
 #### Use a biblioteca Jackson para fazer o parse de JSON
 #### Evite o Guava e utilize poucas bibliotecas devido ao *limite máximo de 65 mil métodos*
-#### Use Fragmentos para representar um ecrã UI
+#### Use Fragmentos para representar um ecrã UIƒ
 #### Use Atividades apenas para gerir Fragmentos
 #### As layouts de XML são código, organize-as bem
 #### Use estilos para evitar atributos duplicados nas layouts de XML
@@ -518,7 +518,6 @@ De maneira a prevenir o ProGuard de *ofuscar* classes ou membros da classe, adic
 -keepnames class com.futurice.project.MyClass { *; }
 ```
 
-Veja [esta template de configuração ProGuard](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro) para alguns exemplos.
 Leia mais em [Proguard](http://proguard.sourceforge.net/#manual/examples.html) para exemplos.
 
 **Cedo no projeto, faça uma compilação de lançamento** para verificar se as regras do ProGuard estão a manter corretamente o que é importante. Além disso, sempre que inclua bibliotecas novas, faça uma compilação de lançamento e teste a apk num aparelho. Não espera até a sua aplicação estar finalmente na versão "1.0" para fazer a compilação de lançamento, poderá encontrar algumas surpresas desagradáveis e pouco tempo para as resolver.

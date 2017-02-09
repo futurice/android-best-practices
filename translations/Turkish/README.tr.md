@@ -4,7 +4,7 @@
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-android--best--practices-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1091)
 
-## Summary
+## Özet
 
 #### [Gradle ve önerilen proje yapısı](#build-system)
 #### [Şifreleri ve hassas verileri gradle.properties içerisine koyun](#gradle-configuration)
@@ -13,9 +13,9 @@
 #### [*65k method limit* olayından dolayı Guava ve çok fazla kütüphane kullanmaktan kaçının.](#methodlimitation)
 #### [UI ekranları için Fragment kullanmayı tercih edin.](#activities-and-fragments)
 #### [Activity dosyalarını sadece Fragment'ları yönetirken kullanın.](#activities-and-fragments)
-#### [Layout XML dosyalarıda kodlardan oluşur, onları düzgün organize edin.](#resources)
+#### [Layout XML dosyaları da kodlardan oluşur, onları düzgün organize edin.](#resources)
 #### [Layout XML dosyalarında nitelik çakışmasını engellemek için style dosyaları kullan.](#styles)
-#### [Bir tane büyük style dosyası yerine bu dosyayı parçalara böl.](#splitstyles)
+#### [Bir tane büyük style dosyası yerine bu dosyayı parçalara bölün.](#splitstyles)
 #### [colors.xml dosyasını kısa ve sade tut, sadece renk paletini belirle](#colorsxml)
 #### [dimens.xml dosyanıda sade tut, sadece genel sabitleri belirle.](#dimensxml)
 #### [ViewGroup'lar için derin bir hiyerarşiden kaçın.](#deephierarchy)
@@ -118,7 +118,7 @@ KEYSTORE_PASSWORD=password123
 KEY_PASSWORD=password789
 ```
 
-Bu dosa otomatik olarak Gradle tarafından tanınacaktır, `build.gradle` içinde direk kullanabilirsiniz.
+Bu dosya Gradle otomatik olarak tarafından tanınacaktır, `build.gradle` içinde direk kullanabilirsiniz.
 
 ```groovy
 signingConfigs {
@@ -136,7 +136,7 @@ signingConfigs {
 }
 ```
 
-**Jar dosyaları import etmek yerine Maven dependency çözümünü kullanın.** Jar dosyalarını projelerinize direk olarak eklerseniz, bunlar `2.1.1` gibi belirli versiyonlarda olacaktır. Bu da jarların güncellenmesi yada versiyon değiştirmesi ile ilgili sıkıntı çıkaracaktır, bu sorun Maven'ın çözdüğü bir sorundır, Android Gradle Build tarafından da önerilmektedir. Örneğin:
+**Jar dosyaları import etmek yerine Maven dependency çözümünü kullanın.** Jar dosyalarını projelerinize direk olarak eklerseniz, bunlar `2.1.1` gibi belirli versiyonlarda olacaktır. Bu da jarların güncellenmesi yada versiyon değiştirmesi ile ilgili sıkıntı çıkaracaktır, bu sorun Maven'ın çözdüğü bir sorundur, Android Gradle Build tarafından da önerilmektedir. Örneğin:
 
 ```groovy
 dependencies {
@@ -146,7 +146,7 @@ dependencies {
 ```    
 
 **Dinamik Maven Dependency çözümlerinden kaçının**
-`2.1.+` şeklinde yazılmış dinamik versiyon numaralarından kaçının,farklı versiyon numaralarında dikkate alınmamış farklılıklardan dolayı, düzgün çalışmayan veya ince hatalar bulunan uygulamalar geliştirmiş olursunuz. `2.1.1` gibi statik versiyonlar kullanmak daha stabil, düzgün çalışan ve hataları kolayca belirlenebilen uygulamalar ortaya çıkarmanızı sağlar.
+`2.1.+` şeklinde yazılmış dinamik versiyon numaralarından kaçının,farklı versiyon numaralarında dikkate alınmamış değişikliklerden dolayı, düzgün çalışmayan veya ince hatalar bulunan uygulamalar geliştirmiş olursunuz. `2.1.1` gibi statik versiyonlar kullanmak daha stabil, düzgün çalışan ve hataları kolayca belirlenebilen uygulamalar ortaya çıkarmanızı sağlar.
 
 **Release olmamış projeler için farklı paket isimleri kullanın**
  `applicationIdSuffix` ile *debug* [build type](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Build-Types) seçeneklerini *debug* ve *release* modudnaki apk apkları aynı cihaz üzerine yükleyip test edebilmek için yazarız. Bu uygulamamız yayınlandıktan sonraki süreçte dahada büyük önem kazanacaktır.
@@ -176,7 +176,7 @@ Farklı versiyon tipleri için farklı icon'lar kullanmanız sizin yararınıza 
 
 Android geliştiriciliğinde [Eclipse ADT](http://developer.android.com/tools/help/adt.html) kullanımı artık tavsiye edilmemektedir. [Google ADT desteiğini 2015 sonunda bitirdi](http://android-developers.blogspot.fi/2015/06/an-update-on-eclipse-android-developer.html) ve kullanıcılarını [Android Studio'ya geçiş](http://developer.android.com/sdk/installing/migrate.html) yapmalarını önerdi. Hala Eclipse kullanmaya devam edebilirsiniz ancak, ancak eski proje yapısını ve ANT kullanımını desteklediği için, Gradle çalışması için düzenlemeler yapmanız veya komut satırı üzerinden çalıştırmanız gerekmektedir.
 
-Vim, Sublime Text, veya Emacs gibi Text Editörler de kullanabilirsiniz. Bu durumda Gradle ve adb'yi komut satırından çalıştırmanız beklenmektedir.
+Vim, Sublime Text veya Emacs gibi Text Editörleri de kullanabilirsiniz. Bu durumda Gradle ve adb'yi komut satırından çalıştırmanız beklenmektedir.
 
 Hangi editörü kullanırsanız kullanın Gradle ve proje yapısının önerilen şekilde olduğundan emin olun, ve editörünüze özgü dosyaları VCS üzerine eklemediğinize emin olun. Örneğin, Ant üzerinde `build.xml` dosyasını eklemediğinize emin olun. Özellikle `build.gradle` dosyasını güncel tutmayı ve çalışır halde olduğundan emin olmayı unutmayın. Her zaman diğer developerları düşünün ve onların sizin için projelerini toparlamak zorunda olmadıklarını hatırlayın.
 
@@ -225,7 +225,7 @@ Android Studio Java8 lambdalar için destek sağlar. Lambda'lar hakkında bilgin
 <a name="methodlimitation"></a>
 **Dex method sınırlamasına dikkat edin ve çok fazla kütüphane kullanmaktan kaçının.** Android uygulamalar, dex dosyası olarak sıkıştırıldıklarında, 65536 adet referans edilebilecek metod sınırlaması vardır.  [[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/). Eğer sınır aşarsınız hata aldığınızı göreceksiniz. Bu sebeple, düşük sayıda kütüphaneler kullanın, [dex-method-counts](https://github.com/mihaip/dex-method-counts) aracını kullanarak hangi kütüphanelerle bu limitin altında kalacağınızı hesaplayabilirsiniz. Özellikle Guava kullanımından sakının.İçeriğinde 13k metod barındırmaktadır.
 
-### Activityler ve Fragmentler
+### Activity'ler ve Fragment'lar
 
 Android developerlar ve Futurice developerları arasında dahi Android Uygulamada Activity ve Fragment kullanarak en iyi yazılım mimarisinin nasıl yapılacağı hakkında bir fikir birliği yok. Square bile [Çoğunlukla View'lar aracılığıyla Mimari oluşturma](https://github.com/square/mortar),Fragmentlara olan ihtiyacı ortadan kaldırmıştır, ama community arasında halen kabul edilebilir bir işlem olarak görülmemektedir.
 

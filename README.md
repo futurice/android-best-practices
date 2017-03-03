@@ -498,7 +498,7 @@ To prevent ProGuard from *obfuscating* classes or class members, add a `keepname
 -keepnames class com.futurice.project.MyClass { *; }
 ```
 
-Read more at [Proguard](http://proguard.sourceforge.net/#manual/examples.html) for examples.
+Read more at [Proguard](https://www.guardsquare.com/en/proguard/manual/examples) for examples.
 
 **Early on in your project, make a release build** to check whether ProGuard rules are correctly keeping whatever is important. Also whenever you include new libraries, make a release build and test the apk on a device. Don't wait until your app is finally version "1.0" to make a release build, you might get several unpleasant surprises and a short time to fix them.
 

@@ -633,6 +633,32 @@ In order to prevent ProGuard from *stripping away* needed classes or class membe
 一个商业软件，ProGuard 也是有他们团队开发的。
 它会很容易将Dex文件分割，来解决65K个方法限制问题。
 
+###数据存储
+
+**SharedPreferences**
+
+如果你只是需要持久化存储简单的标记位，并且你的应用运行在单一进程，那么SharedPreferences可能就满足了你的需求。它是一个非常好的选择。
+
+这里有两个使你可能不使用SharedPreferences的原因：
+
+- Performance: Your data is complex or there is a lot of it
+- 性能问题：你的很多数据结构负责的数据需要存储。
+- Multiple processes accessing the data: You have widgets or remote services that run in their own processes and require synchronized data
+- 多线程访问数据：你有多个控件或者运行在各自线程上的远程的服务需要同步数据。
+
+**ContentProviders**
+
+如果SharedPreferences不足以满足你的需求，那么你可以使用平台标准的ContentProviders，它不仅快速，并且线程安全。
+
+使用ContentProviders的唯一问题是建立他们需要大量的模板代码，并且少有高质量的教程。如果可以，我们可以通过使用第三方库Schematic，极大降低了冗余操作，去生成ContentProviders.
+
+你可能仍然需要亲自写一些解析代码去从Sqlite读取数据对象，或者进行相反的操作。如果可以序列化数据对象，例如通过Gson，只持久化存储最终是字符串。通过这种方式虽然会降低性能，但是从另一个角度来讲，你不需要为每一个数据结构声明表结构。
+
+**使用ORM**我们通常不推荐使用对象关系映射第三方库除非你有非常复杂的数据结构，并且你确定你真的需要它。他们通常比较复杂，并且需要时间去学习。如果你决定了在你的应用中使用ORM，你应该注意它是否是线程安全的，而对于目前大多数ORM解决方案都是非线程安全的。
+
+**使用Stetho**Stetho 是一个Facebook 开源的Android调试工具，它是Chrome Developer Tools的扩展。通过它可以检测应用的网络情况。它也允许你可以检测应用的数据库，shared preferences。但是，你应该确保Stetho只有在Debug状态下得以开启，而不是在正式发布版本中。
+
+**使用LeakCanary**LeakCanary 是可以在应用运行中检测，定位内存泄露的Java库。使用它应是你开发应用过程中的一部分。更多详细的配置和使用情况请参照wiki。你只需要记得它在你的正式版本中你是不需要配置的。
 
 ### 致谢
 

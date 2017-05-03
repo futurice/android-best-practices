@@ -135,6 +135,56 @@ signingConfigs {
 }
 ```
 
++**Store sensitive data (API keys & urls, tracking ids, etc) in build.gradle & gradle.properties files** instead of config.xml file that can be easily decompiled. Otherwise your data is compromised.
+Additional advantage is that you can access those constants with BuildConfig.GOOGLE_API_KEY where Context is not available. 
+
+First, add constants into a `gradle.properties` file which should _not_ be added to the version control system:
+
+```
+GOOGLE_API_KEY_DEBUG=google_api_key_debug
+GOOGLE_API_KEY_RELEASE=google_api_key_release
+REMOTE_API_BASE_URL_DEBUG=http://my.remote.api/base/url/debug/v1
+REMOTE_API_BASE_URL_RELEASE=http://my.remote.api/base/url/release/v1
+ANALYTICS_TRACKING_ID_DEBUG=tracking_id_debug
+ANALYTICS_TRACKING_ID_RELEASE=tracking_id_release
+...
+```
+
+You can store different values for release and debug build types in a single field:
+```
+buildTypes {
+  release {
+    try {
+      buildConfigField 'String', 'GOOGLE_API_KEY', GOOGLE_API_KEY_RELEASE
+    } 
+    catch (ex) {
+      throw new InvalidUserDataException("You should define GOOGLE_API_KEY_RELEASE in gradle.properties.")
+    }
+  }
+  debug {
+    try {
+      buildConfigField 'String', 'GOOGLE_API_KEY', GOOGLE_API_KEY_DEBUG
+    } 
+    catch (ex) {
+      throw new InvalidUserDataException("You should define GOOGLE_API_KEY_DEBUG in gradle.properties.")
+    }
+  }
+  ...
+}
+```
+
+Alternatively you can use same value for all build types:
+```
+buildTypes.each {
+  try {
+    it.buildConfigField 'String', 'GOOGLE_API_KEY', GOOGLE_API_KEY
+  } 
+  catch (ex) {
+    throw new InvalidUserDataException("You should define GOOGLE_API_KEY in gradle.properties.")
+  }
+}
+```
+
 **Prefer Maven dependency resolution instead of importing jar files.** If you explicitly include jar files in your project, they will be of some specific frozen version, such as `2.1.1`. Downloading jars and handling updates is cumbersome, this is a problem that Maven solves properly, and is also encouraged in Android Gradle builds. For example:
 
 ```groovy

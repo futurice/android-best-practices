@@ -110,7 +110,7 @@ signingConfigs {
 }
 ```
 
-Instead, make a `gradle.properties` file which should _not_ be added to the version control system:
+Instead, make a `gradle.properties` file which should NOT be added to the version control system:
 
 ```
 KEYSTORE_PASSWORD=password123
@@ -135,10 +135,10 @@ signingConfigs {
 }
 ```
 
-+**Store sensitive data (API keys & urls, tracking ids, etc) in build.gradle & gradle.properties files** instead of config.xml file that can be easily decompiled. Otherwise your data is compromised.
+**Store sensitive data (API keys & urls, tracking ids, etc) in build.gradle & gradle.properties files** instead of config.xml file that can be easily decompiled. Otherwise your data is compromised.
 Additional advantage is that you can access those constants with BuildConfig.GOOGLE_API_KEY where Context is not available. 
 
-First, add constants into a `gradle.properties` file which should _not_ be added to the version control system:
+First, add constants into a `gradle.properties` file which should NOT be added to the version control system:
 
 ```
 GOOGLE_API_KEY_DEBUG=google_api_key_debug

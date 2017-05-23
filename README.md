@@ -20,7 +20,6 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### [Do not make a deep hierarchy of ViewGroups](#deephierarchy)
 #### [Avoid client-side processing for WebViews, and beware of leaks](#webviews)
 #### [Use Robolectric for unit tests, Robotium for connected (UI) tests, and AssertJ-Android for easier assertions in your Android tests](#test-frameworks)
-#### [Use Genymotion as your emulator](#emulators)
 #### [Always use ProGuard or DexGuard](#proguard-configuration)
 #### [Use SharedPreferences for simple persistence, otherwise ContentProviders](#data-storage)
 #### [Use Stetho to debug your application](#use-stetho)
@@ -453,9 +452,7 @@ assertThat(nextStartedServiceIntent)
 
 ### Emulators
 
-If you are developing Android apps as a profession, buy a license for the [Genymotion emulator](http://www.genymotion.com/). Genymotion emulators run at a faster frames/sec rate than typical AVD emulators. They have tools for demoing your app, emulating network connection quality, GPS positions, etc. They are also ideal for connected tests. You have access to many (not all) different devices, so the cost of a Genymotion license is actually much cheaper than buying multiple real devices.
-
-Caveats are: Genymotion emulators don't ship all Google services such as Google Play Store and Maps. You might also need to test Samsung-specific APIs, so it's necessary to have a real Samsung device.
+The performance of the Android SDK emulator, particularly the x86 variant, has improvement markedly in recent years and is now adequate for most day-to-day development scenarios. However, you should not discount the value of ensuring your application behaves correctly on real devices. Of course, testing on all possible devices is not practical, so rather focus your efforts on devices with a large market share and those most relevant to your app.
 
 ### Proguard configuration
 

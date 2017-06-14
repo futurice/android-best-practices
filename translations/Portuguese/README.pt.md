@@ -21,7 +21,6 @@ Lições aprendidas por programadores Android na [Futurice](http://www.futurice.
 #### Não faça uma hierarquia muito profunda de ViewGroups
 #### Evite processar WebViews no cliente, e cuidado com fugas
 #### Use o Robolectric para testes unitários, Robotium para testes conetados (UI)
-#### Use o Genymotion como simulador
 #### Use sempre o ProGuard ou DexGuard
 #### Use SharedPreferences para persistência simples, caso contrário use ContentProviders
 
@@ -469,11 +468,9 @@ solo.clickOnText("Edit File Extensions");
 Assert.assertTrue(solo.searchText("rtf"));
 ```
 
-### Simuladores
+### Emuladores
 
-Se está a desenvolver aplicações Android como uma profissão, compre uma licença para o [simulador Genymotion](http://www.genymotion.com/). O simulador Genymotion corre a uma rátio de frames/sec mais rapidamente do que os simuladores AVD. Eles têm ferramentas para _demoing_ a sua aplicação, simulando a qualidade da conexão à rede, posições de GPS, etc. Eles também são ideais para testes conetados. Irá ter acesso a mais (não todos) os diferentes aparelhos, o que irá fazer com que o custo de uma licença Genymotion muito mais acessível do que comprar diferentes aparelhos reais.
-
-Desvantagens são: Os simuladores Genymotion não têm todos os serviços do Google como Google Play Store e Maps. Também poderá ter de testar APIs específicas da Samsung, portanto irá ser necessário ter um aparelho Samsung real.
+A performance do emulador do Android SDK, particularmente a de arquitetura x86, tem melhorado significantemente nos últimos anos e hoje é a mais adequada para a maioria das tarefas de desenvolvimento do dia-a-dia. Contudo, você não deve desconsiderar que sua aplicação vai funcionar realmente em dispositivos reais. Claro, testar todos os possíveis dispositivos não é nada prático ou produtivo, ou seja, foque os seus esforços nos dispositivos que tenham uma grande fatia de mercado e os que sejam mais relevantes para a aplicação que está sendo desenvolvida no momento.
 
 ### Configurações Proguard
 

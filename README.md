@@ -20,6 +20,7 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### [Do not make a deep hierarchy of ViewGroups](#deephierarchy)
 #### [Avoid client-side processing for WebViews, and beware of leaks](#webviews)
 #### [Use Robolectric for unit tests, Robotium for connected (UI) tests, and AssertJ-Android for easier assertions in your Android tests](#test-frameworks)
+###  [Use a test coverage tool](#test-coverage)
 #### [Always use ProGuard or DexGuard](#proguard-configuration)
 #### [Use SharedPreferences for simple persistence, otherwise ContentProviders](#data-storage)
 #### [Use Stetho to debug your application](#use-stetho)
@@ -448,6 +449,27 @@ assertThat(nextStartedServiceIntent)
     .hasAction("org.example.action.YOUR_ACTION")
     .hasExtra("yourExtra", "expectedValue")
     ... so on
+```
+
+### Test coverage
+
+Why not to have a big picture of how your tests are manipulating your code? Having a code coverage tool might help you to avoid to not have a bad time in the future with your Android project. In order to generate some nice reports from the tests we use **[JaCoCo](http://www.eclemma.org/jacoco/)**. Basically, JaCoCo stands for Java Code Coverage, but it doesn't mean that you can't test your Kotlin projects as well. It runs your tests written using **Roboeletric and Espresso**. There are few other tools for test coverage available, one of them is [SonarQube](https://www.sonarqube.org/), deserves a check.
+
+**Setting up JaCoCo to your project**
+In your ```build.gradle``` make sure your **testCoverageEnable** is true, otherwise the reports won't be generated from your debug build.
+
+```groovy
+apply plugin: 'jacoco'
+
+android {
+    ...
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+        ...
+    }
+}
 ```
 
 ### Emulators

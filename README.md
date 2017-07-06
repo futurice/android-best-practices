@@ -97,7 +97,7 @@ signingConfigs {
 }
 ```
 
-**Prefer Maven dependency resolution instead of importing jar files.** If you explicitly include jar files in your project, they will be of some specific frozen version, such as `2.1.1`. Downloading jars and handling updates is cumbersome, this is a problem that Maven solves properly, and is also encouraged in Android Gradle builds. For example:
+**Prefer Maven dependency resolution instead of importing jar files.** If you explicitly include jar files in your project, they will be a specific frozen version, such as `2.1.1`. Downloading jars and handling updates is cumbersome and is a problem that Maven already solves properly. Where possible, you should attempt to use Maven to resolve your dependencies, for example:
 
 ```groovy
 dependencies {
@@ -176,31 +176,19 @@ Because of Android API's history, you can loosely consider Fragments as UI piece
 - Avoid putting too much code in activities. Whenever possible, keep them as lightweight containers, existing in your application primarily for the lifecycle and other important Android-interfacing APIs. Prefer single-fragment activities instead of plain activities - put UI code into the activity's fragment. This makes it reusable in case you need to change it to reside in a tabbed layout, or in a multi-fragment tablet screen. Avoid having an activity without a corresponding fragment, unless you are making an informed decision.
 - Don't abuse Android-level APIs such as heavily relying on Intent for your app's internal workings. You could affect the Android OS or other applications, creating bugs or lag. For instance, it is known that if your app uses Intents for internal communication between your packages, you might incur multi-second lag on user experience if the app was opened just after OS boot.
 
-### Java packages architecture
+### Java packages structure
 
-Java architectures for Android applications can be roughly approximated in [Model-View-Controller](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller). In Android, [Fragment and Activity are actually controller classes](http://www.informit.com/articles/article.aspx?p=2126865). On the other hand, they are explicitly part of the user interface, hence are also views.
+We recommend using a *feature based* package structure for your code. This has the following benefits:
 
-For this reason, it is hard to classify fragments (or activities) as strictly controllers or views. It's better to let them stay in their own `fragments` package. Activities can stay on the top-level package as long as you follow the advice of the previous section. If you are planning to have more than 2 or 3 activities, then make also an `activities` package.
+- Clearer feature dependency and interface boundaries.
+- Promotes encapsulation.
+- Easier to understand the components that define the feature.  
+- Reduces risk of unknowingly modifying unrelated or shared code.
+- Simpler navigation: most related classes will be in the one package.
+- Easier to remove a feature.
+- Simplifies the transition to module based build structure (better build times and Instant Apps support)
 
-Otherwise, the architecture can look like a typical MVC, with a `models` package containing POJOs to be populated through the JSON parser with API responses, and a `views` package containing your custom Views, notifications, action bar views, widgets, etc. Adapters are a gray matter, living between data and views. However, they typically need to export some View via `getView()`, so you can include the `adapters` subpackage inside `views`.
-
-Some controller classes are application-wide and close to the Android system. These can live in a `managers` package. Miscellaneous data processing classes, such as "DateUtils", stay in the `utils` package. Classes that are responsible for interacting with the backend stay in the `network` package.
-
-All in all, ordered from the closest-to-backend to the closest-to-the-user:
-
-```
-com.futurice.project
-├─ network
-├─ models
-├─ managers
-├─ utils
-├─ fragments
-└─ views
-   ├─ adapters
-   ├─ actionbar
-   ├─ widgets
-   └─ notifications
-```
+The alternative approach of defining your packages by *how* a feature is built (by placing related Activities, Fragments, Adapters etc in separate packages) can lead to a fragmented code base with less implementation flexibility and it also reduce your ability to comprehend your code base in terms of its primary role: to provide features for your app.   
 
 ### Resources
 

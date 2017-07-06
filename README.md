@@ -188,7 +188,7 @@ We recommend using a *feature based* package structure for your code. This has t
 - Easier to remove a feature.
 - Simplifies the transition to module based build structure (better build times and Instant Apps support)
 
-The alternative approach of defining your packages by *how* a feature is built (by placing related Activities, Fragments, Adapters etc in separate packages) can lead to a fragmented code base with less implementation flexibility and it also reduce your ability to comprehend your code base in terms of its primary role: to provide features for your app.   
+The alternative approach of defining your packages by *how* a feature is built (by placing related Activities, Fragments, Adapters etc in separate packages) can lead to a fragmented code base with less implementation flexibility. Most importantly, it hinders your ability to comprehend your code base in terms of its primary role: to provide features for your app.   
 
 ### Resources
 

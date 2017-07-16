@@ -9,7 +9,7 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### [Use Gradle and its recommended project structure](#build-system)
 #### [Put passwords and sensitive data in gradle.properties](#gradle-configuration)
 #### [Use the Jackson library to parse JSON data](#libraries)
-#### [Don't write your own HTTP client, use Volley or OkHttp libraries](#networklibs)
+#### [Don't write your own HTTP client, use OkHttp libraries](#networklibs)
 #### [Avoid Guava and use only a few libraries due to the *65k method limit*](#methodlimitation)
 #### [Sail carefully when choosing between Activities and Fragments](#activities-and-fragments)
 #### [Layout XMLs are code, organize them well](#resources)
@@ -19,7 +19,7 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### [Also keep dimens.xml DRY, define generic constants](#dimensxml)
 #### [Do not make a deep hierarchy of ViewGroups](#deephierarchy)
 #### [Avoid client-side processing for WebViews, and beware of leaks](#webviews)
-#### [Use Robolectric for unit tests, Robotium for connected (UI) tests, and AssertJ-Android for easier assertions in your Android tests](#test-frameworks)
+#### [Use JUnit for unit tests, Espresso for connected (UI) tests, and AssertJ-Android for easier assertions in your Android tests](#test-frameworks)
 #### [Always use ProGuard or DexGuard](#proguard-configuration)
 #### [Use SharedPreferences for simple persistence, otherwise ContentProviders](#data-storage)
 #### [Use Stetho to debug your application](#use-stetho)
@@ -97,12 +97,11 @@ signingConfigs {
 }
 ```
 
-**Prefer Maven dependency resolution instead of importing jar files.** If you explicitly include jar files in your project, they will be a specific frozen version, such as `2.1.1`. Downloading jars and handling updates is cumbersome and is a problem that Maven already solves properly. Where possible, you should attempt to use Maven to resolve your dependencies, for example:
+**Prefer Maven dependency resolution to importing jar files.** If you explicitly include jar files in your project, they will be a specific frozen version, such as `2.1.1`. Downloading jars and handling updates is cumbersome and is a problem that Maven already solves properly. Where possible, you should attempt to use Maven to resolve your dependencies, for example:
 
 ```groovy
 dependencies {
-    compile 'com.squareup.okhttp:okhttp:2.2.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
+    compile 'com.squareup.okhttp:okhttp3:3.8.0'
 }
 ```    
 
@@ -110,7 +109,7 @@ dependencies {
 Avoid the use of dynamic dependency versions, such as `2.1.+` as this may result in different and unstable builds or subtle, untracked differences in behavior between builds. The use of static versions such as `2.1.1` helps create a more stable, predictable and repeatable development environment.
 
 **Use different package name for non-release builds**
-Use `applicationIdSuffix` for *debug* [build type](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Build-Types) to be able to install both *debug* and *release* apk on the same device (do this also for custom build types, if you need any). This will be especially valuable later on in the app's lifecycle, after it has been published to the store.
+Use `applicationIdSuffix` for *debug* [build type](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Build-Types) to be able to install both *debug* and *release* apk on the same device (do this also for custom build types, if you need any). This will be especially valuable after your app has been published.
 
 ```groovy
 android {
@@ -146,22 +145,33 @@ Ultimately, be kind to other developers; don't force them to change their tool o
 
 ### Libraries
 
-**[Jackson](http://wiki.fasterxml.com/JacksonHome)** is a Java library for converting Objects into JSON and vice-versa. [Gson](https://code.google.com/p/google-gson/) is a popular choice for solving this problem, however we find Jackson to be more performant since it supports alternative ways of processing JSON: streaming, in-memory tree model, and traditional JSON-POJO data binding. Keep in mind, though, that Jackson is a larger library than Gson, so depending on your case, you might prefer Gson to avoid 65k methods limitation. Other alternatives: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
+**[Jackson](http://wiki.fasterxml.com/JacksonHome)** is a Java library for JSON serialization and deserialization, it has a wide-scoped and versatile API, supporting various ways of processing JSON: streaming, in-memory tree model, and traditional JSON-POJO data binding. 
+
+[Gson](https://code.google.com/p/google-gson/) is another popular choice and being a smaller library than Jackson, you might prefer it to avoid 65k methods limitation. Also, if you are using  
+
+[Moshi](https://github.com/square/moshi), another of [Square's](https://github.com/square) open source libraries, builds upon learnings from the development of Gson and also integrates well with Kotlin.
 
 <a name="networklibs"></a>
-**Networking, caching, and images.** There are a couple of battle-proven solutions for performing requests to backend servers, which you should use perform considering implementing your own client. Use [Volley](https://android.googlesource.com/platform/frameworks/volley) or [Retrofit](http://square.github.io/retrofit/). Volley also provides helpers to load and cache images. If you choose Retrofit, consider [Picasso](http://square.github.io/picasso/) for loading and caching images, and [OkHttp](http://square.github.io/okhttp/) for efficient HTTP requests. All three Retrofit, Picasso and OkHttp are created by the same company, so they complement each other nicely. [OkHttp can also be used in connection with Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
-[Glide](https://github.com/bumptech/glide) is another option for loading and caching images. It has better performance than Picasso, GIF and circular image support, but also a bigger method count.
+**Networking, caching, and images.** There are a couple of battle-proven solutions for performing requests to backend servers, which you should use rather than implementing your own client. We recommend basing your stack around [OkHttp](http://square.github.io/okhttp/) for efficient HTTP requests and using [Retrofit](http://square.github.io/retrofit/) to provide a typesafe layer. If you choose Retrofit, consider [Picasso](http://square.github.io/picasso/) for loading and caching images.
 
-**RxJava** is a library for Reactive Programming, in other words, handling asynchronous events. It is a powerful and promising paradigm, which can also be confusing since it's so different. We recommend to take some caution before using this library to architect the entire application. There are some projects done by us using RxJava, if you need help talk to one of these people: Timo Tuominen, Olli Salonen, Andre Medeiros, Mark Voit, Antti Lammi, Vera Izrailit, Juha Ristolainen. We have written some blog posts on it: [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift).
+Retrofit, Picasso and OkHttp are created by the same company, so they complement each other nicely and compatability issues are uncommon.
 
-If you have no previous experience with Rx, start by applying it only for responses from the API. Alternatively, start by applying it for simple UI event handling, like click events or typing events on a search field. If you are confident in your Rx skills and want to apply it to the whole architecture, then write Javadocs on all the tricky parts. Keep in mind that another programmer unfamiliar to RxJava might have a very hard time maintaining the project. Do your best to help them understand your code and also Rx.
+[Glide](https://github.com/bumptech/glide) is another option for loading and caching images. It has support for animated GIFs, circular images and claims of better performance than Picasso, but also a bigger method count.
 
-**[Retrolambda](https://github.com/evant/gradle-retrolambda)** is a Java library for using Lambda expression syntax in Android and other pre-JDK8 platforms. It helps keep your code tight and readable especially if you use a functional style with for example with RxJava.
+**RxJava** is a library for Reactive Programming, in other words, handling asynchronous events. It is a powerful paradigm, but it also has a steep learning curve. We recommend taking some caution before using this library to architect the entire application. We have written some blog posts on it: [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift). For a reference app, our open source app [Freesound Android](https://github.com/futurice/freesound-android) makes extensive use of RxJava 2.
 
-Android Studio offers code assist support for Java8 lambdas. If you are new to lambdas, just use the following to get started:
+If you have no previous experience with Rx, start by applying it only for responses from app's backend APIs. Alternatively, start by applying it for simple UI event handling, like click events or typing events on a search field. If you are confident in your Rx skills and want to apply it to the whole architecture, then write documentation on all the tricky parts. Keep in mind that another programmer unfamiliar to RxJava might have a very hard time maintaining the project. Do your best to help them understand your code and also Rx.
+
+Use [RxAndroid](https://github.com/ReactiveX/RxAndroid) for Android threading support and [RxBinding](https://github.com/JakeWharton/RxBinding) to easily create Observables from existing Android components.
+
+**[Retrolambda](https://github.com/evant/gradle-retrolambda)** is a Java library for using Lambda expression syntax in Android and other pre-JDK8 platforms. It helps keep your code tight and readable especially if you use a functional style, such as in RxJava.
+
+Android Studio offers code assist support for Java 8 lambdas. If you are new to lambdas, just use the following to get started:
 
 - Any interface with just one method is "lambda friendly" and can be folded into the more tight syntax
-- If in doubt about parameters and such, write a normal anon inner class and then let Android Studio fold it into a lambda for you.
+- If in doubt about parameters and such, write a normal anonymous inner class and then let Android Studio fold it into a lambda for you.
+
+Note that from Android Studio 3.0, [Retrolambda is no longer required](https://developer.android.com/studio/preview/features/java8-support.html0).
 
 <a name="methodlimitation"></a>
 **Beware of the dex method limitation, and avoid using many libraries.** Android apps, when packaged as a dex file, have a hard limitation of 65536 referenced methods [[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/). You will see a fatal error on compilation if you pass the limit. For that reason, use a minimal amount of libraries, and use the [dex-method-counts](https://github.com/mihaip/dex-method-counts) tool to determine which set of libraries can be used in order to stay under the limit. Especially avoid using the Guava library, since it contains over 13k methods.
@@ -173,8 +183,7 @@ There is no consensus among the community nor Futurice developers how to best or
 Because of Android API's history, you can loosely consider Fragments as UI pieces of a screen. In other words, Fragments are normally related to UI. Activities can be loosely considered to be controllers, they are especially important for their lifecycle and for managing state. However, you are likely to see variation in these roles: activities might take UI roles ([delivering transitions between screens](https://developer.android.com/about/versions/lollipop.html)), and [fragments might be used solely as controllers](http://developer.android.com/guide/components/fragments.html#AddingWithoutUI). We suggest you sail carefully, making informed decisions since there are drawbacks for choosing a fragments-only architecture, or activities-only, or views-only. Here is some advice on what to be careful with, but take them with a grain of salt:
 
 - Avoid using [nested fragments](https://developer.android.com/about/versions/android-4.2.html#NestedFragments) extensively, because [matryoshka bugs](http://delyan.me/android-s-matryoshka-problem/) can occur. Use nested fragments only when it makes sense (for instance, fragments in a horizontally-sliding ViewPager inside a screen-like fragment) or if it's a well-informed decision.
-- Avoid putting too much code in activities. Whenever possible, keep them as lightweight containers, existing in your application primarily for the lifecycle and other important Android-interfacing APIs. Prefer single-fragment activities instead of plain activities - put UI code into the activity's fragment. This makes it reusable in case you need to change it to reside in a tabbed layout, or in a multi-fragment tablet screen. Avoid having an activity without a corresponding fragment, unless you are making an informed decision.
-- Don't abuse Android-level APIs such as heavily relying on Intent for your app's internal workings. You could affect the Android OS or other applications, creating bugs or lag. For instance, it is known that if your app uses Intents for internal communication between your packages, you might incur multi-second lag on user experience if the app was opened just after OS boot.
+- Avoid putting too much code in Activities. Whenever possible, keep them as lightweight containers, existing in your application primarily for the lifecycle and other important Android-interfacing APIs. Prefer single-fragment activities instead of plain activities - put UI code into the activity's fragment. This makes it reusable in case you need to change it to reside in a tabbed layout, or in a multi-fragment tablet screen. Avoid having an activity without a corresponding fragment, unless you are making an informed decision.
 
 ### Java packages structure
 
@@ -403,39 +412,29 @@ Even if you don't witness this explicitly in a layout file, it might end up happ
 
 A couple of problems may occur. You might experience performance problems, because there is a complex UI tree that the processor needs to handle. Another more serious issue is a possibility of [StackOverflowError](http://stackoverflow.com/questions/2762924/java-lang-stackoverflow-error-suspected-too-many-views).
 
-Therefore, try to keep your views hierarchy as flat as possible: learn how to use [RelativeLayout](https://developer.android.com/guide/topics/ui/layout/relative.html), how to [optimize your layouts](http://developer.android.com/training/improving-layouts/optimizing-layout.html) and to use the [`<merge>` tag](http://stackoverflow.com/questions/8834898/what-is-the-purpose-of-androids-merge-tag-in-xml-layouts).
+Therefore, try to keep your views hierarchy as flat as possible: learn how to use [ConstraintLayout](https://developer.android.com/training/constraint-layout/index.html), how to [optimize your layouts](http://developer.android.com/training/improving-layouts/optimizing-layout.html) and to use the [`<merge>` tag](http://stackoverflow.com/questions/8834898/what-is-the-purpose-of-androids-merge-tag-in-xml-layouts).
 
 <a name="webviews"></a>
-**Beware of problems related to WebViews.** When you must display a web page, for instance for a news article, avoid doing client-side processing to clean the HTML, rather ask for a "*pure*" HTML from the backend programmers. [WebViews can also leak memory](http://stackoverflow.com/questions/3130654/memory-leak-in-webview) when they keep a reference to their Activity, instead of being bound to the ApplicationContext. Avoid using a WebView for simple texts or buttons, prefer TextViews or Buttons.
+**Beware of problems related to WebViews.** When you must display a web page, for instance for a news article, avoid doing client-side processing to clean the HTML, rather ask for a "*pure*" HTML from the backend programmers. [WebViews can also leak memory](http://stackoverflow.com/questions/3130654/memory-leak-in-webview) when they keep a reference to their Activity, instead of being bound to the ApplicationContext. Avoid using a WebView for simple texts or buttons, prefer the platform's widgets.
 
 
-### Test frameworks
+### Test Frameworks
 
-Android SDK's testing framework is still infant, specially regarding UI tests. Android Gradle currently implements a test task called [`connectedAndroidTest`](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Testing) which runs JUnit tests that you created, using an [extension of JUnit with helpers for Android](http://developer.android.com/reference/android/test/package-summary.html). This means you will need to run tests connected to a device, or an emulator. Follow the official guide [[1]](http://developer.android.com/tools/testing/testing_android.html) [[2]](http://developer.android.com/tools/testing/activity_test.html) for testing.
+**Use [JUnit](https://developer.android.com/training/testing/unit-testing/local-unit-tests.html) for unit testing** Plain, Android dependency-free unit testing on the JVM is best done using [Junit](https://junit.org). 
 
-**Use [Robolectric](http://robolectric.org/) only for unit tests, not for views.** It is a test framework seeking to provide tests "disconnected from device" for the sake of development speed, suitable specially for unit tests on models and view models. However, testing under Robolectric is inaccurate and incomplete regarding UI tests. You will have problems testing UI elements related to animations, dialogs, etc, and this will be complicated by the fact that you are "walking in the dark" (testing without seeing the screen being controlled).
+**Avoid [Robolectric](http://robolectric.org/)** Prior to the improved support for JUnit in the Android build system, Robolectric was promoted as a test framework seeking to provide tests "disconnected from device" for the sake of development speed. However, testing under Robolectric is inaccurate and incomplete as it works by providing mock implementations of the Android platform, which provides no guarantees of correctness. Instead, use a combination of JVM based unit tests and dedicated on-device integration tests.
 
-**[Robotium](https://code.google.com/p/robotium/) makes writing UI tests easy.** You do not need Robotium for running connected tests for UI cases, but it will probably be beneficial to you because of its many helpers to get and analyze views, and control the screen. Test cases will look as simple as:
+**[Espresso](https://developer.android.com/training/testing/ui-testing/espresso-testing.html) makes writing UI tests easy.**
 
-```java
-solo.sendKey(Solo.MENU);
-solo.clickOnText("More"); // searches for the first occurrence of "More" and clicks on it
-solo.clickOnText("Preferences");
-solo.clickOnText("Edit File Extensions");
-Assert.assertTrue(solo.searchText("rtf"));
-```
+**[AssertJ-Android](http://square.github.io/assertj-android/) an AssertJ extension library making assertions easy in Android tests**  Assert-J comes modules easier for you to test Android specific components, such as the Android Support, Google Play Services and Appcompat libraries.
 
-**[AssertJ-Android](http://square.github.io/assertj-android/) an AssertJ extension library making assertions easy in Android tests** which you can use in both your Robolectric or Robotium. Assert-J comes with plenty extra libraries that make it even easier for you to test Android specific components, such as the Android support, play services and appcomat libraries.
-Test assertion will look as simple as:
+A test assertion will look like:
 
 ```java
-// Example assertion on an intent with AssertJ-Android
-Intent nextStartedServiceIntent = shadowOf(activity).getNextStartedService();
-assertThat(nextStartedServiceIntent)
-    .isNotNull()
-    .hasAction("org.example.action.YOUR_ACTION")
-    .hasExtra("yourExtra", "expectedValue")
-    ... so on
+// Example assertion using AssertJ-Android
+assertThat(layout).isVisible()
+    .isVertical()
+    .hasChildCount(5);
 ```
 
 ### Emulators
@@ -446,7 +445,7 @@ The performance of the Android SDK emulator, particularly the x86 variant, has i
 
 [ProGuard](http://proguard.sourceforge.net/) is normally used on Android projects to shrink and obfuscate the packaged code.
 
-Whether you are using ProGuard or not depends on your project configuration. Usually you would configure Gradle to use ProGuard when building a release apk.
+Whether you are using ProGuard or not depends on your project configuration. Usually you would configure Gradle to use ProGuard when building a release APK.
 
 ```groovy
 buildTypes {
@@ -485,7 +484,7 @@ To prevent ProGuard from *obfuscating* classes or class members, add a `keepname
 
 Read more at [Proguard](https://www.guardsquare.com/en/proguard/manual/examples) for examples.
 
-**Early on in your project, make a release build** to check whether ProGuard rules are correctly keeping whatever is important. Also whenever you include new libraries, make a release build and test the apk on a device. Don't wait until your app is finally version "1.0" to make a release build, you might get several unpleasant surprises and a short time to fix them.
+**Early in your project, make and test release build** to check whether ProGuard rules are correctly retaining your dependencies. Also whenever you include new libraries or update their dependencies, make a release build and test the APK on a device. Don't wait until your app is finally version "1.0" to make a release build, you might get several unpleasant surprises and a short time to fix them.
 
 **Tip.** Save the `mapping.txt` file for every release that you publish to your users. By retaining a copy of the `mapping.txt` file for each release build, you ensure that you can debug a problem if a user encounters a bug and submits an obfuscated stack trace.
 
@@ -496,17 +495,19 @@ Read more at [Proguard](https://www.guardsquare.com/en/proguard/manual/examples)
 
 #### SharedPreferences
 
-If you only need to persist simple flags and your application runs in a single process SharedPreferences is probably enough for you. It is a good default option.
+If you only need to persist simple values and your application runs in a single process SharedPreferences is probably enough for you. It is a good default option. 
 
-There are two reasons why you might not want to use SharedPreferences:
+There are some situations where SharedPreferences are not suitable:
 
 * *Performance*: Your data is complex or there is a lot of it
 * *Multiple processes accessing the data*: You have widgets or remote services that run in their own processes and require synchronized data
+* *Relational data* Distinct parts of your data are relational and you want to enforce that those relationships are maintained.
 
+You can also store more complex objects by serializing them to JSON to store them and deserializing them when retrieving. You should consider the tradeoffs when doing this as it may not be particularly performant, nor maintainable.
 
 #### ContentProviders
 
-In the case SharedPreferences is not enough for you, you should use the platform standard ContentProviders, which are fast and process safe.
+In case SharedPreferences are not enough, you should use the platform standard ContentProviders, which are fast and process safe.
 
 The single problem with ContentProviders is the amount of boilerplate code that is needed to set them up, as well as low quality tutorials. It is possible, however, to generate the ContentProvider by using a library such as [Schematic](https://github.com/SimonVT/schematic), which significantly reduces the effort.
 

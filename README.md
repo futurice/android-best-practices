@@ -168,6 +168,12 @@ Use [RxAndroid](https://github.com/ReactiveX/RxAndroid) for Android threading su
 
 Android Studio offers code assist support for Java 8 lambdas. If you are new to lambdas, just use the following to get started:
 
+**Note:** In [Android developer](https://developer.android.com/studio/write/java8-support.html) now states: 
+> Android Studio 3.0 Preview 1 and later supports all Java 7 language features and a subset of Java 8 language features that vary by platform version.
+
+So you can use the feature as an alternative for Retrolambda to express Lambda syntax.
+
+
 - Any interface with just one method is "lambda friendly" and can be folded into the more tight syntax
 - If in doubt about parameters and such, write a normal anonymous inner class and then let Android Studio fold it into a lambda for you.
 

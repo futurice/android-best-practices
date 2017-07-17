@@ -6,7 +6,7 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 
 ## Summary
 
-#### [Use Gradle and its recommended project structure](#build-system)
+#### [Use Gradle and its default project structure](#build-system)
 #### [Put passwords and sensitive data in gradle.properties](#gradle-configuration)
 #### [Use the Jackson library to parse JSON data](#libraries)
 #### [Don't write your own HTTP client, use OkHttp libraries](#networklibs)
@@ -31,31 +31,23 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 
 Place your [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools) somewhere in your home directory or some other application-independent location. Some distributions of IDEs include the SDK when installed, and may place it under the same directory as the IDE. This can be bad when you need to upgrade (or reinstall) the IDE, as you may lose your SDK installation, forcing a long and tedious redownload.
 
-Also avoid putting the SDK in another system-level directory that might need sudo permissions, if your IDE is running under your user and not under root.
+Also avoid putting the SDK in a system-level directory that might need root permissions, to avoid permissions issues.
 
 ### Build system
 
-Your default option should be [Gradle](http://tools.android.com/tech-docs/new-build-system). With Gradle, it's simple to:
-
-- Build different flavours or variants of your app
-- Make simple script-like tasks
-- Manage and download dependencies
-- Customize keystores
-- And more
-
-Ant, the previously supported build system has been deprecated since 2015 and now only Android's Gradle plugin is being actively developed by Google.
+Your default option should be [Gradle](https://gradle.org) using the [Android Gradle plugin](https://developer.android.com/studio/build/index.html). 
 
 It is important that your application's build process is defined by your Gradle files, rather than being reliant on IDE specific configurations. This allows for consistent builds between tools and better support for continuous integration systems.
 
 ### Project structure
 
-Although Gradle offers a large degree of flexibility in your project structure, unless you have a compelling reason to do otherwise, you should accept its [default structure](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Project-Structure). This will simplify your build scripts. 
+Although Gradle offers a large degree of flexibility in your project structure, unless you have a compelling reason to do otherwise, you should accept its [default structure](https://developer.android.com/studio/build/index.html#sourcesets) as this simplify your build scripts. 
 
 ### Gradle configuration
 
-**General structure.** Follow [Google's guide on Gradle for Android](http://tools.android.com/tech-docs/new-build-system/user-guide)
+**General structure.** Follow [Google's guide on Gradle for Android](https://developer.android.com/studio/build/index.html).
 
-**Small tasks.** Instead of (shell, Python, Perl, etc) scripts, you can make tasks in Gradle. Just follow [Gradle's documentation](http://www.gradle.org/docs/current/userguide/userguide_single.html#N10CBF) for more details.
+**Small tasks.** Instead of (shell, Python, Perl, etc) scripts, you can make tasks in Gradle. Just follow [Gradle's documentation](http://www.gradle.org/docs/current/userguide/userguide_single.html#N10CBF) for more details. Google also provides some helpful [Gradle recipes](https://developer.android.com/studio/build/gradle-tips.html), specific to Android.
 
 **Passwords.** In your app's `build.gradle` you will need to define the `signingConfigs` for the release build. Here is what you should avoid:
 
@@ -64,6 +56,7 @@ _Don't do this_. This would appear in the version control system.
 ```groovy
 signingConfigs {
     release {
+        // DON'T DO THIS!!
         storeFile file("myapp.keystore")
         storePassword "password123"
         keyAlias "thekey"

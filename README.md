@@ -123,20 +123,11 @@ android {
 
 Use different icons to distinguish the builds installed on a device—for example with different colors or an overlaid  "debug" label. Gradle makes this very easy: with default project structure, simply put *debug* icon in `app/src/debug/res` and *release* icon in `app/src/release/res`. You could also [change app name](http://stackoverflow.com/questions/24785270/how-to-change-app-name-per-gradle-build-type) per build type, as well as  `versionName` (as in the above example).
 
-### IDEs and text editors
+### Android Studio as your main IDE
 
-**Use whatever editor, but it must play nicely with the project structure.** Editors are a personal choice, and it's your responsibility to get your editor functioning according to the project structure and build system.
+The recommended IDE for Android development is [Android Studio](https://developer.android.com/sdk/installing/studio.html) because it is developed and constantly updated by Google, has good support for Gradle, contains a range of useful monitoring and analysis tools and is fully tailored for Android development.
 
-The recommended IDE is [Android Studio](https://developer.android.com/sdk/installing/studio.html) because it is developed and frequently updated by Google, has good support for Gradle, contains a range of useful monitoring and analysis tools and is generally tailored for Android development.
-
-If you choose, you could use a plain text editor like Vim, Sublime Text, or Emacs. In that case, you will need to use Gradle and `adb` on the command line. 
-
-Using [Eclipse ADT](http://developer.android.com/tools/help/adt.html) for Android development is no longer a good practice. 
-[Google ended ADT support at the end of 2015](http://android-developers.blogspot.fi/2015/06/an-update-on-eclipse-android-developer.html) and urges users to [migrate to Android Studio](http://developer.android.com/sdk/installing/migrate.html) as soon as possible.
-
-Whatever your choice, avoid adding editor-specific configuration files, such as an Android Studio's `.iml` files, to the version control system as these often contain configurations specific your local machine which won't work for your colleagues.
-
-Ultimately, be kind to other developers; don't force them to change their tool of preference if that's how they are most productive.
+Avoid adding Android Studio's specific configuration files, such as `.iml` files to the version control system as these often contain configurations specific of your local machine, which won't work for your colleagues.
 
 ### Libraries
 

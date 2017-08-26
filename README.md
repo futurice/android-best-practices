@@ -509,11 +509,9 @@ The single problem with ContentProviders is the amount of boilerplate code that 
 
 You still need to write some parsing code yourself to read the data objects from the Sqlite columns and vice versa. It is possible to serialize the data objects, for instance with Gson, and only persist the resulting string. In this way you lose in performance but on the other hand you do not need to declare a column for all the fields of the data class.
 
-
 #### Using an ORM
 
 We generally do not recommend using an Object-Relation Mapping library unless you have unusually complex data and you have a dire need. They tend to be complex and require time to learn. If you decide to go with an ORM you should pay attention to whether or not it is _process safe_ if your application requires it, as many of the existing ORM solutions surprisingly are not.
-
 
 ### Use Stetho 
 
@@ -529,12 +527,13 @@ Another alternative is [Chuck](https://github.com/jgilfelt/chuck) which, althoug
 
 Antti Lammi, Joni Karppinen, Peter Tackage, Timo Tuominen, Vera Izrailit, Vihtori Mäntylä, Mark Voit, Andre Medeiros, Paul Houghton and other Futurice developers for sharing their knowledge on Android development.
 
-# Acknowledgements
+### Acknowledgements
 
-This project is sponsored by [Spice Program](http://spiceprogram.org/chilicorn-history/), our open source and social impact program made with love by [Futurice](http://www.futurice.com).
+<p align="center">
+  <img alt="logo" src="https://raw.githubusercontent.com/futurice/spiceprogram/gh-pages/assets/img/logo/chilicorn_no_text-256.png" width="220"/>
+</p>
 
-[![Chilicorn Logo](https://raw.githubusercontent.com/futurice/spiceprogram/gh-pages/assets/img/logo/chilicorn_no_text-256.png)](http://spiceprogram.org/chilicorn-history/)
-Brought to you by the power of the Chilicorn!
+This project is sponsored by [**Spice Program**](http://spiceprogram.org/chilicorn-history/), our open source and social impact program made with love by [**Futurice**](http://www.futurice.com).
 
 ### License
 

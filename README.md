@@ -24,7 +24,7 @@ Lessons learned from Android developers in [Futurice](http://www.futurice.com). 
 #### [Use SharedPreferences for simple persistence, otherwise ContentProviders](#data-storage)
 #### [Use Stetho to debug your application](#use-stetho)
 #### [Use Leak Canary to find memory leaks](#use-leakcanary)
-#### [Set up continuous integration](#set-up-continuous-integration-1)
+#### [Use continuous integration](#use-continuous-integration-1)
 
 ----------
 
@@ -516,27 +516,13 @@ Another alternative is [Chuck](https://github.com/jgilfelt/chuck) which, althoug
 
 [LeakCanary](https://github.com/square/leakcanary) is a library that makes runtime detection and identification of memory leaks a more routine part of your application development process. See the library [wiki](https://github.com/square/leakcanary/wiki) for details on configuration and usage. Just remember to configure only the "no-op" dependency in your release build!
 
-### Set up continuous integration
+### Use continuous integration
 
-Continuous integration systems let you automatically build and test your project every time you push in updates to version control. CI also runs static code analysis tools, generates the apk files and distributes them.
-Some popular code analysis tools are:
-
-* [Lint](https://developer.android.com/studio/write/lint.html)
-* [Checkstyle](http://checkstyle.sourceforge.net/)
-* [Danger](https://github.com/danger/danger)
-* [PMD](https://pmd.github.io/)
-* [Findbugs](http://findbugs.sourceforge.net/)
+Continuous integration systems let you automatically build and test your project every time you push in updates to version control. Continuous integration also runs static code analysis tools, generates the apk files and distributes them.
+[Lint](https://developer.android.com/studio/write/lint.html) and [Checkstyle](http://checkstyle.sourceforge.net/) are tools that ensure the code quality while [Findbugs](http://findbugs.sourceforge.net/) looks for bugs in the code.
    
-There is a big variety of CI software which provide different features, like cloud or machine based, and also pricing plans. Pricing plans might be for free if your project is open-sourced.
-Some of them are:
- 
-* [Jenkins](https://jenkins.io/)
-* [Travis CI](https://travis-ci.org/)
-* [CircleCi](https://circleci.com/)
-* [Bitrise](https://www.bitrise.io/)*
-* [BuddyBuild](https://www.buddybuild.com/)*
-
-\* only mobile development
+There is a wide variety of continuous integration software which provide different features. Pricing plans might be for free if your project is open-sourced.
+[Jenkins](https://jenkins.io/) is a good option if you have a local server at your disposal, on the other hand [Travis CI](https://travis-ci.org/) is also a recommended choice if you plan to use a cloud-based continuous integration service.
 
 ### Thanks to
 

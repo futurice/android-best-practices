@@ -25,6 +25,7 @@ Avoid reinventing the wheel by following these guidelines. Lessons learned from 
 #### [Use SharedPreferences for simple persistence, otherwise ContentProviders](#data-storage)
 #### [Use Stetho to debug your application](#use-stetho)
 #### [Use Leak Canary to find memory leaks](#use-leakcanary)
+#### [Use continuous integration](#use-continuous-integration-1)
 
 ----------
 
@@ -513,6 +514,14 @@ Another alternative is [Chuck](https://github.com/jgilfelt/chuck) which, althoug
 ### Use LeakCanary
 
 [LeakCanary](https://github.com/square/leakcanary) is a library that makes runtime detection and identification of memory leaks a more routine part of your application development process. See the library [wiki](https://github.com/square/leakcanary/wiki) for details on configuration and usage. Just remember to configure only the "no-op" dependency in your release build!
+
+### Use continuous integration
+
+Continuous integration systems let you automatically build and test your project every time you push updates to version control. Continuous integration also runs static code analysis tools, generates the APK files and distributes them.
+[Lint](https://developer.android.com/studio/write/lint.html) and [Checkstyle](http://checkstyle.sourceforge.net/) are tools that ensure the code quality while [Findbugs](http://findbugs.sourceforge.net/) looks for bugs in the code.
+   
+There is a wide variety of continuous integration software which provide different features. Pricing plans might be for free if your project is open-sourced.
+[Jenkins](https://jenkins.io/) is a good option if you have a local server at your disposal, on the other hand [Travis CI](https://travis-ci.org/) is also a recommended choice if you plan to use a cloud-based continuous integration service.
 
 ### Thanks to
 

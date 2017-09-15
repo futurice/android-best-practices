@@ -518,7 +518,7 @@ Another alternative is [Chuck](https://github.com/jgilfelt/chuck) which, althoug
 
 ### Use continuous integration
 
-Continuous integration systems let you automatically build and test your project every time you push in updates to version control. Continuous integration also runs static code analysis tools, generates the apk files and distributes them.
+Continuous integration systems let you automatically build and test your project every time you push updates to version control. Continuous integration also runs static code analysis tools, generates the APK files and distributes them.
 [Lint](https://developer.android.com/studio/write/lint.html) and [Checkstyle](http://checkstyle.sourceforge.net/) are tools that ensure the code quality while [Findbugs](http://findbugs.sourceforge.net/) looks for bugs in the code.
    
 There is a wide variety of continuous integration software which provide different features. Pricing plans might be for free if your project is open-sourced.

@@ -473,7 +473,7 @@ Assert.assertTrue(solo.searchText("rtf"));
 Androidアプリを専門で開発していくなら[Genymotion emulator](http://www.genymotion.com/)のライセンスは買っておいた方が良い。Genymotionは通常のAVD Emulatorよりも早い。またアプリのデモ、ネットワーク接続品質のエミュレート、GPS、などなどを行う為のツールがそろっている。
 テストはたくさんの端末で行わなければならないが、実際にたくさんの端末を買うよりはGenymotionのライセンスを買う方がコスパが良い。
 
-注: GenymotionはGoogle Play StoreやMapなどがインストールされていない。またSumsungの特定のAPIをテストしたい場合は、実際のSumsungの端末を使う必要がある。
+注: GenymotionはGoogle Play StoreやMapなどがインストールされていない。またSamsungの特定のAPIをテストしたい場合は、実際のSamsungの端末を使う必要がある。
 
 ### Proguardの設定
 
@@ -512,8 +512,6 @@ ProGuard関連のよくある問題でビルドが成功したにもかかわら
 ```
 -keepnames class com.futurice.project.MyClass { *; }
 ```
-
-サンプルとして[こちら](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro)を確認しよう。また[Proguard](http://proguard.sourceforge.net/#manual/examples.html)も読んでおくと良い。
 
 **Tip** 
 リリースするたびに`mapping.txt`を保存しておこう。ユーザがバグを踏み、難読化されたスタックトレースを送ってきた際にデバッグする事ができる。

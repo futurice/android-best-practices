@@ -1,7 +1,7 @@
 # Android 开发最佳实践
- 
+
 从[Futurice](http://www.futurice.com)公司Android开发者中学到的经验。
-遵循以下准则，避免重复发明轮子。若您对开发iOS或Windows Phone 有兴趣，
+遵循以下准则，避免重复发明轮子。若你对开发iOS或Windows Phone 有兴趣，
 请看[**iOS Good Practices**](https://github.com/futurice/ios-good-practices) 和 [**Windows client Good Practices**](https://github.com/futurice/win-client-dev-good-practices) 这两篇文章。
 
 ## 摘要
@@ -28,7 +28,7 @@
 
 将你的[Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools)放在你的home目录或其他应用程序无关的位置。
 当安装有些包含SDK的IDE的时候，可能会将SDK放在IDE同一目录下，当你需要升级（或重新安装）IDE或更换的IDE时，会非常麻烦。
-此外，若果你的IDE是在普通用户，不是在root下运行，还要避免吧SDK放到一下需要sudo权限的系统级别目录下。
+此外，如果你的IDE是在普通用户下运行，而不是在root下运行，还要避免把SDK放到一下需要sudo权限的系统级别目录下。
 
 ### 构建系统
 
@@ -86,8 +86,8 @@ new-structure
 └─ settings.gradle
 ```
 
-主要的区别在于，新的结构明确的分开了'source sets' (`main`,`androidTest`)，Gradle的一个理念。
-你可以做到，例如，添加源组‘paid’和‘free’在src中，这将成为您的应用程序的付费和免费的两种模式的源代码。
+主要的区别在于，新的结构明确的分开了'source sets' (`main`,`androidTest`)，这是Gradle的一个理念。
+通过这个你可以做到，例如，添加源组‘paid’和‘free’在src中，让你的应用程序具有付费和免费的两种模式的源代码。
 
 你的项目引用第三方项目库时（例如，library-foobar），拥有一个顶级包名`app`从第三方库项目区分你的应用程序是非常有用的。
 然后`settings.gradle`不断引用这些库项目，其中`app/build.gradle`可以引用。
@@ -116,7 +116,7 @@ signingConfigs {
 	}
 }
 ```
-	
+
 而是，建立一个不加入版本控制系统的`gradle.properties`文件。
 
 ```
@@ -142,10 +142,10 @@ signingConfigs {
 	}
 }
 ```
-	
 
-**使用 Maven 依赖方案代替使用导入jar包方案** 如果在你的项目中你明确使用率
-jar文件，那么它们可能成为永久的版本，如`2.1.1`.下载jar包更新他们是很繁琐的，
+
+**使用 Maven 依赖方案代替使用导入jar包方案** 如果在你的项目中你明确使用某些
+jar文件，那么它们可能成为固定的版本，如`2.1.1`.下载jar包更新他们是很繁琐的，
 这个问题Maven很好的解决了，这在Android Gradle构建中也是推荐的方法。你可
 以指定版本的一个范围，如`2.1.+`,然后Maven会自动升级到制定的最新版本，例如：
 
@@ -166,31 +166,30 @@ dependencies {
 ### IDE集成开发环境和文本编辑器
 
 
-**无论使用什么编辑器，一定要构建一个良好的工程结构** 编辑器每个人都有自己的
+**无论使用什么编辑器，一定要构建一个良好的工程结构。** 编辑器每个人都有自己的
 选择，让你的编辑器根据工程结构和构建系统运作，那是你自己的责任。
 
-当下首推[Android Studio](https://developer.android.com/sdk/installing/studio.html),因为他是由谷歌开发，最接近Gradle，默认使用最新的工程结构，已经到beta阶段
-（目前已经有release 1.0了），它就是为Android开发定制的。
+当下首推[Android Studio](https://developer.android.com/sdk/installing/studio.html),因为他是由谷歌开发，很好地支持Gradle，包含很多有用的检测和分析工具，默认使用最新的工程结构，它就是为Android开发定制的。
 
-你也可以使用[Eclipse ADT](https://developer.android.com/sdk/installing/index.html?pkg=adt) ，但是你需要对它进行配置，因为它使用了旧的工程结构
-和Ant作为构建系统。你甚至可以使用纯文版编辑器如Vim，Sublime Text，或者Emacs。如果那样的话，你需要使用Gardle和`adb`命令行。如果使用Eclipse集成Gradle
-不适合你，你只是使用命令行构建工程，或迁移到Android Studio中来吧。
+你也可以使用纯文版编辑器如Vim，Sublime Text，或者Emacs。如果那样的话，你需要使用Gradle和`adb`命令行。
 
+不再推荐使用Eclipse和ADT开发，因为[谷歌在2015年年末结束了对ADT的支持](https://android-developers.googleblog.com/2015/06/an-update-on-eclipse-android-developer.html)，并呼吁开发者尽快迁移到Android Studio。
 
-无论你使用何种开发工具，只要确保Gradle和新的项目结构保持官方的方式构建应用程序，避免你的编辑器配置文件加入到版本控制。例如，避免加入Ant `build.xml`文件。
-特别如果你改变Ant的配置，不要忘记保持`build.gradle`是最新和起作用的。同时，善待其他开发者，不要强制改变他们的开发工具和偏好。
+无论你使用何种开发工具，避免将你的编辑器配置文件（比如Android Studio的iml文件）加入到版本控制，因为这些文件通常包含与本地机器有关的配置，可能会影响你的同事。
+
+最后，善待其他开发者，不要强制改变他们的开发工具和偏好。
 
 ### 类库
 
 
 **[Jackson](http://wiki.fasterxml.com/JacksonHome)** 是一个将java对象转换成JSON与JSON转化java类的类库。[Gson](https://code.google.com/p/google-gson/)
 是解决这个问题的流行方案，然而我们发现Jackson更高效,因为它支持替代的方法处理JSON:流、内存树模型,和传统JSON-POJO数据绑定。不过，请记住，
-Jsonkson库比起GSON更大，所以根据你的情况选择，你可能选择GSON来避免APP 65k个方法限制。其它选择: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
+Jsonkson库比起GSON更大，所以根据你的情况选择，你可能选择GSON来避免APP 65k个方法的限制。其它选择: [Json-smart](https://code.google.com/p/json-smart/) and [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)
 
 
 **网络请求，缓存，图片** 执行请求后端服务器，有几种交互的解决方案，你应该考虑实现你自己的网络客户端。使用 [Volley](https://android.googlesource.com/platform/frameworks/volley)
-或[Retrofit](http://square.github.io/retrofit/)。Volley 同时提供图片缓存类。若果你选择使用Retrofit,那么考虑使用[Picasso](http://square.github.io/picasso/)
-来加载图片和缓存，同时使用[OkHttp](http://square.github.io/okhttp/)作为高效的网络请求。Retrofit，Picasso和OkHttp都是有同一家公司开发（注：
+或[Retrofit](http://square.github.io/retrofit/)。Volley 同时提供图片缓存类。如果你选择使用Retrofit,那么考虑使用[Picasso](http://square.github.io/picasso/)
+来加载图片和缓存，同时使用[OkHttp](http://square.github.io/okhttp/)作为高效的网络请求。Retrofit，Picasso和OkHttp都是同一家公司开发（注：
 是由[Square](https://github.com/square) 公司开发），所以它们能很好的在一起运行。[OkHttp 同样可以和Volley在一起使用 Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
 
 **RxJava** 是函数式反应性的一个类库，换句话说，能处理异步的事件。
@@ -242,7 +241,7 @@ retrolambda {
 Android Studio 提供Java8 lambdas表带是代码提示支持。如果你对lambdas不熟悉，只需参照以下开始学习吧：
 
 - 任何只包含一个接口的方法都是"lambda friendly"同时代码可以被折叠成更紧凑的语法
-- 如果对参数或类似有疑问，就写一个普通的匿名内部类，然后让Android Status为你生成一个lambda。
+- 如果对参数或类似有疑问，就写一个普通的匿名内部类，然后让Android Studio 为你生成一个lambda。
 
 **当心dex方法数限制，同时避免使用过多的类库** Android apps，当打包成一个dex文件时，有一个65535个应用方法强硬限制[[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/)。
 当你突破65k限制之后你会看到一个致命错误。因此，使用一个正常范围的类库文件，同时使用[dex-method-counts](https://github.com/mihaip/dex-method-counts)
@@ -287,7 +286,7 @@ Android 应用程序在架构上大致是Java中的[Model-View-Controller](http:
 
 正是因为如此，才很难严格的将fragments (或者 activities) 严格的划分成 控制器controlloers还是视图 views。
 最还是将它们放在自己单独的 `fragments` 包中。只要你遵循之前提到的建议，Activities 则可以放在顶级目录下。
-若果你规划有2到3个以上的activity，那么还是同样新建一个`activities`包吧。
+如果你规划有2到3个以上的activity，那么还是同样新建一个`activities`包吧。
 
 然而，这种架构可以看做是另一种形式的MVC，
 包含要被解析API响应的JSON数据，来填充的POJO的`models`包中。
@@ -323,7 +322,7 @@ com.futurice.project
 
 - **命名** 遵循前缀表明类型的习惯，形如`type_foo_bar.xml`。例如：`fragment_contact_details.xml`,`view_primary_button.xml`,`activity_main.xml`.
 
-**组织布局文件** 若果你不确定如何排版一个布局文件，遵循一下规则可能会有帮助。
+**组织布局文件** 如果你不确定如何排版一个布局文件，遵循一下规则可能会有帮助。
 
 - 每一个属性一行，缩进4个空格
 - `android:id` 总是作为第一个属性
@@ -474,7 +473,7 @@ com.futurice.project
 
 </resources>
 ```
-	
+
 布局时在写 margins 和 paddings 时，你应该使用`spacing_****`尺寸格式来布局，而不是像对待String字符串一样直接写值。
 这样写会非常有感觉，会使组织和改变风格或布局是非常容易。
 
@@ -529,14 +528,14 @@ com.futurice.project
 **小心关于WebViews的问题.** 如果你必须显示一个web视图，
 比如说对于一个新闻文章，避免做客户端处理HTML的工作，
 最好让后端工程师协助，让他返回一个 "*纯*" HTML。
-[WebViews 也能导致内存泄露](http://stackoverflow.com/questions/3130654/memory-leak-in-webview)
-当保持引他们的Activity，而不是被绑定到ApplicationContext中的时候。
+当绑定WebViews到引用它的Activity,而不是绑定到ApplicationContext时。
+[WebViews 也能导致内存泄露](http://stackoverflow.com/questions/3130654/memory-leak-in-webview)。
 当使用简单的文字或按钮时，避免使用WebView，这时使用TextView或Buttons更好。
 
 ### 测试框架
 
 
-Android SDK的测试框架还处于初级阶段，特别是关于UI测试方面。Android Gradle 
+Android SDK的测试框架还处于初级阶段，特别是关于UI测试方面。Android Gradle
 目前实现了一个叫[`connectedAndroidTest`](http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Testing)的测试，
 它[使用一个JUnit 为Android提供的扩展插件 extension of JUnit with helpers for Android](http://developer.android.com/reference/android/test/package-summary.html).可以跑你生成的JUnit测试，
 
@@ -620,7 +619,6 @@ In order to prevent ProGuard from *stripping away* needed classes or class membe
 -keepnames class com.futurice.project.MyClass { *; }
 ```
 
-查看[this template's ProGuard config](https://github.com/futurice/android-best-practices/blob/master/templates/rx-architecture/app/proguard-rules.pro) 中的一些例子。
 更多例子请参考[Proguard](http://proguard.sourceforge.net/#manual/examples.html)。
 
 **在构建项目之初，发布一个版本** 来检查ProGuard规则是否正确的保持了重要的部分。
@@ -630,10 +628,36 @@ In order to prevent ProGuard from *stripping away* needed classes or class membe
 **Tips**每次发布新版本都要写 `mapping.txt`。每发布一个版本，如果用户遇到一个bug，同时提交了一个混淆过的堆栈跟踪。
 通过保留`mapping.txt`文件，来确定你可以调试的问题。
 
-**DexGuard** 若果你需要核心工具来优化，和专门混淆的发布代码，考虑使用[DexGuard](http://www.saikoa.com/dexguard),
+**DexGuard** 如果你需要核心工具来优化，和专门混淆的发布代码，考虑使用[DexGuard](http://www.saikoa.com/dexguard),
 一个商业软件，ProGuard 也是有他们团队开发的。
 它会很容易将Dex文件分割，来解决65K个方法限制问题。
 
+###数据存储
+
+**SharedPreferences**
+
+如果你只是需要持久化存储简单的标记位，并且你的应用运行在单一进程，那么SharedPreferences可能就满足了你的需求。它是一个非常好的选择。
+
+这里有两个使你可能不使用SharedPreferences的原因：
+
+- Performance: Your data is complex or there is a lot of it
+- 性能问题：你的很多数据结构负责的数据需要存储。
+- Multiple processes accessing the data: You have widgets or remote services that run in their own processes and require synchronized data
+- 多线程访问数据：你有多个控件或者运行在各自线程上的远程的服务需要同步数据。
+
+**ContentProviders**
+
+如果SharedPreferences不足以满足你的需求，那么你可以使用平台标准的ContentProviders，它不仅快速，并且线程安全。
+
+使用ContentProviders的唯一问题是建立他们需要大量的模板代码，并且少有高质量的教程。如果可以，我们可以通过使用第三方库Schematic，极大降低了冗余操作，去生成ContentProviders.
+
+你可能仍然需要亲自写一些解析代码去从Sqlite读取数据对象，或者进行相反的操作。如果可以序列化数据对象，例如通过Gson，只持久化存储最终是字符串。通过这种方式虽然会降低性能，但是从另一个角度来讲，你不需要为每一个数据结构声明表结构。
+
+**使用ORM**我们通常不推荐使用对象关系映射第三方库除非你有非常复杂的数据结构，并且你确定你真的需要它。他们通常比较复杂，并且需要时间去学习。如果你决定了在你的应用中使用ORM，你应该注意它是否是线程安全的，而对于目前大多数ORM解决方案都是非线程安全的。
+
+**使用Stetho**Stetho 是一个Facebook 开源的Android调试工具，它是Chrome Developer Tools的扩展。通过它可以检测应用的网络情况。它也允许你可以检测应用的数据库，shared preferences。但是，你应该确保Stetho只有在Debug状态下得以开启，而不是在正式发布版本中。
+
+**使用LeakCanary**LeakCanary 是可以在应用运行中检测，定位内存泄露的Java库。使用它应是你开发应用过程中的一部分。更多详细的配置和使用情况请参照wiki。你只需要记得它在你的正式版本中你是不需要配置的。
 
 ### 致谢
 

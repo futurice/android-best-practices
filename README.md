@@ -260,46 +260,54 @@ You probably will need to do the same for buttons, but don't stop there yet. Go 
 **Split a large style file into other files.** You don't need to have a single `styles.xml` file. Android SDK supports other files out of the box, there is nothing magical about the name `styles`, what matters are the XML tags `<style>` inside the file. Hence you can have files `styles.xml`, `styles_home.xml`, `styles_item_details.xml`, `styles_forms.xml`. Unlike resource directory names which carry some meaning for the build system, filenames in `res/values` can be arbitrary.
 
 <a name="colorsxml"></a>
-**`colors.xml` is a color palette.** There should be nothing else in your `colors.xml` than just a mapping from a color name to an RGBA value. Do not use it to define RGBA values for different types of buttons.
-
-*Don't do this:*
+**`colors.xml` is a color palette.** There should be nothing in your `colors.xml` other than a mapping from a color name to an RGBA value. This helps avoid repeating RGBA values and as such will make it easy to change or refactor colors, and also will make it explicit how many different colors are being used. Normally for a aesthetic UI, it is important to reduce the variety of colors being used.
+ 
+*So, don't define your colors.xml like this:*
 
 ```xml
 <resources>
     <color name="button_foreground">#FFFFFF</color>
     <color name="button_background">#2A91BD</color>
-    <color name="comment_background_inactive">#5F5F5F</color>
-    <color name="comment_background_active">#939393</color>
-    <color name="comment_foreground">#FFFFFF</color>
-    <color name="comment_foreground_important">#FF9D2F</color>
-    ...
-    <color name="comment_shadow">#323232</color>
+</resources>    
 ```
-
-You can easily start repeating RGBA values in this format, and that makes it complicated to change a basic color if needed. Also, those definitions are related to some context, like "button" or "comment", and should live in a button style, not in `colors.xml`.
 
 Instead, do this:
 
 ```xml
 <resources>
-
     <!-- grayscale -->
-    <color name="white"     >#FFFFFF</color>
-    <color name="gray_light">#DBDBDB</color>
-    <color name="gray"      >#939393</color>
-    <color name="gray_dark" >#5F5F5F</color>
-    <color name="black"     >#323232</color>
-
+    <color name="white">#FFFFFF</color>
+   
     <!-- basic colors -->
-    <color name="green">#27D34D</color>
     <color name="blue">#2A91BD</color>
-    <color name="orange">#FF9D2F</color>
-    <color name="red">#FF432F</color>
-
 </resources>
 ```
 
-Ask for this palette from the designer of the application. The names do not need to be color names as "green", "blue", etc. Names such as "brand_primary", "brand_secondary", "brand_negative" are totally acceptable as well. Formatting colors as such will make it easy to change or refactor colors, and also will make it explicit how many different colors are being used. Normally for a aesthetic UI, it is important to reduce the variety of colors being used.
+Ask the designer of the application for this palette. The names do not need to be plain color names as "green", "blue", etc. Names such as "brand_primary", "brand_secondary", "brand_negative" are totally acceptable as well.
+
+By referencing the color palette from your styles allows you to abstract the underlying colors from their usage in the app, as per:
+
+- `colors.xml` - defines only the color palette.
+- `styles.xml` - defines styles which reference the color palette and reflects the color usage. (e.g. the button foreground is white).
+- `activity_main.xml` - references the appropriate style in `styles.xml` to color the button.
+
+If needed, even further separation between underlying colors and style usage can be achieved by defined an additional color resource file which references the color palette. As per:
+
+```xml
+<color name="button_foreground">@color/white</color> 
+<color name="button_background">@color/blue</color> 
+```
+
+Then in styles.xml:
+
+```xml
+<style name="AcceptButton">
+    <item name="android:foreground">@color/button_foreground</item>
+    <item name="android:background">@color/button_background</item>
+</style>
+```
+
+This approach offers improved color refactoring and more stable style definitions when multiple related styles share similar color and usage properties. However, it comes at the cost of maintaining another set of color mappings. 
 
 <a name="dimensxml"></a>
 **Treat dimens.xml like colors.xml.** You should also define a "palette" of typical spacing and font sizes, for basically the same purposes as for colors. A good example of a dimens file:

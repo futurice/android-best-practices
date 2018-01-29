@@ -289,7 +289,7 @@ By referencing the color palette from your styles allows you to abstract the und
 
 - `colors.xml` - defines only the color palette.
 - `styles.xml` - defines styles which reference the color palette and reflects the color usage. (e.g. the button foreground is white).
-- `activity_main.xml.xml` - references the appropriate style in `styles.xml` to color the button.
+- `activity_main.xml` - references the appropriate style in `styles.xml` to color the button.
 
 If needed, even further separation between underlying colors and style usage can be achieved by defined an additional color resource file which references the color palette. As per:
 

@@ -26,6 +26,7 @@ Avoid reinventing the wheel by following these guidelines. Lessons learned from 
 #### [Use Stetho to debug your application](#use-stetho)
 #### [Use Leak Canary to find memory leaks](#use-leakcanary)
 #### [Use continuous integration](#use-continuous-integration-1)
+#### [Use a Bug reporting tool in beta testing phase](#use-bug-reporting)
 
 ----------
 
@@ -530,6 +531,14 @@ Continuous integration systems let you automatically build and test your project
    
 There is a wide variety of continuous integration software which provide different features. Pricing plans might be for free if your project is open-sourced.
 [Jenkins](https://jenkins.io/) is a good option if you have a local server at your disposal, on the other hand [Travis CI](https://travis-ci.org/) is also a recommended choice if you plan to use a cloud-based continuous integration service.
+
+<a name="use-bug-reporting"></a>
+### Use a Bug reporting tool in beta testing phase
+
+The testing stage is crucial to get a sense of what users are looking for and what core values to feature. Gather quality beta testers who are willing to get their hands dirty and test your buggy app.
+Whether you’re distributing it through [Google play](https://developer.android.com/distribute/best-practices/launch/beta-tests.html), [Betatesters](http://betatesters.io/) or [Betafamily](https://betafamily.com/), you’ll need to have a way for them to send you their feedback or report the bugs they face.
+
+[Instabug](https://instabug.com/beta-apps) is a good option as it automatically grabs user steps, network API calls, views hierarchy and enabled video recordings for beta-testers to better describe the bug they are facing and let you debug and reproduce bugs faster.
 
 ### Thanks to
 

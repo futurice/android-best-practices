@@ -176,7 +176,7 @@ Note that from Android Studio 3.0, [Retrolambda is no longer required](https://d
 
 Kotlin is a better language than Java. It will protect your code against large classes of runtime errors like NullPointerExceptions. It's easy to learn and it integrates with existing Java code effortlessly. All new modules should be written in Kotlin. There are few, if any, downsides.
 
-**Idioms --** Take a couple hours to learn the essential Kotlin idioms:
+**Idioms --** Take some time to learn the essential Kotlin idioms:
 
 - **For null checking**, learn the *elvis operator*, *optional chaining* and *let blocks*. Each is powerful individually and they combine to shorten your code dramatically while doing the right thing in face of null values.
 - **Extensions** allow you to add behavior to built-in or third-party classes, helping them combine fluently with your project-specific data.

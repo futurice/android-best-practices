@@ -147,13 +147,13 @@ jarファイルをプロジェクトに直接includeしている場合、version
 
 ```groovy
 dependencies {
-    compile 'com.netflix.rxjava:rxjava-core:0.19.+'
-    compile 'com.netflix.rxjava:rxjava-android:0.19.+'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.4.+'
-    compile 'com.fasterxml.jackson.core:jackson-core:2.4.+'
-    compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.+'
-    compile 'com.squareup.okhttp:okhttp:2.0.+'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.+'
+    implementation 'com.netflix.rxjava:rxjava-core:0.19.+'
+    implementation 'com.netflix.rxjava:rxjava-android:0.19.+'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.4.+'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.4.+'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.4.+'
+    implementation 'com.squareup.okhttp:okhttp:2.0.+'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.0.+'
 }
 ```
 

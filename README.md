@@ -98,7 +98,7 @@ signingConfigs {
 
 ```groovy
 dependencies {
-    compile 'com.squareup.okhttp:okhttp3:3.8.0'
+    implementation 'com.squareup.okhttp:okhttp3:3.8.0'
 }
 ```    
 

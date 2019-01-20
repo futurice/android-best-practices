@@ -12,6 +12,7 @@ Avoid reinventing the wheel by following these guidelines. Lessons learned from 
 #### [Use the Jackson library to parse JSON data](#libraries)
 #### [Don't write your own HTTP client, use OkHttp libraries](#networklibs)
 #### [Avoid Guava and use only a few libraries due to the *65k method limit*](#methodlimitation)
+#### [Use Kotlin](#kotlin)
 #### [Sail carefully when choosing between Activities and Fragments](#activities-and-fragments)
 #### [Layout XMLs are code, organize them well](#resources)
 #### [Use styles to avoid duplicate attributes in layout XMLs](#styles)
@@ -169,6 +170,17 @@ Note that from Android Studio 3.0, [Retrolambda is no longer required](https://d
 
 <a name="methodlimitation"></a>
 **Beware of the dex method limitation, and avoid using many libraries.** Android apps, when packaged as a dex file, have a hard limitation of 65536 referenced methods [[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/). You will see a fatal error on compilation if you pass the limit. For that reason, use a minimal amount of libraries, and use the [dex-method-counts](https://github.com/mihaip/dex-method-counts) tool to determine which set of libraries can be used in order to stay under the limit. Especially avoid using the Guava library, since it contains over 13k methods.
+
+<a name="kotlin"></a>
+### Write all new modules in Kotlin.
+
+Kotlin is a better language than Java. It will protect your code against large classes of runtime errors like NullPointerExceptions. It's easy to learn and it integrates with existing Java code effortlessly. All new modules should be written in Kotlin. There are few, if any, downsides.
+
+**Idioms --** Take some time to learn the essential Kotlin idioms:
+
+- **For null checking**, learn the *elvis operator*, *optional chaining* and *let blocks*. Each is powerful individually and they combine to shorten your code dramatically while doing the right thing in face of null values.
+- **Extensions** allow you to add behavior to built-in or third-party classes, helping them combine fluently with your project-specific data.
+- **Use small classes and data classes**. Because classes don't need their own file anymore, you can often simplify your logic using a helper class. *Data classes* deserve a special mention for making it one line to define a class with named fields which can be used as a hashable key and compared for equality.
 
 ### Activities and Fragments
 

@@ -152,20 +152,24 @@ Retrofit, Picasso and OkHttp are created by the same company, so they complement
 
 [Glide](https://github.com/bumptech/glide) is another option for loading and caching images. It has support for animated GIFs, circular images and claims of better performance than Picasso, but also a bigger method count.
 
-**RxJava** is a library for Reactive Programming, in other words, handling asynchronous events. It is a powerful paradigm, but it also has a steep learning curve. We recommend taking some caution before using this library to architect the entire application. We have written some blog posts on it: [[1]](http://blog.futurice.com/tech-pick-of-the-week-rx-for-net-and-rxjava-for-android), [[2]](http://blog.futurice.com/top-7-tips-for-rxjava-on-android), [[3]](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754), [[4]](http://blog.futurice.com/android-development-has-its-own-swift). For a reference app, our open source app [Freesound Android](https://github.com/futurice/freesound-android) makes extensive use of RxJava 2.
+**Data Binding and LiveData**
 
-If you have no previous experience with Rx, start by applying it only for responses from app's backend APIs. Alternatively, start by applying it for simple UI event handling, like click events or typing events on a search field. If you are confident in your Rx skills and want to apply it to the whole architecture, then write documentation on all the tricky parts. Keep in mind that another programmer unfamiliar to RxJava might have a very hard time maintaining the project. Do your best to help them understand your code and also Rx.
+The Google Data Binding library (https://developer.android.com/topic/libraries/data-binding/) lets you declare that fields in your layout XML files get their values from (possibly-changing) fields in your code:
 
-Use [RxAndroid](https://github.com/ReactiveX/RxAndroid) for Android threading support and [RxBinding](https://github.com/JakeWharton/RxBinding) to easily create Observables from existing Android components.
+```xml
+<data>
+    <variable name="viewmodel" type="com.mypkg.ViewModel"/>
+</data>
 
-**[Retrolambda](https://github.com/evant/gradle-retrolambda)** is a Java library for using Lambda expression syntax in Android and other pre-JDK8 platforms. It helps keep your code tight and readable especially if you use a functional style, such as in RxJava.
+<TextView android:id="@+id/error_message_field"
+          android:text="@{viewmodel.errorMessage}"/>
+```
 
-Android Studio offers code assist support for Java 8 lambdas. If you are new to lambdas, just use the following to get started:
+Once you set up Data Binding for your layout, then `error_message_field` will display the text provided by your ViewModel. If your ViewModel provides updates to `errorMessage` using one of the supported Observable libraries (see below), then the field's contents will change whenever your data changes.
 
-- Any interface with just one method is "lambda friendly" and can be folded into the more tight syntax
-- If in doubt about parameters and such, write a normal anonymous inner class and then let Android Studio fold it into a lambda for you.
+This is a very powerful way to architect apps because it abstracts the concerns around updating the display: you only have to ensure that your data is correct and the view will always show the latest data.
 
-Note that from Android Studio 3.0, [Retrolambda is no longer required](https://developer.android.com/studio/preview/features/java8-support.html).
+**Observables and LiveData** -- Adopting Data Binding doesn't make much sense without an Observable library. For this we recommend LiveData, which is another official Google library, part of Android Architecture Components (https://developer.android.com/topic/libraries/architecture/), because it is supported by Google and handles the Android activity lifecycle very well. But you may also see occasional recommendations for RxJava.
 
 <a name="methodlimitation"></a>
 **Beware of the dex method limitation, and avoid using many libraries.** Android apps, when packaged as a dex file, have a hard limitation of 65536 referenced methods [[1]](https://medium.com/@rotxed/dex-skys-the-limit-no-65k-methods-is-28e6cb40cf71) [[2]](http://blog.persistent.info/2014/05/per-package-method-counts-for-androids.html) [[3]](http://jakewharton.com/play-services-is-a-monolith/). You will see a fatal error on compilation if you pass the limit. For that reason, use a minimal amount of libraries, and use the [dex-method-counts](https://github.com/mihaip/dex-method-counts) tool to determine which set of libraries can be used in order to stay under the limit. Especially avoid using the Guava library, since it contains over 13k methods.

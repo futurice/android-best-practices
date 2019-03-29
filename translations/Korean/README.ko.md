@@ -158,7 +158,7 @@ dependencies {
 
 ### 라이브러리
 
-**[Jackson](http://wiki.fasterxml.com/JacksonHome)**은 Object를 JSON으로, 혹은 그 반대로 변환해주는 Java 라이브러리이다. [Gson](https://code.google.com/p/google-gson/)이 이 문제를 해결하는 데에 많이 쓰이긴 하지만, 스트리밍, 인메모리 트리 모델, 전통적인 JSON-POJO 데이터 바인딩과 같은 여러 대안들을 지원하는 Jackson이 더 고성능일 것이다. 하지만 명심하자. Jackson이 GSON보다 더 큰 라이브러리이기 때문에, 65,000 메소드 수 제한에 부딪힌 경우라면 GSON을 사용하는 것이 나을 수도 있다. 다른 대안으로는 [Json-smart](https://code.google.com/p/json-smart/)과 [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)이 있다.
+**[Jackson](https://github.com/FasterXML/jackson-docs)**은 Object를 JSON으로, 혹은 그 반대로 변환해주는 Java 라이브러리이다. [Gson](https://code.google.com/p/google-gson/)이 이 문제를 해결하는 데에 많이 쓰이긴 하지만, 스트리밍, 인메모리 트리 모델, 전통적인 JSON-POJO 데이터 바인딩과 같은 여러 대안들을 지원하는 Jackson이 더 고성능일 것이다. 하지만 명심하자. Jackson이 GSON보다 더 큰 라이브러리이기 때문에, 65,000 메소드 수 제한에 부딪힌 경우라면 GSON을 사용하는 것이 나을 수도 있다. 다른 대안으로는 [Json-smart](https://code.google.com/p/json-smart/)과 [Boon JSON](https://github.com/RichardHightower/boon/wiki/Boon-JSON-in-five-minutes)이 있다.
 
 **네트워킹, 캐싱, 이미지.** 백엔드 서버로의 요청 처리에 대해 클라이언트를 구현하고 처리하는 두 가지 검증된 해결책이 있다. [Volley](https://android.googlesource.com/platform/frameworks/volley) 혹은 [Retrofit](http://square.github.io/retrofit/)을 사용하자. Volley는 이미지를 불러오고 캐싱하는 도우미를 제공한다. Retrofit을 선택한다면, 이미지 로딩과 캐싱에는 [Picasso](http://square.github.io/picasso/)를, 효율적인 HTTP 요청에는 [OkHttp](http://square.github.io/okhttp/)를 고려해보자. 이 모든 세가지의 라이브러리들은 같은 회사에서 개발되어 서로 상호보완이 매우 용이하다. [OkHttp can also be used in connection with Volley](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835).
 

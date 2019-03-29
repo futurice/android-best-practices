@@ -139,7 +139,7 @@ Avoid adding Android Studio's specific configuration files, such as `.iml` files
 
 ### Libraries
 
-**[Jackson](http://wiki.fasterxml.com/JacksonHome)** is a Java library for JSON serialization and deserialization, it has a wide-scoped and versatile API, supporting various ways of processing JSON: streaming, in-memory tree model, and traditional JSON-POJO data binding. 
+**[Jackson](https://github.com/FasterXML/jackson-docs)** is a Java library for JSON serialization and deserialization, it has a wide-scoped and versatile API, supporting various ways of processing JSON: streaming, in-memory tree model, and traditional JSON-POJO data binding. 
 
 [Gson](https://code.google.com/p/google-gson/) is another popular choice and being a smaller library than Jackson, you might prefer it to avoid 65k methods limitation. Also, if you are using  
 

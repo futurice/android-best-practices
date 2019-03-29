@@ -171,7 +171,7 @@ dependencies {
 
 ### Libraries
 
-**[Jackson](http://wiki.fasterxml.com/JacksonHome)** はObjectをJSONに変換、またその逆を行うライブラリである。[GSON](https://code.google.com/p/google-gson/)もJsonのライブラリとして有名だが、streaming、in-memory tree model, Json data binding等をサポートしている点でJacksonの方がいくらか優れていると判断した。ただ覚えておいてほしいのはJacksonがGsonよりボリュームの大きなライブラリである事だ。65k制限を避ける為にGSONの方が有効なケースもあり得る。また他には[json-smart](https://code.google.com/p/json-smart/)、[Boon JSON](https://github.com/boonproject/boon/wiki/Boon-JSON-in-five-minutes)という選択肢もある。
+**[Jackson](https://github.com/FasterXML/jackson-docs)** はObjectをJSONに変換、またその逆を行うライブラリである。[GSON](https://code.google.com/p/google-gson/)もJsonのライブラリとして有名だが、streaming、in-memory tree model, Json data binding等をサポートしている点でJacksonの方がいくらか優れていると判断した。ただ覚えておいてほしいのはJacksonがGsonよりボリュームの大きなライブラリである事だ。65k制限を避ける為にGSONの方が有効なケースもあり得る。また他には[json-smart](https://code.google.com/p/json-smart/)、[Boon JSON](https://github.com/boonproject/boon/wiki/Boon-JSON-in-five-minutes)という選択肢もある。
 
 **ネットワーク、キャッシュ、画像処理について。**バックエンドへのリクエスト処理の実装についていろいろ試した結果言えるのは、自分でクライアントを実装しない方がいいということだ。[Volley](https://android.googlesource.com/platform/frameworks/volley)や[Retrofit](http://square.github.io/retrofit/)を使おう。Volleyはまた画像のロード、キャッシュのヘルパーを提供してくれている。Retrofitを選ぶ人は、[Picasso](http://square.github.io/picasso/)という画像ライブラリ、またHttpリクエストに有効な[OkHttp](http://square.github.io/okhttp/)の導入も考えると良い。この三つのRetrofit、Picasso、OkHttpは一つの会社で作られている。そのため、これらのライブラリは互いをよく補っている。現に[OkHttpはVolleyと共に使われることがよくある。](http://stackoverflow.com/questions/24375043/how-to-implement-android-volley-with-okhttp-2-0/24951835#24951835)
 

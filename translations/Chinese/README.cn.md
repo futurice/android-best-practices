@@ -542,7 +542,7 @@ Android SDK的测试框架还处于初级阶段，特别是关于UI测试方面�
 
 **只当做单元测试时使用 [Robolectric](http://robolectric.org/) ，views 不用**
 它是一个最求提供"不连接设备的"为了加速开发的测试，
-非常时候做 models 和 view models 的单元测试。
+非常适合做 models 和 view models 的单元测试。
 然而，使用Robolectric测试时不精确的，也不完全对UI测试。
 当你对有关动画的UI元素、对话框等，测试时会有问题，
 这主要是因为你是在 “在黑暗中工作”（在没有可控的界面情况下测试）

@@ -26,6 +26,7 @@ Avoid reinventing the wheel by following these guidelines. Lessons learned from 
 #### [Use Stetho to debug your application](#use-stetho)
 #### [Use Leak Canary to find memory leaks](#use-leakcanary)
 #### [Use continuous integration](#use-continuous-integration-1)
+#### [Use coroutines in Kotlin for concurrency](#use-coroutines-kotlin)
 
 ----------
 
@@ -536,6 +537,12 @@ Continuous integration systems let you automatically build and test your project
    
 There is a wide variety of continuous integration software which provide different features. Pricing plans might be for free if your project is open-sourced.
 [Jenkins](https://jenkins.io/) is a good option if you have a local server at your disposal, on the other hand [Travis CI](https://travis-ci.org/) is also a recommended choice if you plan to use a cloud-based continuous integration service.
+
+### Use Coroutines in Kotlin
+
+A coroutine is a concurrency design pattern that you can use on Android to simplify code that executes asynchronously. [Coroutines](https://kotlinlang.org/docs/reference/coroutines/coroutines-guide.html) were added to Kotlin in version 1.3 and are based on established concepts from other languages.
+On Android, coroutines help to manage long-running tasks that might otherwise block the main thread and cause your app to become unresponsive. Over 50% of professional developers who use coroutines have reported seeing increased productivity.
+
 
 ### Thanks to
 
